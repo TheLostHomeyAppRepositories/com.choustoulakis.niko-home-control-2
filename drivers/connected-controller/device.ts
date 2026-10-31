@@ -170,9 +170,8 @@ export class ConnectedControllerDevice extends Homey.Device {
         const discoveredIp = (results[fpId] as any).address;
         if (discoveredIp && this.settings.ip !== discoveredIp) {
           this.log(`Discovered new IP address: ${discoveredIp}. Updating settings...`);
-          const newSettings = { ...this.settings, ip: discoveredIp };
-          await this.setSettings(newSettings);
-          this.settings = newSettings;
+          await this.setSettings({ ip: discoveredIp });
+          this.settings = { ...this.settings, ip: discoveredIp };
         }
       }
     } catch (e) {
