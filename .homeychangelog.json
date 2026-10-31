@@ -73,5 +73,8 @@
   },
   "1.10.1": {
     "en": "Fixed an issue where the device class of lights & sockets was not set correctly."
+  },
+  "1.11.0": {
+    "en": "Added token expiry reminders and Flow cards, plus French, Danish and Swedish translations. Improved connection stability."
   }
 }
