@@ -160,11 +160,11 @@ export class NikoMqttClient extends EventEmitter {
     this.client.subscribe(TOPIC.RSP);
   }
 
-  private requestDeviceList(): void {
+  private requestDeviceList = (): void => {
     if (!this.client || !this.client.connected) return;
     const payload = JSON.stringify({ Method: 'devices.list' });
     this.client.publish(TOPIC.CMD, payload);
-  }
+  };
 
   public getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): NikoMqttDevice[] {
     return this.devices.filter((device) => device.Type === type && models.includes(device.Model));
