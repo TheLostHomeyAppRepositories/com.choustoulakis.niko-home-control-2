@@ -65,6 +65,8 @@ There is no automated test suite yet.
   (a real `hvac/virtual` has the HVAC set: OperationMode, FanSpeed, ThermostatOn, no Demand), so the
   device builds its capabilities, range and programs from `PropertyDefinitions`.
 - Flags: installations report `virtual/flag`, the spec documents `action/flag`; the driver takes both.
+  `Status` True/False switches a flag directly (verified, also without any action). The Niko app only
+  shows flags through actions; the Homey driver deliberately exposes the flag itself.
 - Energy Home: power is only reported while `ReportInstantUsage` is True (Niko resets it after
   30 s; the device re-requests it). Energy counters have `HasStatus: false`: not on MQTT, only via
   the REST measurements API as quarter-hour values.
