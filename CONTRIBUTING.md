@@ -10,11 +10,14 @@
 
 ```sh
 npm ci
-homey app run                        # runs the app on your Homey, logs in the terminal
 npm run lint:fix
 npx tsc --noEmit
 homey app validate --level verified  # same check as CI
+homey app install                    # installs over the store version, keeps devices and Flows
 ```
+
+Avoid `homey app run` on a Homey with real devices: quitting it uninstalls the app, which removes
+all paired devices and their Flows. Roll back by updating from the App Store.
 
 Architecture, data flow and rules: see [AGENTS.md](AGENTS.md).
 
@@ -39,7 +42,7 @@ Architecture, data flow and rules: see [AGENTS.md](AGENTS.md).
 ## Pull requests
 
 - `npm run lint:check` and `homey app validate` pass (CI runs both).
-- Tested with `homey app run` on a real installation; mention which devices.
+- Tested with `homey app install` on a real installation; mention which devices.
 - No tokens or installation data (names, UUIDs) in code, logs or screenshots.
 
 ## Releasing (maintainer)

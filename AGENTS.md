@@ -9,7 +9,13 @@ TLS on port 8884, username `hobby`, a JWT as password.
 - `npm run lint:check` / `npm run lint:fix` (ESLint + Prettier)
 - `npx tsc --noEmit`
 - `npx homey app validate --level verified` (same check as CI)
-- `npx homey app run` needs a Homey Pro on the LAN and `homey login`: ask the user to run it.
+- `npx homey login` opens a browser for the user. Then `npx homey app install` installs over the
+  store version and keeps devices and Flows. Ask before installing on the user's Homey.
+- Never `homey app run` on a Homey with real devices: quitting uninstalls the app and removes all
+  paired devices and Flows.
+- Verify read-only via the Web API, e.g. `npx homey api apps get-app --id <app id>`,
+  `npx homey api devices get-devices --json` (write to a file: stdout truncates around 64 KB),
+  `npx homey api flow run-flow-card-condition`.
 
 There is no automated test suite yet.
 
