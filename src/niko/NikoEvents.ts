@@ -1,12 +1,8 @@
 import type Homey from 'homey/lib/Homey';
 import type { NikoDeviceWithOwner } from './NikoMqttClient';
 
-/**
- * In-process events between the Connected Controller and the Niko devices, sent over the Homey
- * instance. Emitter and listeners always ship in the same app build and run in the same process,
- * so payloads can change without versioning. Only the device store has to stay backwards
- * compatible, because it survives app updates.
- */
+// Emitter and listeners ship in the same build and process, so payloads need no versioning.
+// Only the device store must stay backwards compatible: it survives app updates.
 type EventBus = Pick<Homey, 'emit' | 'on' | 'removeListener'>;
 type Unsubscribe = () => void;
 
@@ -17,7 +13,6 @@ function subscribe(bus: EventBus, event: string, listener: (...args: any[]) => v
   return () => bus.removeListener(event, listener);
 }
 
-/** A Niko device (status) update, keyed by the device UUID. */
 export function emitDeviceUpdate(bus: Pick<Homey, 'emit'>, update: NikoDeviceWithOwner): void {
   bus.emit(update.device.Uuid, update);
 }
@@ -30,7 +25,6 @@ export function onDeviceUpdate(
   return subscribe(bus, uuid, listener);
 }
 
-/** The controller's connection or device list changed; devices should re-sync with it. */
 export function emitControllerChanged(bus: Pick<Homey, 'emit'>, controllerId: string): void {
   bus.emit(controllerChangedEvent(controllerId));
 }

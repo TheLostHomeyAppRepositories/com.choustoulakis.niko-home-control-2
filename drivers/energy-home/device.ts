@@ -1,8 +1,7 @@
 import { NikoDevice } from '../../src/NikoDevice';
 import { EnergyHomeMqttDevice, NikoProperty } from '../../src/niko/NikoTypes';
 
-// Niko confirms a live power request within a second and resets it after 30 s. Re-requests are
-// spaced out, so a burst of updates before the confirmation does not send duplicates.
+// Spaced out, so updates arriving before Niko confirms a request don't send duplicates.
 const LIVE_POWER_REQUEST_INTERVAL_MS = 10_000;
 
 function toWatt(value: string | undefined): number | undefined {
@@ -41,10 +40,7 @@ class NikoEnergyHomeDevice extends NikoDevice<EnergyHomeMqttDevice> {
     }
   }
 
-  /**
-   * Power is only reported while ReportInstantUsage is True. Niko resets it after 30 s and
-   * reports that as a status update, which brings us back here to request it again.
-   */
+  // Niko resets ReportInstantUsage after 30 s and reports that as an update, which re-requests it.
   private requestLivePower(): void {
     if (Date.now() - this.lastLivePowerRequest < LIVE_POWER_REQUEST_INTERVAL_MS) return;
     this.lastLivePowerRequest = Date.now();

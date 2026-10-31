@@ -19,8 +19,7 @@ const DEFAULT_OVERRULE_MINUTES = 240;
 type ThermostatMode = 'heat' | 'cool' | 'off';
 type ProgramValue = { id: NikoProgram; title: Record<string, string> };
 
-/** Each capability is only kept when the Niko variant reports the property behind it. */
-const CAPABILITY_PROPERTIES: Record<string, NikoProperty[]> = {
+const CAPABILITY_REQUIRES_ANY_OF: Record<string, NikoProperty[]> = {
   target_temperature: [NikoProperty.OVERRULE_SETPOINT],
   measure_temperature: [NikoProperty.AMBIENT_TEMPERATURE],
   thermostat_mode: [NikoProperty.OPERATION_MODE, NikoProperty.THERMOSTAT_ON],
@@ -56,7 +55,7 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
   }
 
   private async configureCapabilities(): Promise<void> {
-    for (const [capability, properties] of Object.entries(CAPABILITY_PROPERTIES)) {
+    for (const [capability, properties] of Object.entries(CAPABILITY_REQUIRES_ANY_OF)) {
       const supported = properties.some((property) => getPropertyDefinition(this.device, property));
       if (supported && !this.hasCapability(capability)) {
         await this.addCapability(capability);
@@ -87,8 +86,7 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
     return parseChoice(getPropertyDefinition(this.device, NikoProperty.PROGRAM)) as NikoProgram[];
   }
 
-  /** Programs of this device with translated names, for Flow card autocompletion. */
-  getProgramOptions(): { id: NikoProgram; name: string }[] {
+  getProgramAutocompleteOptions(): { id: NikoProgram; name: string }[] {
     const titles = new Map(this.getProgramValues().map((value) => [value.id, value.title]));
     return this.getSupportedPrograms().map((id) => ({
       id,
@@ -107,7 +105,7 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
     this.setNikoDeviceProps([{ [NikoProperty.PROGRAM]: program }]);
   }
 
-  /** Niko's setpoint is read-only: a temperature set in Homey is an override for a limited time. */
+  // Niko's setpoint is read-only, so a temperature set in Homey is a time-limited override.
   private onTargetTemperature = async (temperature: number) => {
     const step =
       parseRange(getPropertyDefinition(this.device, NikoProperty.OVERRULE_SETPOINT))?.step ?? 0.5;

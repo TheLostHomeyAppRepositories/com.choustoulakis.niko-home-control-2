@@ -15,7 +15,7 @@ const AUTHORIZATION_RETRY_MS = 5 * 60_000;
 const JWT_REMINDER_DAYS = [30, 7, 1];
 const EXPIRED_STAGE = -1;
 
-/** Last timeline reminder, stored per controller. Stages count down: 30, 7, 1, then expired. */
+// Stages count down: 30, 7, 1, then EXPIRED_STAGE (-1), so a lower stage is a later reminder.
 type JwtReminder = { expiresAt: number; stage: number };
 
 function getRemainingDays(expiresAt: number): number {
@@ -89,10 +89,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     return await super.onUninit();
   }
 
-  /**
-   * Connects are queued, so overlapping calls (settings change, reconnect interval) never leave
-   * a previous MQTT client running in the background.
-   */
+  // Queued, so overlapping connects never leave an old MQTT client running.
   connect(): Promise<void> {
     this.pendingConnects++;
     const run = this.connectQueue
@@ -153,7 +150,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     }
   }
 
-  /** Checks are queued, so overlapping calls never trigger Flows or reminders twice. */
+  // Queued, so overlapping checks never trigger Flows or reminders twice.
   private readonly updateJwtRemainingDays = (): Promise<void> => {
     this.jwtCheckQueue = this.jwtCheckQueue.then(() => this.checkJwt()).catch(this.error);
     return this.jwtCheckQueue;
@@ -176,10 +173,6 @@ export class ConnectedControllerDevice extends Homey.Device {
     await this.remindIfNeeded(expiresAt, remainingDays);
   }
 
-  /**
-   * Writes a timeline notification at 30, 7 and 1 days left and once expired, once per token.
-   * Users can forward timeline notifications as push notifications in Homey.
-   */
   private async remindIfNeeded(expiresAt: number, remainingDays: number): Promise<void> {
     if (this.settings.jwtReminders === false) return;
     const expired = expiresAt <= Date.now();
@@ -214,11 +207,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     return expiresAt !== undefined && expiresAt <= Date.now();
   }
 
-  /**
-   * mqtt.js retries network errors by itself, so a new client is only created when retrying
-   * cannot help: there is no client (invalid settings, expired JWT), the controller moved to
-   * another IP, or the JWT was rejected.
-   */
+  // mqtt.js retries network errors itself; only replace the client when retrying cannot help.
   private readonly reconnectIfNeeded = async () => {
     if (this.isUnloaded || this.pendingConnects > 0) return;
     const client = this.client;
@@ -263,10 +252,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     this.notifyDevices();
   }
 
-  /**
-   * Whether the MQTT connection is up and the device list was received. Niko devices use this
-   * instead of `getAvailable()`, which only updates after an async `setAvailable()`.
-   */
+  // Not getAvailable(): that only updates after an async setAvailable().
   isOnline(): boolean {
     return !this.isUnloaded && this.client?.getState() === NikoClientState.CONNECTED;
   }
@@ -333,11 +319,8 @@ export class ConnectedControllerDevice extends Homey.Device {
     }));
   }
 
-  /**
-   * Returns false when the controller is offline, which is an expected state, not an error.
-   */
-  setDeviceProps(uuid: string, props: NikoMqttDevice['Properties']): boolean {
-    return this.client?.setDeviceProps(uuid, props) ?? false;
+  trySetDeviceProps(uuid: string, props: NikoMqttDevice['Properties']): boolean {
+    return this.client?.trySetDeviceProps(uuid, props) ?? false;
   }
 
   async updateDebugInfo(): Promise<void> {

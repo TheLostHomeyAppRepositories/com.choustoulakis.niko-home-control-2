@@ -12,9 +12,6 @@ export interface NikoConnectionSettings {
   jwt: string;
 }
 
-/**
- * The parts of the Homey instance the client uses, so it can run without the Homey runtime.
- */
 export type NikoClientHost = Pick<Homey, 'setTimeout' | 'setInterval' | 'emit'>;
 
 export interface NikoDeviceWithOwner {
@@ -95,10 +92,7 @@ export class NikoMqttClient extends EventEmitter {
     return this._lastErrorMessage;
   }
 
-  /**
-   * After an authorization error the MQTT client is ended and does not retry by itself. Other
-   * errors are retried automatically by mqtt.js (see `reconnectPeriod`).
-   */
+  // After an authorization error the client is ended; mqtt.js only retries other errors.
   isAuthorizationFailed(): boolean {
     return this._authorizationFailed;
   }
@@ -195,10 +189,7 @@ export class NikoMqttClient extends EventEmitter {
     return this.devices.filter((device) => device.Type === type && models.includes(device.Model));
   }
 
-  /**
-   * Returns false when the command could not be queued because MQTT is offline.
-   */
-  public setDeviceProps(uuid: string, props: NikoMqttDevice['Properties']): boolean {
+  public trySetDeviceProps(uuid: string, props: NikoMqttDevice['Properties']): boolean {
     if (!this.client || this.state !== NikoClientState.CONNECTED) {
       return false;
     }

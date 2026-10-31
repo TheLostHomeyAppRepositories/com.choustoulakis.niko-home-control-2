@@ -60,11 +60,7 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
     this.syncWithController().catch(this.error);
   };
 
-  /**
-   * Takes the current state of this device from the Connected Controller, or marks the device
-   * unavailable with the reason. Call this at the end of `onInit()` instead of `updateStatus()`,
-   * so a device never starts from the (stale) properties stored at pairing time.
-   */
+  // Call at the end of onInit() instead of updateStatus(): the stored properties date from pairing.
   protected async syncWithController(): Promise<void> {
     const controller = this.getConnectedController();
     if (controller === undefined) {
@@ -100,18 +96,14 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
     );
   }
 
-  /**
-   * An offline or missing controller is expected (e.g. a user pressing a button while the
-   * installation is down), so mark the device unavailable instead of throwing. Throwing here
-   * would surface as an error notification in Homey and look like a bug.
-   */
+  // An offline controller is expected, not a bug: throwing would show users an error notification.
   protected setNikoDeviceProps(props: Partial<K['Properties'][number]>[]): void {
     const controller = this.getConnectedController();
     if (controller === undefined) {
       this.setUnavailable(this.homey.__('device.controllerNotFound')).catch(this.error);
       return;
     }
-    if (!controller.setDeviceProps(this._device.Uuid, props)) {
+    if (!controller.trySetDeviceProps(this._device.Uuid, props)) {
       this.setUnavailable(this.homey.__('device.sendFailed')).catch(this.error);
     }
   }

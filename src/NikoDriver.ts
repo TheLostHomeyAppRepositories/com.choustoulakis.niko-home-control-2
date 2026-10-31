@@ -32,7 +32,6 @@ export interface DeviceStore {
 }
 
 export abstract class NikoDriver extends Homey.Driver {
-  /** Pass several groups when one Homey driver covers Niko devices of different types. */
   protected getDevicesByAction(groups: DeviceGroup | DeviceGroup[]): DevicePairingData[] {
     const controllerDriver = this.homey.drivers.getDriver('connected-controller');
     const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];

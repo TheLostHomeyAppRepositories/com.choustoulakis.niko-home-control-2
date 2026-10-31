@@ -8,7 +8,7 @@ class NikoThermostatDriver extends NikoDriver {
   async onInit(): Promise<void> {
     const autocomplete = async (query: string, args: ProgramArgs) =>
       args.device
-        .getProgramOptions()
+        .getProgramAutocompleteOptions()
         .filter((option) => option.name.toLowerCase().includes(query.toLowerCase()));
 
     this.homey.flow

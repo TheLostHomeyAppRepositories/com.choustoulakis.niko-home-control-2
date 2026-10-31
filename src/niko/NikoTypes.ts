@@ -102,10 +102,9 @@ export type NikoHumidity = Tenths<Enumerate<100>> | '100'; // 0 -> 100, step 0.1
 export type NikoThermostatTemperature = Halves<IntRange<0, 46>> | `-${Halves<IntRange<0, 6>>}`; // -5 -> 45, step 0.5
 export type NikoSetpoint = Halves<IntRange<5, 30>> | '30'; // 5 -> 30, step 0.5
 export type NikoOverruleTime = `${number}` & {}; // 1 -> 1439 minutes, too large for a literal union
-/** Measured values whose formatting varies per model, e.g. "0.00" or "21.5". */
+// Formatting varies per model, e.g. "0.00" or "21.5".
 export type NikoDecimal = `${number}` & {};
 export type NikoWatt = `${number}` & {}; // Range(0, 999999999, 0.001), e.g. "369.000"
-/** Energy values are empty until reported, e.g. power before live reporting is enabled. */
 export type NikoUnreported = '';
 
 export interface NikoPropertyDefinition {
