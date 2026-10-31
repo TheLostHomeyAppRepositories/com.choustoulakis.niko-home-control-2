@@ -20,11 +20,13 @@ function getJwtExpiresAt(jwt: string | undefined): number | undefined {
 
 export class ConnectedControllerDevice extends Homey.Device {
   private settings!: ConnectedControllerSettings;
-  private client!: NikoMqttClient;
+  private client?: NikoMqttClient;
 
   private remainingDaysInterval!: NodeJS.Timeout;
   private reconnectInterval!: NodeJS.Timeout;
   private isUnloaded = false;
+  private connectQueue: Promise<void> = Promise.resolve();
+  private pendingConnects = 0;
 
   async onInit() {
     // Add capability if it doesn't exist (for existing devices)
@@ -33,10 +35,11 @@ export class ConnectedControllerDevice extends Homey.Device {
     }
 
     this.settings = this.getSettings();
-    await this.updateJwtRemainingDays();
-    await this.connect();
+    // Start the intervals first, so a failing initial connect is retried.
     this.remainingDaysInterval = this.homey.setInterval(this.updateJwtRemainingDays, 3_600_000);
     this.reconnectInterval = this.homey.setInterval(this.reconnectIfNeeded, 30_000);
+    await this.updateJwtRemainingDays();
+    await this.connect().catch(this.error);
     await super.onInit();
   }
 
@@ -68,8 +71,22 @@ export class ConnectedControllerDevice extends Homey.Device {
     return await super.onUninit();
   }
 
-  async connect(): Promise<void> {
+  /**
+   * Connects are queued, so overlapping calls (settings change, reconnect interval) never leave
+   * a previous MQTT client running in the background.
+   */
+  connect(): Promise<void> {
+    this.pendingConnects++;
+    const run = this.connectQueue
+      .then(() => this.connectNow())
+      .finally(() => this.pendingConnects--);
+    this.connectQueue = run.catch(() => undefined);
+    return run;
+  }
+
+  private async connectNow(): Promise<void> {
     this.disconnect();
+    if (this.isUnloaded) return;
 
     await this.updateJwtRemainingDays();
 
@@ -89,15 +106,16 @@ export class ConnectedControllerDevice extends Homey.Device {
       );
     }
 
-    this.client = new NikoMqttClient({
+    if (this.isUnloaded) return;
+    const client = new NikoMqttClient({
       settings: this.settings,
       homey: this.homey,
       connectedControllerId: this.getData().id,
     });
+    this.client = client;
+    client.addListener('statechange', this.onMqttStateChange);
+    client.connect();
     await this.updateDebugInfoAndSettings();
-
-    this.client.addListener('statechange', this.onMqttStateChange);
-    this.client.connect();
   }
 
   private checkSettingsForErrors(): string | undefined {
@@ -131,14 +149,14 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   private readonly reconnectIfNeeded = async () => {
-    if (this.isUnloaded) return;
+    if (this.isUnloaded || this.pendingConnects > 0) return;
     const state = this.client?.getState();
     if (
       state === undefined ||
       state === NikoClientState.ERROR ||
       state === NikoClientState.DISCONNECTED
     ) {
-      await this.connect();
+      await this.connect().catch(this.error);
     }
   };
 
@@ -165,6 +183,7 @@ export class ConnectedControllerDevice extends Homey.Device {
   disconnect() {
     this.client?.removeListener('statechange', this.onMqttStateChange);
     this.client?.disconnect();
+    this.client = undefined;
   }
 
   unload() {
