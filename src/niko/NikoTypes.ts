@@ -56,6 +56,7 @@ export enum NikoTechnology {
 export type NikoAction = 'Open' | 'Close' | 'Stop';
 export type NikoFanSpeed = 'Low' | 'Medium' | 'High' | 'Boost';
 export type NikoBoolean = 'True' | 'False';
+export type NikoBooleanLowercase = 'true' | 'false';
 export type NikoOnOff = 'On' | 'Off';
 export type NikoTriggerable = NikoOnOff | 'Triggered';
 export type NikoProgram = 'Day' | 'Night' | 'Eco' | 'Off' | 'Prog1' | 'Prog2' | 'Prog3';
@@ -76,6 +77,12 @@ export type NikoThermostatTemperature = Halves<IntRange<0, 46>> | `-${Halves<Int
 export type NikoSetpoint = Halves<IntRange<5, 30>> | '30'; // 5 -> 30, step 0.5
 export type NikoOverruleTime = `${number}` & {}; // 1 -> 1439 minutes, too large for a literal union
 
+export interface NikoPropertyDefinition {
+  HasStatus: NikoBooleanLowercase;
+  CanControl: NikoBooleanLowercase;
+  Description: string; // e.g. "Range(0.000,999999999.000,0.001)", "Boolean", "Choice(On,Off)"
+}
+
 export interface NikoMqttDevice {
   Uuid: string;
   Name: string;
@@ -83,7 +90,7 @@ export interface NikoMqttDevice {
   Technology: NikoTechnology;
   Type: NikoType;
   Properties: Partial<Record<NikoProperty, string>>[];
-  PropertyDefinitions: Record<string, any>;
+  PropertyDefinitions: Record<string, NikoPropertyDefinition>[];
   Online: NikoBoolean;
 }
 
