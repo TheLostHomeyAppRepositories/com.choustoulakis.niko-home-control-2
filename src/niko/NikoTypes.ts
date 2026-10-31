@@ -64,8 +64,17 @@ type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] exte
   ? Acc[number]
   : Enumerate<N, [...Acc, Acc['length']]>;
 
+type IntRange<From extends number, To extends number> = Exclude<Enumerate<To>, Enumerate<From>>; // From -> To - 1
+type Tenths<I extends number> = `${I}` | `${I}.${Enumerate<10>}`;
+type Halves<I extends number> = `${I}` | `${I}.5`;
+
+// Value ranges as documented in the Niko Hobby API technical documentation.
 export type NikoRange = `${Enumerate<101>}` & {}; // 0 -> 100
-export type NikoTemperature = `-${Exclude<Enumerate<51>, 0>}` | NikoRange; // -50 -> 100
+export type NikoTemperature = Tenths<IntRange<0, 46>> | `-${Tenths<IntRange<0, 11>>}`; // -10 -> 45, step 0.1
+export type NikoHumidity = Tenths<Enumerate<100>> | '100'; // 0 -> 100, step 0.1
+export type NikoThermostatTemperature = Halves<IntRange<0, 46>> | `-${Halves<IntRange<0, 6>>}`; // -5 -> 45, step 0.5
+export type NikoSetpoint = Halves<IntRange<5, 30>> | '30'; // 5 -> 30, step 0.5
+export type NikoOverruleTime = `${number}` & {}; // 1 -> 1439 minutes, too large for a literal union
 
 export interface NikoMqttDevice {
   Uuid: string;
@@ -136,7 +145,7 @@ export interface ThermoMqttDevice extends NikoMqttDevice {
     | NikoModel.THERMO_VENTILATION_FEEDBACK;
   Properties: [
     { [NikoProperty.AMBIENT_TEMPERATURE]: NikoTemperature },
-    { [NikoProperty.HUMIDITY]: NikoRange },
+    { [NikoProperty.HUMIDITY]: NikoHumidity },
   ];
 }
 
@@ -146,11 +155,11 @@ export interface ThermostatMqttDevice extends NikoMqttDevice {
   Model: NikoModel.THERMOSTAT | NikoModel.TOUCH_SWITCH;
   Properties: [
     { [NikoProperty.PROGRAM]: NikoProgram },
-    { [NikoProperty.AMBIENT_TEMPERATURE]: NikoRange }, // Range(-5, 45, 0.5)
-    { [NikoProperty.SETPOINT_TEMPERATURE]: NikoRange }, // Range(5, 30, 0.5)
+    { [NikoProperty.AMBIENT_TEMPERATURE]: NikoThermostatTemperature }, // Range(-5, 45, 0.5)
+    { [NikoProperty.SETPOINT_TEMPERATURE]: NikoSetpoint }, // Range(5, 30, 0.5)
     { [NikoProperty.OVERRULE_ACTIVE]: NikoBoolean },
-    { [NikoProperty.OVERRULE_SETPOINT]: NikoRange }, // Range(5, 30, 0.5)
-    { [NikoProperty.OVERRULE_TIME]: NikoRange }, // Range(1, 1439, 1)
+    { [NikoProperty.OVERRULE_SETPOINT]: NikoSetpoint }, // Range(5, 30, 0.5)
+    { [NikoProperty.OVERRULE_TIME]: NikoOverruleTime }, // Range(1, 1439, 1)
     { [NikoProperty.ECO_SAVE]: NikoBoolean },
     { [NikoProperty.DEMAND]: NikoDemand },
   ];
