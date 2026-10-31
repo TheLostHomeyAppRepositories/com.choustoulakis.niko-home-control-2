@@ -3,3 +3,6 @@
 /.homeybuild/
 /.idea
 test.ts
+
+# Local Niko credentials (see .env.example)
+/.env
