@@ -37,23 +37,33 @@ function toNumber(value: string | undefined): number | undefined {
  * so capabilities, temperature range and programs come from the device's PropertyDefinitions.
  */
 export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
+  private configuredDefinitions?: string;
+  private readonly listenedCapabilities = new Set<string>();
+
   async onInit(): Promise<void> {
     await super.onInit();
-    await this.configureCapabilities();
-    this.registerCapabilityListener('onoff', this.onPower);
-    this.registerCapabilityListener('target_temperature', (temperature: number) =>
-      this.setTemperature(temperature),
-    );
-    this.registerCapabilityListener('thermostat_mode', this.onOperationMode);
-    this.registerCapabilityListener('niko_program', (program: NikoProgram) =>
-      this.setProgram(program),
-    );
-    this.registerCapabilityListener('niko_eco_save', this.onEcoSave);
-    this.registerCapabilityListener('fan_mode', this.onFanMode);
+    await this.configureCapabilitiesIfChanged();
     await this.syncWithController();
   }
 
-  private async configureCapabilities(): Promise<void> {
+  private getCapabilityListeners(): Record<string, (value: any) => Promise<void>> {
+    return {
+      onoff: this.onPower,
+      target_temperature: (temperature: number) => this.setTemperature(temperature),
+      thermostat_mode: this.onOperationMode,
+      niko_program: (program: NikoProgram) => this.setProgram(program),
+      niko_eco_save: this.onEcoSave,
+      fan_mode: this.onFanMode,
+    };
+  }
+
+  // Runs again when the controller sends different definitions than stored at pairing, e.g. after
+  // a Niko update. Listeners are only registered for capabilities the device has.
+  private async configureCapabilitiesIfChanged(): Promise<void> {
+    const definitions = JSON.stringify(this.device.PropertyDefinitions ?? []);
+    if (definitions === this.configuredDefinitions) return;
+    this.configuredDefinitions = definitions;
+
     for (const [capability, properties] of Object.entries(CAPABILITY_REQUIRES_ANY_OF)) {
       const supported = properties.some((property) => getPropertyDefinition(this.device, property));
       if (supported && !this.hasCapability(capability)) {
@@ -73,6 +83,13 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
       const values = this.getProgramValues().filter((value) => programs.includes(value.id));
       if (values.length > 0) {
         await this.setCapabilityOptions('niko_program', { values }).catch(this.error);
+      }
+    }
+
+    for (const [capability, listener] of Object.entries(this.getCapabilityListeners())) {
+      if (this.hasCapability(capability) && !this.listenedCapabilities.has(capability)) {
+        this.registerCapabilityListener(capability, listener);
+        this.listenedCapabilities.add(capability);
       }
     }
   }
@@ -140,6 +157,7 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
   };
 
   async updateStatus(): Promise<void> {
+    await this.configureCapabilitiesIfChanged();
     // HvacOn is documented as "indoor unit online", but it follows ThermostatOn: not an availability signal.
     await this.setAvailable();
 
