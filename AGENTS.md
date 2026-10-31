@@ -13,6 +13,10 @@ TLS on port 8884, username `hobby`, a JWT as password.
   store version and keeps devices and Flows. Ask before installing on the user's Homey.
 - Never `homey app run` on a Homey with real devices: quitting uninstalls the app and removes all
   paired devices and Flows.
+- Inspect the real installation with `npm run niko:dump -- --type <type> --watch <s> --sanitize`
+  (needs `.env`, see `.env.example`). Read-only unless `--report-instant-usage` is passed. Prefer
+  real dumps over the spec: the spec misses properties and models. The Home Assistant integration
+  (joleys/niko-home-control-II) is a good second reference.
 - Verify read-only via the Web API, e.g. `npx homey api apps get-app --id <app id>`,
   `npx homey api devices get-devices --json` (write to a file: stdout truncates around 64 KB),
   `npx homey api flow run-flow-card-condition`.
@@ -56,6 +60,9 @@ There is no automated test suite yet.
 - Reconnects: mqtt.js retries network errors; the controller only recreates its client when there is
   none, the discovered IP changed, or authorization failed.
 - Public repo: no tokens or real installation data (device names, UUIDs) in commits.
+- Energy Home: power is only reported while `ReportInstantUsage` is True (Niko resets it after
+  30 s; the device re-requests it). Energy counters have `HasStatus: false`: not on MQTT, only via
+  the REST measurements API as quarter-hour values.
 - Real installations: reading (`devices.list`, subscriptions) is fine. `devices.control` moves real
   motors and gates: only with the owner's explicit consent.
 - Commits: short imperative subject, matching the existing history.

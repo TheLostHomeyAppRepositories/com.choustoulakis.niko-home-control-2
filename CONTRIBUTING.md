@@ -23,7 +23,9 @@ Architecture, data flow and rules: see [AGENTS.md](AGENTS.md).
 
 ## Adding a Niko device type
 
-1. Look up the model and its properties in the Hobby API documentation.
+1. Dump the real device: copy `.env.example` to `.env`, fill in your controller, then
+   `npm run niko:dump -- --type <type> --watch 60 --sanitize`. Compare with the Hobby API
+   documentation, which is not always complete.
 2. In `src/niko/NikoTypes.ts`: add the model/properties to `NikoModel`/`NikoProperty` and a typed
    `XxxMqttDevice` interface.
 3. Add `drivers/<id>/`:
