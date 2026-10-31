@@ -60,6 +60,11 @@ There is no automated test suite yet.
 - Reconnects: mqtt.js retries network errors; the controller only recreates its client when there is
   none, the discovered IP changed, or authorization failed.
 - Public repo: no tokens or real installation data (device names, UUIDs) in commits.
+- Thermostats: one driver for all variants (`hvac/thermostat|touchswitch|virtual|hvacthermostat`,
+  `thermostat/thermostat|virtual`). Variants report different properties and ranges than the spec
+  (a real `hvac/virtual` has the HVAC set: OperationMode, FanSpeed, ThermostatOn, no Demand), so the
+  device builds its capabilities, range and programs from `PropertyDefinitions`.
+- Flags: installations report `virtual/flag`, the spec documents `action/flag`; the driver takes both.
 - Energy Home: power is only reported while `ReportInstantUsage` is True (Niko resets it after
   30 s; the device re-requests it). Energy counters have `HasStatus: false`: not on MQTT, only via
   the REST measurements API as quarter-hour values.

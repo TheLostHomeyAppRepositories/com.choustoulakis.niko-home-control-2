@@ -46,6 +46,8 @@ and [guide](https://guide.niko.eu/en/connhc2/lv/hobby-api) for details.
 | Routine: Mood                 | `comfort`                                                                                 |
 | Comfort sensor (1/2/4/6 keys) | `thermoswitchx1`, `thermoswitchx{1,2,4,6}feedback`, `thermoventilationcontrollerfeedback` |
 | Home energy                   | `energyhome` (central meter, e.g. P1): live power and monthly peak, shown in Homey Energy |
+| Thermostat                    | Wall thermostat, touch switch, Digital Black, virtual and HVAC thermostats                |
+| Virtual flag                  | `flag`                                                                                    |
 
 ## Renewing the token
 
