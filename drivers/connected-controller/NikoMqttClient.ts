@@ -83,11 +83,13 @@ export class NikoMqttClient extends EventEmitter {
   }
 
   private setState(newState: NikoClientState, message?: string) {
+    if (newState === NikoClientState.ERROR) {
+      this._lastErrorMessage = message;
+    } else if (newState === NikoClientState.CONNECTED) {
+      this._lastErrorMessage = undefined;
+    }
     if (this._state === newState) return;
     this._state = newState;
-    if (newState === NikoClientState.ERROR) {
-      // TODO
-    }
     this.emit('statechange', this._state, message);
   }
 
