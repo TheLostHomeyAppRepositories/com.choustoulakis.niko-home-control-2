@@ -4,7 +4,7 @@ import { NikoProperty, ThermoMqttDevice } from '../niko/NikoTypes';
 export class NikoComfortDevice extends NikoDevice<ThermoMqttDevice> {
   async onInit(): Promise<void> {
     await super.onInit();
-    await this.updateStatus();
+    await this.syncWithController();
   }
 
   async updateStatus(): Promise<void> {

@@ -6,7 +6,7 @@ class NikoFanDevice extends NikoDevice<FanMqttDevice> {
   async onInit(): Promise<void> {
     await super.onInit();
     this.registerCapabilityListener('fan_mode', this.onStateChange);
-    await this.updateStatus();
+    await this.syncWithController();
   }
 
   private onStateChange = async (state: 'Low' | 'Medium' | 'High' | 'Boost') => {

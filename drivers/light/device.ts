@@ -7,7 +7,7 @@ export class NikoLightDevice extends NikoDevice<RelayMqttDevice> {
     await super.onInit();
     await this.updateDeviceClassIfNeeded();
     this.registerCapabilityListener('onoff', this.onValueChange);
-    await this.updateStatus();
+    await this.syncWithController();
   }
 
   private onValueChange = async (value: boolean) => {

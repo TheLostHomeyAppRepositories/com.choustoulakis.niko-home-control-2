@@ -7,7 +7,7 @@ class NikoDimmer extends NikoDevice<DimmerMqttDevice> {
     await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
     this.registerCapabilityListener('dim', this.onDimValueChange);
-    await this.updateStatus();
+    await this.syncWithController();
   }
 
   private onValueChange = async (value: boolean) => {

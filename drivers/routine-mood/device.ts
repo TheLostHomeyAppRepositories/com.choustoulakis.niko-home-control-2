@@ -6,7 +6,7 @@ class MoodDevice extends NikoDevice<MoodMqttDevice> {
   async onInit(): Promise<void> {
     await super.onInit();
     this.registerCapabilityListener('onoff', this.onValueChange);
-    await this.updateStatus();
+    await this.syncWithController();
   }
 
   private onValueChange = async (value: boolean) => {

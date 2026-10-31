@@ -5,8 +5,10 @@ import { NikoDeviceWithOwner } from './niko/NikoMqttClient';
 
 import { NikoMqttDevice } from './niko/NikoTypes';
 import { NikoPropertyRecord, toPropertyRecord } from './niko/NikoProperties';
-import { onDeviceUpdate } from './niko/NikoEvents';
+import { onControllerChanged, onDeviceUpdate } from './niko/NikoEvents';
 import { DeviceStore } from './NikoDriver';
+
+const SYNC_SAFETY_NET_MS = 5 * 60_000;
 
 export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device {
   private _connectedControllerId!: string;
@@ -20,11 +22,12 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
     const { connectedControllerId, device } = await this.resolveDeviceWithOwner();
     this.setDevice(device as K);
     this._connectedControllerId = connectedControllerId;
-    this.unsubscribers.push(onDeviceUpdate(this.homey, this._device.Uuid, this.onDeviceUpdate));
-    this.interval = this.homey.setInterval(
-      () => this.updateDeviceAvailability().catch(this.error),
-      30_000,
+    this.unsubscribers.push(
+      onDeviceUpdate(this.homey, this._device.Uuid, this.onDeviceUpdate),
+      onControllerChanged(this.homey, connectedControllerId, this.onControllerChanged),
     );
+    // The controller pushes its changes; this only recovers from a missed event.
+    this.interval = this.homey.setInterval(this.onControllerChanged, SYNC_SAFETY_NET_MS);
   }
 
   override getStore(): DeviceStore {
@@ -53,14 +56,50 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
     this.updateStatus().catch(this.error);
   };
 
-  protected getConnectedController(): ConnectedControllerDevice | undefined {
-    const controllerDriver = this.homey.drivers.getDriver('connected-controller');
-    const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
-    for (const controllerDevice of controllerDevices) {
-      if (controllerDevice.getData().id === this._connectedControllerId) {
-        return controllerDevice;
-      }
+  private onControllerChanged = () => {
+    this.syncWithController().catch(this.error);
+  };
+
+  /**
+   * Takes the current state of this device from the Connected Controller, or marks the device
+   * unavailable with the reason. Call this at the end of `onInit()` instead of `updateStatus()`,
+   * so a device never starts from the (stale) properties stored at pairing time.
+   */
+  protected async syncWithController(): Promise<void> {
+    const controller = this.getConnectedController();
+    if (controller === undefined) {
+      return this.setUnavailable('The Connected Controller no longer found.');
     }
+    if (!controller.isOnline()) {
+      return this.setUnavailable('The Connected Controller found, but is offline.');
+    }
+    const device = controller.getNikoDevice(this._device.Uuid);
+    if (
+      device === undefined ||
+      device.Type !== this._device.Type ||
+      device.Model !== this._device.Model
+    ) {
+      return this.setUnavailable(
+        'The Connected Controller is available, but the device is not found in the list. Please check the Niko programming software.',
+      );
+    }
+    this.setDevice(device as K);
+    return this.updateStatus();
+  }
+
+  protected getConnectedController(): ConnectedControllerDevice | undefined {
+    let controllerDevices: ConnectedControllerDevice[];
+    try {
+      const controllerDriver = this.homey.drivers.getDriver('connected-controller');
+      controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
+    } catch {
+      // The controller driver may not be initialized yet during app start. The controller
+      // notifies its devices once it is connected.
+      return undefined;
+    }
+    return controllerDevices.find(
+      (controllerDevice) => controllerDevice.getData().id === this._connectedControllerId,
+    );
   }
 
   /**
@@ -95,24 +134,6 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
     this.unsubscribers.forEach((unsubscribe) => unsubscribe());
     this.unsubscribers = [];
     clearInterval(this.interval);
-  }
-
-  private async updateDeviceAvailability(): Promise<void> {
-    const connectedController = this.getConnectedController();
-    if (connectedController === undefined) {
-      return this.setUnavailable('The Connected Controller no longer found.');
-    } else if (!connectedController.getAvailable()) {
-      return this.setUnavailable('The Connected Controller found, but is offline.');
-    }
-    const device = connectedController
-      .getNikoByTypeAndModel(this._device.Type, [this._device.Model])
-      .find((d) => d.device.Uuid === this._device.Uuid);
-    if (device === undefined) {
-      return this.setUnavailable(
-        'The Connected Controller is available, but the device is not found in the list. Please check the Niko programming software.',
-      );
-    }
-    return this.updateStatus();
   }
 
   private async resolveDeviceWithOwner(): Promise<NikoDeviceWithOwner> {

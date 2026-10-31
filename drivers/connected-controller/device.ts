@@ -8,6 +8,7 @@ import {
 } from '../../src/niko/NikoMqttClient';
 import { clearInterval } from 'node:timers';
 import { NikoModel, NikoMqttDevice, NikoType } from '../../src/niko/NikoTypes';
+import { emitControllerChanged } from '../../src/niko/NikoEvents';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -118,6 +119,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     });
     this.client = client;
     client.addListener('statechange', this.onMqttStateChange);
+    client.addListener('devicelist', this.onDeviceList);
     client.connect();
     await this.updateDebugInfoAndSettings();
   }
@@ -184,10 +186,34 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   disconnect() {
-    this.client?.removeListener('statechange', this.onMqttStateChange);
-    this.client?.disconnect();
+    if (!this.client) return;
+    this.client.removeListener('statechange', this.onMqttStateChange);
+    this.client.removeListener('devicelist', this.onDeviceList);
+    this.client.disconnect();
     this.client = undefined;
+    this.notifyDevices();
   }
+
+  /**
+   * Whether the MQTT connection is up and the device list was received. Niko devices use this
+   * instead of `getAvailable()`, which only updates after an async `setAvailable()`.
+   */
+  isOnline(): boolean {
+    return !this.isUnloaded && this.client?.getState() === NikoClientState.CONNECTED;
+  }
+
+  getNikoDevice(uuid: string): NikoMqttDevice | undefined {
+    return this.isOnline() ? this.client?.getDevices().find((d) => d.Uuid === uuid) : undefined;
+  }
+
+  private notifyDevices(): void {
+    emitControllerChanged(this.homey, this.getData().id);
+  }
+
+  private onDeviceList = () => {
+    this.notifyDevices();
+    this.updateDebugInfoAndSettings().catch(this.error);
+  };
 
   unload() {
     this.isUnloaded = true;
@@ -202,6 +228,7 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   private onMqttStateChange = (state: NikoClientState, message?: string) => {
+    this.notifyDevices();
     this.handleMqttStateChange(state, message).catch(this.error);
   };
 

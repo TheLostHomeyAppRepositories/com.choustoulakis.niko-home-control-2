@@ -264,6 +264,7 @@ export class NikoMqttClient extends EventEmitter {
           }
           this.sendUpdate(device);
         }
+        this.emit('devicelist');
       }
 
       // TODO: improve types so casting is not needed

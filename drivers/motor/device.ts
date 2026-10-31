@@ -11,7 +11,7 @@ class NikoMotor extends NikoDevice<MotorMqttDevice> {
       await this.addCapability('windowcoverings_set');
     }
     this.registerCapabilityListener('windowcoverings_set', this.onSetPosition as any);
-    await this.updateStatus();
+    await this.syncWithController();
   }
 
   private onStateChange = async (state: 'up' | 'idle' | 'down') => {
