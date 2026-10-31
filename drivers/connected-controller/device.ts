@@ -7,7 +7,7 @@ import {
   NikoMqttClient,
 } from '../../src/niko/NikoMqttClient';
 import { clearInterval } from 'node:timers';
-import { NikoModel, NikoType } from '../../src/niko/NikoTypes';
+import { NikoModel, NikoMqttDevice, NikoType } from '../../src/niko/NikoTypes';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -234,7 +234,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     }));
   }
 
-  setDeviceProps(uuid: string, props: Record<string, any>[]): void {
+  setDeviceProps(uuid: string, props: NikoMqttDevice['Properties']): void {
     this.client?.setDeviceProps(uuid, props);
   }
 

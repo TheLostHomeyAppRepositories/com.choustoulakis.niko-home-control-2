@@ -1,13 +1,10 @@
 import Homey, { DiscoveryResultMDNSSD } from 'homey';
 import { randomUUID } from 'node:crypto';
 import { GenericDevicePairingData } from '../../src/NikoDriver';
+import type { NikoConnectionSettings } from '../../src/niko/NikoMqttClient';
 
-export interface ConnectedControllerSettings {
+export interface ConnectedControllerSettings extends NikoConnectionSettings {
   name: string;
-  ip: string;
-  port: number;
-  username: string;
-  jwt: string;
   debugReport: string;
 }
 

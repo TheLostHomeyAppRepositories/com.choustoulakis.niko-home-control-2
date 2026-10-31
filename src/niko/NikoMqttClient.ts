@@ -1,13 +1,19 @@
 import { connect, IClientOptions, MqttClient } from 'mqtt';
 import { EventEmitter } from 'events';
-import { ConnectedControllerSettings } from '../../drivers/connected-controller/driver';
-import Homey from 'homey/lib/Homey';
-import { Device } from 'homey';
+import type Homey from 'homey/lib/Homey';
 import { NikoMqttDevice, NikoModel, NikoProperty, NikoType } from './NikoTypes';
 
-export interface LegacyNikoDeviceWithOwner extends NikoMqttDevice {
-  ownerControllerId: string;
+export interface NikoConnectionSettings {
+  ip: string;
+  port: number;
+  username: string;
+  jwt: string;
 }
+
+/**
+ * The parts of the Homey instance the client uses, so it can run without the Homey runtime.
+ */
+export type NikoClientHost = Pick<Homey, 'setTimeout' | 'setInterval' | 'emit'>;
 
 export interface NikoDeviceWithOwner {
   device: NikoMqttDevice;
@@ -40,12 +46,12 @@ export enum NikoClientState {
   ERROR = 'ERROR',
 }
 
-type QueuedUpdate = { uuid: string; props: Record<string, any>[] };
+type QueuedUpdate = { uuid: string; props: NikoMqttDevice['Properties'] };
 const UPDATE_QUEUE_DELAY_MS = 50;
 
 export class NikoMqttClient extends EventEmitter {
-  readonly settings: ConnectedControllerSettings;
-  private readonly homey: Homey;
+  readonly settings: NikoConnectionSettings;
+  private readonly homey: NikoClientHost;
   private readonly connectedControllerId: string;
 
   private client: MqttClient | null = null;
@@ -59,8 +65,8 @@ export class NikoMqttClient extends EventEmitter {
   private devices: NikoMqttDevice[] = [];
 
   constructor(config: {
-    settings: ConnectedControllerSettings;
-    homey: Device.Homey;
+    settings: NikoConnectionSettings;
+    homey: NikoClientHost;
     connectedControllerId: string;
   }) {
     super();
@@ -172,7 +178,7 @@ export class NikoMqttClient extends EventEmitter {
     return this.devices.filter((device) => device.Type === type && models.includes(device.Model));
   }
 
-  public async setDeviceProps(uuid: string, props: Record<string, any>[]): Promise<void> {
+  public async setDeviceProps(uuid: string, props: NikoMqttDevice['Properties']): Promise<void> {
     if (!this.client || this.state !== NikoClientState.CONNECTED) {
       console.error('Tried to update device props when mqtt is offline', props);
       return;
