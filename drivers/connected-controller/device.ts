@@ -71,21 +71,16 @@ export class ConnectedControllerDevice extends Homey.Device {
   async connect(): Promise<void> {
     this.disconnect();
 
+    await this.updateJwtRemainingDays();
+
+    // Discovery can fill in a missing or outdated IP, so validate the settings afterwards.
+    await this.discoverIpIfNeeded();
+
     const settingsError = this.checkSettingsForErrors();
     if (settingsError) {
       await this.updateDebugInfoAndSettings();
-      if (this.settings.ip) {
-        return await this.setUnavailable(settingsError);
-      } else {
-        // We'll give it a try with discovery if the IP is purely missing,
-        // but if it's invalid we error out.
-        this.log('Missing IP in settings, will attempt discovery.');
-      }
+      return await this.setUnavailable(settingsError);
     }
-
-    await this.updateJwtRemainingDays();
-
-    await this.discoverIpIfNeeded();
 
     if (this.isJwtExpired()) {
       await this.updateDebugInfoAndSettings();
