@@ -49,6 +49,14 @@ export enum NikoClientState {
 type QueuedUpdate = { uuid: string; props: NikoMqttDevice['Properties'] };
 const UPDATE_QUEUE_DELAY_MS = 50;
 
+// CONNACK reason codes: 4/5 for MQTT 3.1.1, 134/135 for MQTT 5.
+const AUTHORIZATION_REASON_CODES = [4, 5, 134, 135];
+
+function isAuthorizationError(err: Error): boolean {
+  const code = (err as Error & { code?: unknown }).code;
+  return typeof code === 'number' && AUTHORIZATION_REASON_CODES.includes(code);
+}
+
 export class NikoMqttClient extends EventEmitter {
   readonly settings: NikoConnectionSettings;
   private readonly homey: NikoClientHost;
@@ -140,10 +148,7 @@ export class NikoMqttClient extends EventEmitter {
     }
 
     // Check for non-recoverable authorization errors
-    if (
-      err.message.includes('Not authorized') ||
-      err.message.includes('Bad user name or password')
-    ) {
+    if (isAuthorizationError(err)) {
       this.setState(
         NikoClientState.ERROR,
         "Authorization failed. Please check the token in the device's settings.",
