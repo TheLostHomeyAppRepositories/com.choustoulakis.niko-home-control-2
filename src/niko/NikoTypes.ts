@@ -19,12 +19,14 @@ export enum NikoModel {
   FAN = 'fan',
   THERMOSTAT = 'thermostat',
   TOUCH_SWITCH = 'touchswitch',
+  GENERIC = 'generic',
 }
 
 export enum NikoType {
   ACTION = 'action',
   MULTISENSOR = 'multisensor',
   HVAC = 'hvac',
+  ENERGY_HOME = 'energyhome',
 }
 
 export enum NikoProperty {
@@ -47,6 +49,11 @@ export enum NikoProperty {
   OVERRULE_TIME = 'OverruleTime',
   ECO_SAVE = 'EcoSave',
   DEMAND = 'Demand',
+  ELECTRICAL_POWER_FROM_GRID = 'ElectricalPowerFromGrid',
+  ELECTRICAL_POWER_TO_GRID = 'ElectricalPowerToGrid',
+  REPORT_INSTANT_USAGE = 'ReportInstantUsage',
+  ELECTRICAL_MONTHLY_PEAK_POWER_FROM_GRID = 'ElectricalMonthlyPeakPowerFromGrid',
+  CONFIGURED_MONTHLY_PEAK_W = 'ConfiguredMonthlyPeakW',
 }
 
 export enum NikoTechnology {
@@ -76,6 +83,9 @@ export type NikoHumidity = Tenths<Enumerate<100>> | '100'; // 0 -> 100, step 0.1
 export type NikoThermostatTemperature = Halves<IntRange<0, 46>> | `-${Halves<IntRange<0, 6>>}`; // -5 -> 45, step 0.5
 export type NikoSetpoint = Halves<IntRange<5, 30>> | '30'; // 5 -> 30, step 0.5
 export type NikoOverruleTime = `${number}` & {}; // 1 -> 1439 minutes, too large for a literal union
+export type NikoWatt = `${number}` & {}; // Range(0, 999999999, 0.001), e.g. "369.000"
+/** Energy values are empty until reported, e.g. power before live reporting is enabled. */
+export type NikoUnreported = '';
 
 export interface NikoPropertyDefinition {
   HasStatus: NikoBooleanLowercase;
@@ -169,5 +179,22 @@ export interface ThermostatMqttDevice extends NikoMqttDevice {
     { [NikoProperty.OVERRULE_TIME]: NikoOverruleTime }, // Range(1, 1439, 1)
     { [NikoProperty.ECO_SAVE]: NikoBoolean },
     { [NikoProperty.DEMAND]: NikoDemand },
+  ];
+}
+
+/**
+ * The home's energy totals, fed by the central meter (e.g. a P1 stick or a clamp meter). Power is
+ * only reported while ReportInstantUsage is True, which Niko resets after 30 s. Energy counters
+ * are not reported over MQTT (HasStatus false), only through the REST measurements API.
+ */
+export interface EnergyHomeMqttDevice extends NikoMqttDevice {
+  Type: NikoType.ENERGY_HOME;
+  Model: NikoModel.GENERIC;
+  Properties: [
+    { [NikoProperty.ELECTRICAL_POWER_FROM_GRID]: NikoWatt | NikoUnreported },
+    { [NikoProperty.ELECTRICAL_POWER_TO_GRID]: NikoWatt | NikoUnreported },
+    { [NikoProperty.REPORT_INSTANT_USAGE]: NikoBoolean | NikoUnreported },
+    { [NikoProperty.ELECTRICAL_MONTHLY_PEAK_POWER_FROM_GRID]: NikoWatt | NikoUnreported },
+    { [NikoProperty.CONFIGURED_MONTHLY_PEAK_W]: NikoWatt | NikoUnreported },
   ];
 }
