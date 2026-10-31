@@ -221,66 +221,61 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   async updateDebugInfo(): Promise<void> {
-    let report = 'Processing...';
-
-    if (this.client) {
-      const settings = this.client.settings;
-      const devices = this.client.getDevices();
-
-      // Redact JWT because this will be shared by users on the forum, probably.
-      const jwt = settings.jwt || '';
-      const visibleLength = 4;
-      const redactedJwt =
-        jwt.length > visibleLength * 2
-          ? `${jwt.substring(0, visibleLength)}...${jwt.substring(jwt.length - visibleLength)}`
-          : '***invalid_or_short_jwt***';
-
-      const lines = [
-        '[Connection Details]',
-        `name: ${settings.name}`,
-        `ip: ${settings.ip}`,
-        `port: ${settings.port}`,
-        `username: ${settings.username}`,
-        `jwt: ${redactedJwt}`,
-        '',
-        '[MQTT State]',
-        `status: ${this.client.getState()}`,
-        `error: ${this.client.getLastErrorMessage() || 'None'}`,
-        '',
-        '[Niko Devices]',
-      ];
-
-      if (devices.length > 0) {
-        for (const device of devices) {
-          lines.push(`• ${device.Name} [${device.Type} - ${device.Model}]`);
-        }
-      } else {
-        const validationError = this.checkSettingsForErrors();
-        const isExpired = this.getCapabilityValue('jwt_remaining_days') < 0;
-
-        const lines = [
-          '[Connection Details]',
-          `ip: ${this.settings.ip || 'Missing'}`,
-          `port: ${this.settings.port || 'Missing'}`,
-          '',
-          '[MQTT State]',
-          `status: NOT_INITIALIZED`,
-          `error: ${validationError || (isExpired ? 'JWT Expired' : 'Awaiting initialization/discovery...')}`,
-        ];
-        report = lines.join('\n');
-      }
-
-      report = lines.join('\n');
-    }
     this.settings = {
       ...this.settings,
-      debugReport: report,
+      debugReport: this.buildDebugReport(),
     };
   }
 
   async updateDebugInfoAndSettings(): Promise<void> {
     await this.updateDebugInfo();
-    await this.setSettings(this.settings);
+    await this.setSettings({ debugReport: this.settings.debugReport });
+  }
+
+  private buildDebugReport(): string {
+    // Redact JWT because this will be shared by users on the forum, probably.
+    const jwt = this.settings.jwt || '';
+    const visibleLength = 4;
+    const redactedJwt =
+      jwt.length > visibleLength * 2
+        ? `${jwt.substring(0, visibleLength)}...${jwt.substring(jwt.length - visibleLength)}`
+        : '***invalid_or_short_jwt***';
+
+    const lines = [
+      '[Connection Details]',
+      `name: ${this.settings.name}`,
+      `ip: ${this.settings.ip || 'Missing'}`,
+      `port: ${this.settings.port || 'Missing'}`,
+      `username: ${this.settings.username}`,
+      `jwt: ${redactedJwt}`,
+      '',
+      '[MQTT State]',
+    ];
+
+    const validationError = this.checkSettingsForErrors();
+    const isExpired = this.getCapabilityValue('jwt_remaining_days') < 0;
+    if (!this.client || validationError || isExpired) {
+      lines.push(
+        'status: NOT_INITIALIZED',
+        `error: ${validationError || (isExpired ? 'JWT Expired' : 'Awaiting initialization/discovery...')}`,
+      );
+      return lines.join('\n');
+    }
+
+    lines.push(
+      `status: ${this.client.getState()}`,
+      `error: ${this.client.getLastErrorMessage() || 'None'}`,
+      '',
+      '[Niko Devices]',
+    );
+    const devices = this.client.getDevices();
+    if (devices.length === 0) {
+      lines.push('No devices received yet.');
+    }
+    for (const device of devices) {
+      lines.push(`• ${device.Name} [${device.Type} - ${device.Model}]`);
+    }
+    return lines.join('\n');
   }
 }
 
