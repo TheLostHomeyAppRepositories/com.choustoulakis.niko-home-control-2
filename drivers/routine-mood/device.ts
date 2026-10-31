@@ -25,7 +25,6 @@ class MoodDevice extends NikoDevice<MoodMqttDevice> {
     const isActive = mood === 'True' || state === 'Triggered';
     await this.setCapabilityOptions('onoff', { setable: !isActive });
     await this.setCapabilityValue('onoff', isActive);
-    await this.setCapabilityValue('onoff', isActive);
   }
 }
 
