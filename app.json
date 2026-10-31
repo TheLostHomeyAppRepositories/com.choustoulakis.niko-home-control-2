@@ -415,8 +415,7 @@
       "class": "sensor",
       "capabilities": [
         "measure_power",
-        "measure_power.monthly_peak",
-        "measure_power.peak_limit"
+        "measure_power.monthly_peak"
       ],
       "capabilitiesOptions": {
         "measure_power.monthly_peak": {
@@ -426,15 +425,6 @@
             "fr": "Pic mensuel",
             "da": "Månedlig spidsbelastning",
             "sv": "Månadstopp"
-          }
-        },
-        "measure_power.peak_limit": {
-          "title": {
-            "en": "Peak limit",
-            "nl": "Piekgrens",
-            "fr": "Limite de pic",
-            "da": "Spidsgrænse",
-            "sv": "Toppgräns"
           }
         }
       },

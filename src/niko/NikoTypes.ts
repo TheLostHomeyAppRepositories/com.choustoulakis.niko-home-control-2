@@ -53,7 +53,6 @@ export enum NikoProperty {
   ELECTRICAL_POWER_TO_GRID = 'ElectricalPowerToGrid',
   REPORT_INSTANT_USAGE = 'ReportInstantUsage',
   ELECTRICAL_MONTHLY_PEAK_POWER_FROM_GRID = 'ElectricalMonthlyPeakPowerFromGrid',
-  CONFIGURED_MONTHLY_PEAK_W = 'ConfiguredMonthlyPeakW',
 }
 
 export enum NikoTechnology {
@@ -195,6 +194,5 @@ export interface EnergyHomeMqttDevice extends NikoMqttDevice {
     { [NikoProperty.ELECTRICAL_POWER_TO_GRID]: NikoWatt | NikoUnreported },
     { [NikoProperty.REPORT_INSTANT_USAGE]: NikoBoolean | NikoUnreported },
     { [NikoProperty.ELECTRICAL_MONTHLY_PEAK_POWER_FROM_GRID]: NikoWatt | NikoUnreported },
-    { [NikoProperty.CONFIGURED_MONTHLY_PEAK_W]: NikoWatt | NikoUnreported },
   ];
 }

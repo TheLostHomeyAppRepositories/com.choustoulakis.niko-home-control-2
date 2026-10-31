@@ -35,10 +35,6 @@ class NikoEnergyHomeDevice extends NikoDevice<EnergyHomeMqttDevice> {
     if (monthlyPeak !== undefined) {
       await this.setCapabilityValue('measure_power.monthly_peak', monthlyPeak);
     }
-    const peakLimit = toWatt(this.getProperty(NikoProperty.CONFIGURED_MONTHLY_PEAK_W));
-    if (peakLimit !== undefined) {
-      await this.setCapabilityValue('measure_power.peak_limit', peakLimit);
-    }
 
     if (this.getProperty(NikoProperty.REPORT_INSTANT_USAGE) !== 'True') {
       this.requestLivePower();
