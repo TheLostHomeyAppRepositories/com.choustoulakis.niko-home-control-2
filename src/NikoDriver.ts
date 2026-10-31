@@ -32,7 +32,8 @@ export interface DeviceStore {
 }
 
 export abstract class NikoDriver extends Homey.Driver {
-  protected getDevicesByAction(group: DeviceGroup): DevicePairingData[] {
+  /** Pass several groups when one Homey driver covers Niko devices of different types. */
+  protected getDevicesByAction(groups: DeviceGroup | DeviceGroup[]): DevicePairingData[] {
     const controllerDriver = this.homey.drivers.getDriver('connected-controller');
     const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
 
@@ -42,7 +43,9 @@ export abstract class NikoDriver extends Homey.Driver {
 
     const allDevices: NikoDeviceWithOwner[] = [];
     for (const controllerDevice of controllerDevices) {
-      allDevices.push(...controllerDevice.getNikoByTypeAndModel(group.types, group.models));
+      for (const group of Array.isArray(groups) ? groups : [groups]) {
+        allDevices.push(...controllerDevice.getNikoByTypeAndModel(group.types, group.models));
+      }
     }
     return allDevices.map(
       (deviceWithOwner: NikoDeviceWithOwner): DevicePairingData => ({
