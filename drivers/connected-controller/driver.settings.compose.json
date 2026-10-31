@@ -42,6 +42,16 @@
     }
   },
   {
+    "id": "jwtReminders",
+    "type": "checkbox",
+    "label": { "en": "Token expiry reminders", "nl": "Herinneringen bij verlopen token" },
+    "value": true,
+    "hint": {
+      "en": "Adds a timeline notification 30, 7 and 1 days before the token expires, and when it has expired.",
+      "nl": "Plaatst een melding in de tijdlijn 30, 7 en 1 dag voordat het token verloopt, en wanneer het verlopen is."
+    }
+  },
+  {
     "id": "debugReport",
     "type": "textarea",
     "label": {

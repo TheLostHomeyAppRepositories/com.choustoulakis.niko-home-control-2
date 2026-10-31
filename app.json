@@ -281,6 +281,19 @@
           }
         },
         {
+          "id": "jwtReminders",
+          "type": "checkbox",
+          "label": {
+            "en": "Token expiry reminders",
+            "nl": "Herinneringen bij verlopen token"
+          },
+          "value": true,
+          "hint": {
+            "en": "Adds a timeline notification 30, 7 and 1 days before the token expires, and when it has expired.",
+            "nl": "Plaatst een melding in de tijdlijn 30, 7 en 1 dag voordat het token verloopt, en wanneer het verlopen is."
+          }
+        },
+        {
           "id": "debugReport",
           "type": "textarea",
           "label": {
@@ -540,6 +553,93 @@
       "id": "routine-mood"
     }
   ],
+  "flow": {
+    "triggers": [
+      {
+        "id": "jwt_expiring",
+        "title": {
+          "en": "The token expires within a number of days",
+          "nl": "Het token verloopt binnen een aantal dagen"
+        },
+        "titleFormatted": {
+          "en": "The token expires within [[days]] days",
+          "nl": "Het token verloopt binnen [[days]] dagen"
+        },
+        "hint": {
+          "en": "Runs once a day while the Hobby API token expires within the given number of days.",
+          "nl": "Wordt dagelijks uitgevoerd zolang het Hobby API-token binnen het opgegeven aantal dagen verloopt."
+        },
+        "tokens": [
+          {
+            "name": "days",
+            "type": "number",
+            "title": {
+              "en": "Days left",
+              "nl": "Resterende dagen"
+            },
+            "example": 14
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=connected-controller"
+          },
+          {
+            "name": "days",
+            "type": "number",
+            "min": 0,
+            "max": 365,
+            "step": 1,
+            "placeholder": {
+              "en": "30",
+              "nl": "30"
+            },
+            "title": {
+              "en": "Days",
+              "nl": "Dagen"
+            }
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "jwt_expires_within",
+        "title": {
+          "en": "The token !{{expires|doesn't expire}} within a number of days",
+          "nl": "Het token !{{verloopt|verloopt niet}} binnen een aantal dagen"
+        },
+        "titleFormatted": {
+          "en": "The token !{{expires|doesn't expire}} within [[days]] days",
+          "nl": "Het token !{{verloopt|verloopt niet}} binnen [[days]] dagen"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=connected-controller"
+          },
+          {
+            "name": "days",
+            "type": "number",
+            "min": 0,
+            "max": 365,
+            "step": 1,
+            "placeholder": {
+              "en": "30",
+              "nl": "30"
+            },
+            "title": {
+              "en": "Days",
+              "nl": "Dagen"
+            }
+          }
+        ]
+      }
+    ]
+  },
   "capabilities": {
     "jwt_remaining_days": {
       "type": "number",

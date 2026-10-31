@@ -12,6 +12,15 @@ import { emitControllerChanged } from '../../src/niko/NikoEvents';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 const AUTHORIZATION_RETRY_MS = 5 * 60_000;
+const JWT_REMINDER_DAYS = [30, 7, 1];
+const EXPIRED_STAGE = -1;
+
+/** Last timeline reminder, stored per controller. Stages count down: 30, 7, 1, then expired. */
+type JwtReminder = { expiresAt: number; stage: number };
+
+function getRemainingDays(expiresAt: number): number {
+  return Math.max(0, Math.floor((expiresAt - Date.now()) / DAY_MS));
+}
 
 function getJwtExpiresAt(jwt: string | undefined): number | undefined {
   const parts = jwt?.trim().split('.');
@@ -35,6 +44,7 @@ export class ConnectedControllerDevice extends Homey.Device {
   private pendingConnects = 0;
   private lastConnectAt = 0;
   private writtenDebugReport?: string;
+  private jwtCheckQueue: Promise<void> = Promise.resolve();
 
   async onInit() {
     // Add capability if it doesn't exist (for existing devices)
@@ -145,13 +155,61 @@ export class ConnectedControllerDevice extends Homey.Device {
     }
   }
 
-  private readonly updateJwtRemainingDays = async () => {
+  /** Checks are queued, so overlapping calls never trigger Flows or reminders twice. */
+  private readonly updateJwtRemainingDays = (): Promise<void> => {
+    this.jwtCheckQueue = this.jwtCheckQueue.then(() => this.checkJwt()).catch(this.error);
+    return this.jwtCheckQueue;
+  };
+
+  private async checkJwt(): Promise<void> {
     if (this.isUnloaded) return;
     const expiresAt = getJwtExpiresAt(this.settings.jwt);
-    const remainingDays =
-      expiresAt === undefined ? 0 : Math.max(0, Math.floor((expiresAt - Date.now()) / DAY_MS));
-    await this.setCapabilityValue('jwt_remaining_days', remainingDays).catch(this.error);
-  };
+    const remainingDays = expiresAt === undefined ? 0 : getRemainingDays(expiresAt);
+    const previousDays = this.getCapabilityValue('jwt_remaining_days');
+    await this.setCapabilityValue('jwt_remaining_days', remainingDays);
+    if (expiresAt === undefined) return;
+
+    // The remaining days only change once a day, so this trigger runs at most once a day.
+    if (remainingDays !== previousDays) {
+      await this.homey.flow
+        .getDeviceTriggerCard('jwt_expiring')
+        .trigger(this, { days: remainingDays }, { days: remainingDays });
+    }
+    await this.remindIfNeeded(expiresAt, remainingDays);
+  }
+
+  /**
+   * Writes a timeline notification at 30, 7 and 1 days left and once expired, once per token.
+   * Users can forward timeline notifications as push notifications in Homey.
+   */
+  private async remindIfNeeded(expiresAt: number, remainingDays: number): Promise<void> {
+    if (this.settings.jwtReminders === false) return;
+    const expired = expiresAt <= Date.now();
+    const stage = expired
+      ? EXPIRED_STAGE
+      : Math.min(...JWT_REMINDER_DAYS.filter((days) => remainingDays <= days));
+    if (stage === Infinity) return;
+
+    const last: JwtReminder | undefined = this.getStoreValue('jwtReminder');
+    if (last?.expiresAt === expiresAt && last.stage <= stage) return;
+    await this.setStoreValue('jwtReminder', { expiresAt, stage } satisfies JwtReminder);
+
+    const name = `**${this.getName()}**`;
+    const when =
+      remainingDays === 0
+        ? 'within a day'
+        : `in ${remainingDays} day${remainingDays === 1 ? '' : 's'}`;
+    await this.homey.notifications.createNotification({
+      excerpt: expired
+        ? `The Niko Hobby API token of ${name} has expired. Enter a new token in its settings to reconnect.`
+        : `The Niko Hobby API token of ${name} expires **${when}**. Renew it in the Niko Home Control programming software.`,
+    });
+  }
+
+  isJwtExpiringWithin(days: number): boolean {
+    const expiresAt = getJwtExpiresAt(this.settings.jwt);
+    return expiresAt !== undefined && getRemainingDays(expiresAt) <= days;
+  }
 
   private isJwtExpired(): boolean {
     const expiresAt = getJwtExpiresAt(this.settings.jwt);

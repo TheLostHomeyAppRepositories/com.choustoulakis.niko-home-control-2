@@ -2,17 +2,33 @@ import Homey, { DiscoveryResultMDNSSD } from 'homey';
 import { randomUUID } from 'node:crypto';
 import { GenericDevicePairingData } from '../../src/NikoDriver';
 import type { NikoConnectionSettings } from '../../src/niko/NikoMqttClient';
+import type { ConnectedControllerDevice } from './device';
 
 export interface ConnectedControllerSettings extends NikoConnectionSettings {
   name: string;
   debugReport: string;
+  /** Missing on controllers paired before this setting existed; treat as enabled. */
+  jwtReminders?: boolean;
 }
 
 export interface ConnectedControllerPairingData extends GenericDevicePairingData {
   settings: ConnectedControllerSettings;
 }
 
+type JwtFlowArgs = { device: ConnectedControllerDevice; days: number };
+
 export class ConnectedControllerDriver extends Homey.Driver {
+  async onInit(): Promise<void> {
+    this.homey.flow
+      .getDeviceTriggerCard('jwt_expiring')
+      .registerRunListener(
+        async (args: JwtFlowArgs, state: { days: number }) => state.days <= args.days,
+      );
+    this.homey.flow
+      .getConditionCard('jwt_expires_within')
+      .registerRunListener(async (args: JwtFlowArgs) => args.device.isJwtExpiringWithin(args.days));
+  }
+
   async onPairListDevices(): Promise<ConnectedControllerPairingData[]> {
     const discoveryStrategy = this.homey.discovery.getStrategy('niko_home_control');
     const results = discoveryStrategy.getDiscoveryResults() as {
