@@ -72,4 +72,7 @@ There is no automated test suite yet.
   the REST measurements API as quarter-hour values.
 - Real installations: reading (`devices.list`, subscriptions) is fine. `devices.control` moves real
   motors and gates: only with the owner's explicit consent.
+- Comments: names, variables and return types should make code self-explanatory. If a function
+  needs a comment to explain what it does, rename it instead. Only comment the non-obvious why:
+  edge cases, Niko quirks, constraints future sessions must know. Class docs are fine.
 - Commits: short imperative subject, matching the existing history.
