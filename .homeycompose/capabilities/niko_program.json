@@ -1,0 +1,66 @@
+{
+  "type": "enum",
+  "title": {
+    "en": "Program",
+    "nl": "Programma",
+    "fr": "Programme",
+    "da": "Program",
+    "sv": "Program"
+  },
+  "getable": true,
+  "setable": true,
+  "uiComponent": "picker",
+  "values": [
+    { "id": "Day", "title": { "en": "Day", "nl": "Dag", "fr": "Jour", "da": "Dag", "sv": "Dag" } },
+    {
+      "id": "Night",
+      "title": { "en": "Night", "nl": "Nacht", "fr": "Nuit", "da": "Nat", "sv": "Natt" }
+    },
+    { "id": "Eco", "title": { "en": "Eco", "nl": "Eco", "fr": "Éco", "da": "Eco", "sv": "Eco" } },
+    {
+      "id": "Cool",
+      "title": { "en": "Cool", "nl": "Koelen", "fr": "Refroidir", "da": "Køling", "sv": "Kyla" }
+    },
+    {
+      "id": "Custom",
+      "title": {
+        "en": "Custom",
+        "nl": "Aangepast",
+        "fr": "Personnalisé",
+        "da": "Brugerdefineret",
+        "sv": "Anpassad"
+      }
+    },
+    {
+      "id": "Prog1",
+      "title": {
+        "en": "Program 1",
+        "nl": "Programma 1",
+        "fr": "Programme 1",
+        "da": "Program 1",
+        "sv": "Program 1"
+      }
+    },
+    {
+      "id": "Prog2",
+      "title": {
+        "en": "Program 2",
+        "nl": "Programma 2",
+        "fr": "Programme 2",
+        "da": "Program 2",
+        "sv": "Program 2"
+      }
+    },
+    {
+      "id": "Prog3",
+      "title": {
+        "en": "Program 3",
+        "nl": "Programma 3",
+        "fr": "Programme 3",
+        "da": "Program 3",
+        "sv": "Program 3"
+      }
+    },
+    { "id": "Off", "title": { "en": "Off", "nl": "Uit", "fr": "Arrêt", "da": "Fra", "sv": "Av" } }
+  ]
+}

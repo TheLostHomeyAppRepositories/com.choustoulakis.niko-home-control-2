@@ -1,0 +1,13 @@
+{
+  "type": "boolean",
+  "title": {
+    "en": "Eco save",
+    "nl": "Eco-besparing",
+    "fr": "Économie éco",
+    "da": "Eco-besparelse",
+    "sv": "Eco-besparing"
+  },
+  "getable": true,
+  "setable": true,
+  "uiComponent": "toggle"
+}

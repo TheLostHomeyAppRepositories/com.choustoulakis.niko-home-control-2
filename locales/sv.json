@@ -19,12 +19,16 @@
     "sendFailed": "Kommandot kunde inte skickas till Niko Home Control-kontrollenheten. Kontrollera anslutningen och försök igen.",
     "misconfigured": "Enheten är felkonfigurerad, skapa den igen.",
     "incorrectState": "Enheten tog emot ett felaktigt tillstånd. Rapportera gärna problemet.",
-    "sensorUnavailable": "Något är fel med enheten."
+    "sensorUnavailable": "Något är fel med enheten.",
+    "hvacOffline": "Värme-/kylenheten är offline."
   },
   "reminder": {
     "expiresWithinDay": "Niko Hobby API-token för **__name__** löper ut **inom ett dygn**. Förnya den i programmeringsprogramvaran för Niko Home Control.",
     "expiresInOneDay": "Niko Hobby API-token för **__name__** löper ut **om 1 dag**. Förnya den i programmeringsprogramvaran för Niko Home Control.",
     "expiresInDays": "Niko Hobby API-token för **__name__** löper ut **om __days__ dagar**. Förnya den i programmeringsprogramvaran för Niko Home Control.",
     "expired": "Niko Hobby API-token för **__name__** har löpt ut. Ange en ny token i enhetens inställningar för att ansluta igen."
+  },
+  "thermostat": {
+    "programNotSupported": "Den här termostaten stöder inte programmet \"__program__\"."
   }
 }

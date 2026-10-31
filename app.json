@@ -731,6 +731,155 @@
         }
       ],
       "id": "routine-mood"
+    },
+    {
+      "name": {
+        "en": "Thermostat",
+        "nl": "Thermostaat",
+        "fr": "Thermostat",
+        "da": "Termostat",
+        "sv": "Termostat"
+      },
+      "class": "thermostat",
+      "capabilities": [
+        "target_temperature",
+        "measure_temperature",
+        "thermostat_mode",
+        "niko_program",
+        "niko_demand",
+        "niko_eco_save",
+        "fan_mode"
+      ],
+      "capabilitiesOptions": {
+        "target_temperature": {
+          "min": 5,
+          "max": 30,
+          "step": 0.5
+        },
+        "thermostat_mode": {
+          "values": [
+            {
+              "id": "heat",
+              "title": {
+                "en": "Heat",
+                "nl": "Verwarmen",
+                "fr": "Chauffage",
+                "da": "Varme",
+                "sv": "Värme"
+              }
+            },
+            {
+              "id": "cool",
+              "title": {
+                "en": "Cool",
+                "nl": "Koelen",
+                "fr": "Refroidissement",
+                "da": "Køling",
+                "sv": "Kyla"
+              }
+            },
+            {
+              "id": "off",
+              "title": {
+                "en": "Off",
+                "nl": "Uit",
+                "fr": "Arrêt",
+                "da": "Fra",
+                "sv": "Av"
+              }
+            }
+          ]
+        },
+        "fan_mode": {
+          "values": [
+            {
+              "id": "Low",
+              "title": {
+                "en": "Low",
+                "nl": "Laag",
+                "fr": "Faible",
+                "da": "Lav",
+                "sv": "Låg"
+              }
+            },
+            {
+              "id": "Medium",
+              "title": {
+                "en": "Medium",
+                "nl": "Middel",
+                "fr": "Moyen",
+                "da": "Mellem",
+                "sv": "Medel"
+              }
+            },
+            {
+              "id": "High",
+              "title": {
+                "en": "High",
+                "nl": "Hoog",
+                "fr": "Élevé",
+                "da": "Høj",
+                "sv": "Hög"
+              }
+            }
+          ]
+        }
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/thermostat/assets/images/small.png",
+        "large": "/drivers/thermostat/assets/images/large.png",
+        "xlarge": "/drivers/thermostat/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "thermostat",
+      "settings": [
+        {
+          "id": "overruleMinutes",
+          "type": "number",
+          "label": {
+            "en": "Manual temperature duration",
+            "nl": "Duur handmatige temperatuur",
+            "fr": "Durée de la température manuelle",
+            "da": "Varighed af manuel temperatur",
+            "sv": "Varaktighet för manuell temperatur"
+          },
+          "value": 240,
+          "min": 1,
+          "max": 1439,
+          "units": {
+            "en": "minutes",
+            "nl": "minuten",
+            "fr": "minutes",
+            "da": "minutter",
+            "sv": "minuter"
+          },
+          "hint": {
+            "en": "How long a temperature set in Homey overrides the Niko program (max. 1439).",
+            "nl": "Hoelang een temperatuur die in Homey is ingesteld het Niko-programma overschrijft (max. 1439).",
+            "fr": "Durée pendant laquelle une température réglée dans Homey remplace le programme Niko (max. 1439).",
+            "da": "Hvor længe en temperatur indstillet i Homey tilsidesætter Niko-programmet (maks. 1439).",
+            "sv": "Hur länge en temperatur som ställts in i Homey åsidosätter Niko-programmet (max. 1439)."
+          }
+        }
+      ]
     }
   ],
   "flow": {
@@ -800,6 +949,37 @@
             }
           }
         ]
+      },
+      {
+        "id": "niko_program_changed",
+        "title": {
+          "en": "The program changed",
+          "nl": "Het programma is gewijzigd",
+          "fr": "Le programme a changé",
+          "da": "Programmet er ændret",
+          "sv": "Programmet har ändrats"
+        },
+        "tokens": [
+          {
+            "name": "niko_program",
+            "type": "string",
+            "title": {
+              "en": "Program",
+              "nl": "Programma",
+              "fr": "Programme",
+              "da": "Program",
+              "sv": "Program"
+            },
+            "example": "Day"
+          }
+        ],
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=thermostat"
+          }
+        ]
       }
     ],
     "conditions": [
@@ -847,6 +1027,78 @@
             }
           }
         ]
+      },
+      {
+        "id": "program_is",
+        "title": {
+          "en": "The program !{{is|isn't}}",
+          "nl": "Het programma !{{is|is niet}}",
+          "fr": "Le programme !{{est|n'est pas}}",
+          "da": "Programmet !{{er|er ikke}}",
+          "sv": "Programmet !{{är|är inte}}"
+        },
+        "titleFormatted": {
+          "en": "The program !{{is|isn't}} [[program]]",
+          "nl": "Het programma !{{is|is niet}} [[program]]",
+          "fr": "Le programme !{{est|n'est pas}} [[program]]",
+          "da": "Programmet !{{er|er ikke}} [[program]]",
+          "sv": "Programmet !{{är|är inte}} [[program]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=thermostat"
+          },
+          {
+            "name": "program",
+            "type": "autocomplete",
+            "title": {
+              "en": "Program",
+              "nl": "Programma",
+              "fr": "Programme",
+              "da": "Program",
+              "sv": "Program"
+            }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "set_program",
+        "title": {
+          "en": "Set the program",
+          "nl": "Stel het programma in",
+          "fr": "Définir le programme",
+          "da": "Indstil programmet",
+          "sv": "Ställ in programmet"
+        },
+        "titleFormatted": {
+          "en": "Set the program to [[program]]",
+          "nl": "Stel het programma in op [[program]]",
+          "fr": "Définir le programme sur [[program]]",
+          "da": "Indstil programmet til [[program]]",
+          "sv": "Ställ in programmet på [[program]]"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=thermostat"
+          },
+          {
+            "name": "program",
+            "type": "autocomplete",
+            "title": {
+              "en": "Program",
+              "nl": "Programma",
+              "fr": "Programme",
+              "da": "Program",
+              "sv": "Program"
+            }
+          }
+        ]
       }
     ]
   },
@@ -873,6 +1125,169 @@
       },
       "min": 0,
       "max": 365
+    },
+    "niko_demand": {
+      "type": "enum",
+      "title": {
+        "en": "Demand",
+        "nl": "Vraag",
+        "fr": "Demande",
+        "da": "Behov",
+        "sv": "Behov"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "values": [
+        {
+          "id": "Heating",
+          "title": {
+            "en": "Heating",
+            "nl": "Verwarmen",
+            "fr": "Chauffage",
+            "da": "Opvarmning",
+            "sv": "Värme"
+          }
+        },
+        {
+          "id": "Cooling",
+          "title": {
+            "en": "Cooling",
+            "nl": "Koelen",
+            "fr": "Refroidissement",
+            "da": "Køling",
+            "sv": "Kyla"
+          }
+        },
+        {
+          "id": "None",
+          "title": {
+            "en": "Idle",
+            "nl": "Inactief",
+            "fr": "Inactif",
+            "da": "Inaktiv",
+            "sv": "Inaktiv"
+          }
+        }
+      ]
+    },
+    "niko_eco_save": {
+      "type": "boolean",
+      "title": {
+        "en": "Eco save",
+        "nl": "Eco-besparing",
+        "fr": "Économie éco",
+        "da": "Eco-besparelse",
+        "sv": "Eco-besparing"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "toggle"
+    },
+    "niko_program": {
+      "type": "enum",
+      "title": {
+        "en": "Program",
+        "nl": "Programma",
+        "fr": "Programme",
+        "da": "Program",
+        "sv": "Program"
+      },
+      "getable": true,
+      "setable": true,
+      "uiComponent": "picker",
+      "values": [
+        {
+          "id": "Day",
+          "title": {
+            "en": "Day",
+            "nl": "Dag",
+            "fr": "Jour",
+            "da": "Dag",
+            "sv": "Dag"
+          }
+        },
+        {
+          "id": "Night",
+          "title": {
+            "en": "Night",
+            "nl": "Nacht",
+            "fr": "Nuit",
+            "da": "Nat",
+            "sv": "Natt"
+          }
+        },
+        {
+          "id": "Eco",
+          "title": {
+            "en": "Eco",
+            "nl": "Eco",
+            "fr": "Éco",
+            "da": "Eco",
+            "sv": "Eco"
+          }
+        },
+        {
+          "id": "Cool",
+          "title": {
+            "en": "Cool",
+            "nl": "Koelen",
+            "fr": "Refroidir",
+            "da": "Køling",
+            "sv": "Kyla"
+          }
+        },
+        {
+          "id": "Custom",
+          "title": {
+            "en": "Custom",
+            "nl": "Aangepast",
+            "fr": "Personnalisé",
+            "da": "Brugerdefineret",
+            "sv": "Anpassad"
+          }
+        },
+        {
+          "id": "Prog1",
+          "title": {
+            "en": "Program 1",
+            "nl": "Programma 1",
+            "fr": "Programme 1",
+            "da": "Program 1",
+            "sv": "Program 1"
+          }
+        },
+        {
+          "id": "Prog2",
+          "title": {
+            "en": "Program 2",
+            "nl": "Programma 2",
+            "fr": "Programme 2",
+            "da": "Program 2",
+            "sv": "Program 2"
+          }
+        },
+        {
+          "id": "Prog3",
+          "title": {
+            "en": "Program 3",
+            "nl": "Programma 3",
+            "fr": "Programme 3",
+            "da": "Program 3",
+            "sv": "Program 3"
+          }
+        },
+        {
+          "id": "Off",
+          "title": {
+            "en": "Off",
+            "nl": "Uit",
+            "fr": "Arrêt",
+            "da": "Fra",
+            "sv": "Av"
+          }
+        }
+      ]
     }
   },
   "discovery": {

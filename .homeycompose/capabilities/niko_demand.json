@@ -1,0 +1,33 @@
+{
+  "type": "enum",
+  "title": { "en": "Demand", "nl": "Vraag", "fr": "Demande", "da": "Behov", "sv": "Behov" },
+  "getable": true,
+  "setable": false,
+  "uiComponent": "sensor",
+  "values": [
+    {
+      "id": "Heating",
+      "title": {
+        "en": "Heating",
+        "nl": "Verwarmen",
+        "fr": "Chauffage",
+        "da": "Opvarmning",
+        "sv": "Värme"
+      }
+    },
+    {
+      "id": "Cooling",
+      "title": {
+        "en": "Cooling",
+        "nl": "Koelen",
+        "fr": "Refroidissement",
+        "da": "Køling",
+        "sv": "Kyla"
+      }
+    },
+    {
+      "id": "None",
+      "title": { "en": "Idle", "nl": "Inactief", "fr": "Inactif", "da": "Inaktiv", "sv": "Inaktiv" }
+    }
+  ]
+}

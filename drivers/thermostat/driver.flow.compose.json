@@ -1,0 +1,92 @@
+{
+  "triggers": [
+    {
+      "id": "niko_program_changed",
+      "title": {
+        "en": "The program changed",
+        "nl": "Het programma is gewijzigd",
+        "fr": "Le programme a changé",
+        "da": "Programmet er ændret",
+        "sv": "Programmet har ändrats"
+      },
+      "tokens": [
+        {
+          "name": "niko_program",
+          "type": "string",
+          "title": {
+            "en": "Program",
+            "nl": "Programma",
+            "fr": "Programme",
+            "da": "Program",
+            "sv": "Program"
+          },
+          "example": "Day"
+        }
+      ]
+    }
+  ],
+  "conditions": [
+    {
+      "id": "program_is",
+      "title": {
+        "en": "The program !{{is|isn't}}",
+        "nl": "Het programma !{{is|is niet}}",
+        "fr": "Le programme !{{est|n'est pas}}",
+        "da": "Programmet !{{er|er ikke}}",
+        "sv": "Programmet !{{är|är inte}}"
+      },
+      "titleFormatted": {
+        "en": "The program !{{is|isn't}} [[program]]",
+        "nl": "Het programma !{{is|is niet}} [[program]]",
+        "fr": "Le programme !{{est|n'est pas}} [[program]]",
+        "da": "Programmet !{{er|er ikke}} [[program]]",
+        "sv": "Programmet !{{är|är inte}} [[program]]"
+      },
+      "args": [
+        {
+          "name": "program",
+          "type": "autocomplete",
+          "title": {
+            "en": "Program",
+            "nl": "Programma",
+            "fr": "Programme",
+            "da": "Program",
+            "sv": "Program"
+          }
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "set_program",
+      "title": {
+        "en": "Set the program",
+        "nl": "Stel het programma in",
+        "fr": "Définir le programme",
+        "da": "Indstil programmet",
+        "sv": "Ställ in programmet"
+      },
+      "titleFormatted": {
+        "en": "Set the program to [[program]]",
+        "nl": "Stel het programma in op [[program]]",
+        "fr": "Définir le programme sur [[program]]",
+        "da": "Indstil programmet til [[program]]",
+        "sv": "Ställ in programmet på [[program]]"
+      },
+      "args": [
+        {
+          "name": "program",
+          "type": "autocomplete",
+          "title": {
+            "en": "Program",
+            "nl": "Programma",
+            "fr": "Programme",
+            "da": "Program",
+            "sv": "Program"
+          }
+        }
+      ]
+    }
+  ]
+}

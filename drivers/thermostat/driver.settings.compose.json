@@ -1,0 +1,30 @@
+[
+  {
+    "id": "overruleMinutes",
+    "type": "number",
+    "label": {
+      "en": "Manual temperature duration",
+      "nl": "Duur handmatige temperatuur",
+      "fr": "Durée de la température manuelle",
+      "da": "Varighed af manuel temperatur",
+      "sv": "Varaktighet för manuell temperatur"
+    },
+    "value": 240,
+    "min": 1,
+    "max": 1439,
+    "units": {
+      "en": "minutes",
+      "nl": "minuten",
+      "fr": "minutes",
+      "da": "minutter",
+      "sv": "minuter"
+    },
+    "hint": {
+      "en": "How long a temperature set in Homey overrides the Niko program (max. 1439).",
+      "nl": "Hoelang een temperatuur die in Homey is ingesteld het Niko-programma overschrijft (max. 1439).",
+      "fr": "Durée pendant laquelle une température réglée dans Homey remplace le programme Niko (max. 1439).",
+      "da": "Hvor længe en temperatur indstillet i Homey tilsidesætter Niko-programmet (maks. 1439).",
+      "sv": "Hur länge en temperatur som ställts in i Homey åsidosätter Niko-programmet (max. 1439)."
+    }
+  }
+]

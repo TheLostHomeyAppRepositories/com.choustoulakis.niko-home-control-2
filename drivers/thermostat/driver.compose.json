@@ -1,0 +1,86 @@
+{
+  "name": {
+    "en": "Thermostat",
+    "nl": "Thermostaat",
+    "fr": "Thermostat",
+    "da": "Termostat",
+    "sv": "Termostat"
+  },
+  "class": "thermostat",
+  "capabilities": [
+    "target_temperature",
+    "measure_temperature",
+    "thermostat_mode",
+    "niko_program",
+    "niko_demand",
+    "niko_eco_save",
+    "fan_mode"
+  ],
+  "capabilitiesOptions": {
+    "target_temperature": { "min": 5, "max": 30, "step": 0.5 },
+    "thermostat_mode": {
+      "values": [
+        {
+          "id": "heat",
+          "title": {
+            "en": "Heat",
+            "nl": "Verwarmen",
+            "fr": "Chauffage",
+            "da": "Varme",
+            "sv": "Värme"
+          }
+        },
+        {
+          "id": "cool",
+          "title": {
+            "en": "Cool",
+            "nl": "Koelen",
+            "fr": "Refroidissement",
+            "da": "Køling",
+            "sv": "Kyla"
+          }
+        },
+        {
+          "id": "off",
+          "title": { "en": "Off", "nl": "Uit", "fr": "Arrêt", "da": "Fra", "sv": "Av" }
+        }
+      ]
+    },
+    "fan_mode": {
+      "values": [
+        {
+          "id": "Low",
+          "title": { "en": "Low", "nl": "Laag", "fr": "Faible", "da": "Lav", "sv": "Låg" }
+        },
+        {
+          "id": "Medium",
+          "title": { "en": "Medium", "nl": "Middel", "fr": "Moyen", "da": "Mellem", "sv": "Medel" }
+        },
+        {
+          "id": "High",
+          "title": { "en": "High", "nl": "Hoog", "fr": "Élevé", "da": "Høj", "sv": "Hög" }
+        }
+      ]
+    }
+  },
+  "platforms": ["local"],
+  "connectivity": ["lan"],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

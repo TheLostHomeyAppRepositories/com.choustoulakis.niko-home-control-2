@@ -19,12 +19,16 @@
     "sendFailed": "Impossible d'envoyer la commande à l'unité de contrôle Niko Home Control. Vérifiez la connexion et réessayez.",
     "misconfigured": "L'appareil est mal configuré, veuillez le recréer.",
     "incorrectState": "L'appareil a reçu un état incorrect. Veuillez signaler ce problème.",
-    "sensorUnavailable": "L'appareil présente un problème."
+    "sensorUnavailable": "L'appareil présente un problème.",
+    "hvacOffline": "L'unité de chauffage/refroidissement est hors ligne."
   },
   "reminder": {
     "expiresWithinDay": "Le jeton Hobby API Niko de **__name__** expire **dans moins d'un jour**. Renouvelez-le dans le logiciel de programmation Niko Home Control.",
     "expiresInOneDay": "Le jeton Hobby API Niko de **__name__** expire **dans 1 jour**. Renouvelez-le dans le logiciel de programmation Niko Home Control.",
     "expiresInDays": "Le jeton Hobby API Niko de **__name__** expire **dans __days__ jours**. Renouvelez-le dans le logiciel de programmation Niko Home Control.",
     "expired": "Le jeton Hobby API Niko de **__name__** a expiré. Saisissez un nouveau jeton dans ses paramètres pour vous reconnecter."
+  },
+  "thermostat": {
+    "programNotSupported": "Ce thermostat ne prend pas en charge le programme « __program__ »."
   }
 }

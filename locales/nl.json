@@ -19,12 +19,16 @@
     "sendFailed": "Het commando kon niet naar de Niko Home Control-controller worden verzonden. Controleer de verbinding en probeer het opnieuw.",
     "misconfigured": "Het apparaat is verkeerd geconfigureerd, maak het opnieuw aan.",
     "incorrectState": "Het apparaat heeft een ongeldige status ontvangen. Meld dit probleem.",
-    "sensorUnavailable": "Er is iets mis met het apparaat."
+    "sensorUnavailable": "Er is iets mis met het apparaat.",
+    "hvacOffline": "De verwarmings-/koelingsunit is offline."
   },
   "reminder": {
     "expiresWithinDay": "Het Niko Hobby API-token van **__name__** verloopt **binnen een dag**. Vernieuw het in de Niko Home Control-programmeersoftware.",
     "expiresInOneDay": "Het Niko Hobby API-token van **__name__** verloopt **over 1 dag**. Vernieuw het in de Niko Home Control-programmeersoftware.",
     "expiresInDays": "Het Niko Hobby API-token van **__name__** verloopt **over __days__ dagen**. Vernieuw het in de Niko Home Control-programmeersoftware.",
     "expired": "Het Niko Hobby API-token van **__name__** is verlopen. Vul een nieuw token in bij de instellingen om opnieuw te verbinden."
+  },
+  "thermostat": {
+    "programNotSupported": "Deze thermostaat ondersteunt het programma \"__program__\" niet."
   }
 }
