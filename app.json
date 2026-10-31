@@ -543,6 +543,44 @@
     },
     {
       "name": {
+        "en": "Virtual flag",
+        "nl": "Virtuele vlag",
+        "fr": "Drapeau virtuel",
+        "da": "Virtuelt flag",
+        "sv": "Virtuell flagga"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/flag/assets/images/small.png",
+        "large": "/drivers/flag/assets/images/large.png",
+        "xlarge": "/drivers/flag/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "flag"
+    },
+    {
+      "name": {
         "en": "Switching Module",
         "nl": "Schakelmodule",
         "fr": "Module de commutation",
