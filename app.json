@@ -742,6 +742,7 @@
       },
       "class": "thermostat",
       "capabilities": [
+        "onoff",
         "target_temperature",
         "measure_temperature",
         "thermostat_mode",
@@ -757,35 +758,32 @@
           "step": 0.5
         },
         "thermostat_mode": {
+          "title": {
+            "en": "Operation mode",
+            "nl": "Werkingsmodus",
+            "fr": "Mode de fonctionnement",
+            "da": "Driftstilstand",
+            "sv": "Driftläge"
+          },
           "values": [
             {
               "id": "heat",
               "title": {
-                "en": "Heat",
+                "en": "Heating",
                 "nl": "Verwarmen",
                 "fr": "Chauffage",
-                "da": "Varme",
+                "da": "Opvarmning",
                 "sv": "Värme"
               }
             },
             {
               "id": "cool",
               "title": {
-                "en": "Cool",
+                "en": "Cooling",
                 "nl": "Koelen",
                 "fr": "Refroidissement",
                 "da": "Køling",
                 "sv": "Kyla"
-              }
-            },
-            {
-              "id": "off",
-              "title": {
-                "en": "Off",
-                "nl": "Uit",
-                "fr": "Arrêt",
-                "da": "Fra",
-                "sv": "Av"
               }
             }
           ]
@@ -805,11 +803,11 @@
             {
               "id": "Medium",
               "title": {
-                "en": "Medium",
-                "nl": "Middel",
-                "fr": "Moyen",
-                "da": "Mellem",
-                "sv": "Medel"
+                "en": "Normal",
+                "nl": "Normaal",
+                "fr": "Normal",
+                "da": "Normal",
+                "sv": "Normal"
               }
             },
             {
@@ -822,7 +820,23 @@
                 "sv": "Hög"
               }
             }
-          ]
+          ],
+          "title": {
+            "en": "Fan speed",
+            "nl": "Ventilatorsnelheid",
+            "fr": "Vitesse du ventilateur",
+            "da": "Blæserhastighed",
+            "sv": "Fläkthastighet"
+          }
+        },
+        "onoff": {
+          "title": {
+            "en": "Power",
+            "nl": "Aan/uit",
+            "fr": "Marche/arrêt",
+            "da": "Tænd/sluk",
+            "sv": "På/av"
+          }
         }
       },
       "platforms": [
@@ -1096,6 +1110,58 @@
               "fr": "Programme",
               "da": "Program",
               "sv": "Program"
+            }
+          }
+        ]
+      },
+      {
+        "id": "set_temperature_for",
+        "title": {
+          "en": "Set the temperature for a time",
+          "nl": "Stel de temperatuur in voor een tijd",
+          "fr": "Régler la température pour une durée",
+          "da": "Indstil temperaturen i en periode",
+          "sv": "Ställ in temperaturen under en tid"
+        },
+        "titleFormatted": {
+          "en": "Set the temperature to [[temperature]] °C for [[minutes]] minutes",
+          "nl": "Stel de temperatuur in op [[temperature]] °C voor [[minutes]] minuten",
+          "fr": "Régler la température à [[temperature]] °C pendant [[minutes]] minutes",
+          "da": "Indstil temperaturen til [[temperature]] °C i [[minutes]] minutter",
+          "sv": "Ställ in temperaturen på [[temperature]] °C i [[minutes]] minuter"
+        },
+        "args": [
+          {
+            "type": "device",
+            "name": "device",
+            "filter": "driver_id=thermostat"
+          },
+          {
+            "name": "temperature",
+            "type": "number",
+            "min": 5,
+            "max": 30,
+            "step": 0.5,
+            "title": {
+              "en": "Temperature",
+              "nl": "Temperatuur",
+              "fr": "Température",
+              "da": "Temperatur",
+              "sv": "Temperatur"
+            }
+          },
+          {
+            "name": "minutes",
+            "type": "number",
+            "min": 1,
+            "max": 1439,
+            "step": 1,
+            "title": {
+              "en": "Minutes",
+              "nl": "Minuten",
+              "fr": "Minutes",
+              "da": "Minutter",
+              "sv": "Minuter"
             }
           }
         ]

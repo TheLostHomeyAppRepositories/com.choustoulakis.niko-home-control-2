@@ -60,7 +60,6 @@ export enum NikoProperty {
   ELECTRICAL_MONTHLY_PEAK_POWER_FROM_GRID = 'ElectricalMonthlyPeakPowerFromGrid',
   OPERATION_MODE = 'OperationMode',
   THERMOSTAT_ON = 'ThermostatOn',
-  HVAC_ON = 'HvacOn',
 }
 
 export enum NikoTechnology {
@@ -211,7 +210,6 @@ export interface ThermostatMqttDevice extends NikoMqttDevice {
     { [NikoProperty.OPERATION_MODE]: NikoOperationMode }, // HVAC variants
     { [NikoProperty.FAN_SPEED]: NikoHvacFanSpeed }, // HVAC variants
     { [NikoProperty.THERMOSTAT_ON]: NikoOnOff }, // HVAC variants
-    { [NikoProperty.HVAC_ON]: NikoOnOff }, // HVAC variants, read-only: indoor unit online
   ];
 }
 

@@ -35,10 +35,6 @@ export function getPropertyDefinition(
   return definitions.find((definition) => property in definition)?.[property];
 }
 
-export function canControl(device: NikoMqttDevice, property: NikoProperty): boolean {
-  return getPropertyDefinition(device, property)?.CanControl === 'true';
-}
-
 // e.g. "Range(5.00,30.00,0.50)"
 export function parseRange(
   definition: NikoPropertyDefinition | undefined,

@@ -8,21 +8,17 @@ import {
   NikoSetpoint,
   ThermostatMqttDevice,
 } from '../../src/niko/NikoTypes';
-import {
-  canControl,
-  getPropertyDefinition,
-  parseChoice,
-  parseRange,
-} from '../../src/niko/NikoProperties';
+import { getPropertyDefinition, parseChoice, parseRange } from '../../src/niko/NikoProperties';
 
 const DEFAULT_OVERRULE_MINUTES = 240;
-type ThermostatMode = 'heat' | 'cool' | 'off';
+type OperationMode = 'heat' | 'cool';
 type ProgramValue = { id: NikoProgram; title: Record<string, string> };
 
 const CAPABILITY_REQUIRES_ANY_OF: Record<string, NikoProperty[]> = {
   target_temperature: [NikoProperty.OVERRULE_SETPOINT],
   measure_temperature: [NikoProperty.AMBIENT_TEMPERATURE],
-  thermostat_mode: [NikoProperty.OPERATION_MODE, NikoProperty.THERMOSTAT_ON],
+  onoff: [NikoProperty.THERMOSTAT_ON],
+  thermostat_mode: [NikoProperty.OPERATION_MODE],
   niko_program: [NikoProperty.PROGRAM],
   niko_demand: [NikoProperty.DEMAND],
   niko_eco_save: [NikoProperty.ECO_SAVE],
@@ -44,8 +40,11 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
   async onInit(): Promise<void> {
     await super.onInit();
     await this.configureCapabilities();
-    this.registerCapabilityListener('target_temperature', this.onTargetTemperature);
-    this.registerCapabilityListener('thermostat_mode', this.onThermostatMode);
+    this.registerCapabilityListener('onoff', this.onPower);
+    this.registerCapabilityListener('target_temperature', (temperature: number) =>
+      this.setTemperature(temperature),
+    );
+    this.registerCapabilityListener('thermostat_mode', this.onOperationMode);
     this.registerCapabilityListener('niko_program', (program: NikoProgram) =>
       this.setProgram(program),
     );
@@ -106,11 +105,13 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
   }
 
   // Niko's setpoint is read-only, so a temperature set in Homey is a time-limited override.
-  private onTargetTemperature = async (temperature: number) => {
+  async setTemperature(
+    temperature: number,
+    minutes = Number(this.getSetting('overruleMinutes')) || DEFAULT_OVERRULE_MINUTES,
+  ): Promise<void> {
     const step =
       parseRange(getPropertyDefinition(this.device, NikoProperty.OVERRULE_SETPOINT))?.step ?? 0.5;
     const setpoint = String(Math.round(temperature / step) * step) as NikoSetpoint;
-    const minutes = Number(this.getSetting('overruleMinutes')) || DEFAULT_OVERRULE_MINUTES;
     const overruleTime: NikoOverruleTime =
       `${Math.min(1439, Math.max(1, Math.round(minutes)))}` as const;
     this.setNikoDeviceProps([
@@ -118,16 +119,14 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
       { [NikoProperty.OVERRULE_TIME]: overruleTime },
       { [NikoProperty.OVERRULE_ACTIVE]: 'True' },
     ]);
+  }
+
+  private onPower = async (on: boolean) => {
+    this.setNikoDeviceProps([{ [NikoProperty.THERMOSTAT_ON]: on ? 'On' : 'Off' }]);
   };
 
-  private onThermostatMode = async (mode: ThermostatMode) => {
-    const canSwitch = canControl(this.device, NikoProperty.THERMOSTAT_ON);
-    if (mode === 'off') {
-      if (canSwitch) this.setNikoDeviceProps([{ [NikoProperty.THERMOSTAT_ON]: 'Off' }]);
-      return;
-    }
+  private onOperationMode = async (mode: OperationMode) => {
     this.setNikoDeviceProps([
-      ...(canSwitch ? [{ [NikoProperty.THERMOSTAT_ON]: 'On' as const }] : []),
       { [NikoProperty.OPERATION_MODE]: mode === 'heat' ? 'Heating' : 'Cooling' },
     ]);
   };
@@ -141,9 +140,7 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
   };
 
   async updateStatus(): Promise<void> {
-    if (this.getProperty(NikoProperty.HVAC_ON) === 'Off') {
-      return this.setUnavailable(this.homey.__('device.hvacOffline'));
-    }
+    // HvacOn is documented as "indoor unit online", but it follows ThermostatOn: not an availability signal.
     await this.setAvailable();
 
     const ambient = toNumber(this.getProperty(NikoProperty.AMBIENT_TEMPERATURE));
@@ -162,7 +159,12 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
       await this.setCapabilityValue('target_temperature', setpoint);
     }
 
-    const mode = this.getThermostatMode();
+    const power = this.getProperty(NikoProperty.THERMOSTAT_ON);
+    if (power && this.hasCapability('onoff')) {
+      await this.setCapabilityValue('onoff', power === 'On');
+    }
+
+    const mode = this.getOperationMode();
     if (mode && this.hasCapability('thermostat_mode')) {
       await this.setCapabilityValue('thermostat_mode', mode);
     }
@@ -188,8 +190,7 @@ export class NikoThermostatDevice extends NikoDevice<ThermostatMqttDevice> {
     }
   }
 
-  private getThermostatMode(): ThermostatMode | undefined {
-    if (this.getProperty(NikoProperty.THERMOSTAT_ON) === 'Off') return 'off';
+  private getOperationMode(): OperationMode | undefined {
     const operationMode = this.getProperty(NikoProperty.OPERATION_MODE);
     if (operationMode === 'Heating') return 'heat';
     if (operationMode === 'Cooling') return 'cool';

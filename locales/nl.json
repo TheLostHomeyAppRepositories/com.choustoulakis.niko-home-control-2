@@ -19,8 +19,7 @@
     "sendFailed": "Het commando kon niet naar de Niko Home Control-controller worden verzonden. Controleer de verbinding en probeer het opnieuw.",
     "misconfigured": "Het apparaat is verkeerd geconfigureerd, maak het opnieuw aan.",
     "incorrectState": "Het apparaat heeft een ongeldige status ontvangen. Meld dit probleem.",
-    "sensorUnavailable": "Er is iets mis met het apparaat.",
-    "hvacOffline": "De verwarmings-/koelingsunit is offline."
+    "sensorUnavailable": "Er is iets mis met het apparaat."
   },
   "reminder": {
     "expiresWithinDay": "Het Niko Hobby API-token van **__name__** verloopt **binnen een dag**. Vernieuw het in de Niko Home Control-programmeersoftware.",

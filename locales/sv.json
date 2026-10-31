@@ -19,8 +19,7 @@
     "sendFailed": "Kommandot kunde inte skickas till Niko Home Control-kontrollenheten. Kontrollera anslutningen och försök igen.",
     "misconfigured": "Enheten är felkonfigurerad, skapa den igen.",
     "incorrectState": "Enheten tog emot ett felaktigt tillstånd. Rapportera gärna problemet.",
-    "sensorUnavailable": "Något är fel med enheten.",
-    "hvacOffline": "Värme-/kylenheten är offline."
+    "sensorUnavailable": "Något är fel med enheten."
   },
   "reminder": {
     "expiresWithinDay": "Niko Hobby API-token för **__name__** löper ut **inom ett dygn**. Förnya den i programmeringsprogramvaran för Niko Home Control.",

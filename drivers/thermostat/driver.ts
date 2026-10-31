@@ -2,6 +2,7 @@ import { DevicePairingData, NikoDriver } from '../../src/NikoDriver';
 import { NikoModel, NikoProgram, NikoType } from '../../src/niko/NikoTypes';
 import type { NikoThermostatDevice } from './device';
 
+type TemperatureArgs = { device: NikoThermostatDevice; temperature: number; minutes: number };
 type ProgramArgs = { device: NikoThermostatDevice; program: { id: NikoProgram; name: string } };
 
 class NikoThermostatDriver extends NikoDriver {
@@ -22,6 +23,12 @@ class NikoThermostatDriver extends NikoDriver {
       .getActionCard('set_program')
       .registerRunListener(async (args: ProgramArgs) => args.device.setProgram(args.program.id))
       .registerArgumentAutocompleteListener('program', autocomplete);
+
+    this.homey.flow
+      .getActionCard('set_temperature_for')
+      .registerRunListener(async (args: TemperatureArgs) =>
+        args.device.setTemperature(args.temperature, args.minutes),
+      );
   }
 
   async onPairListDevices(): Promise<DevicePairingData[]> {
