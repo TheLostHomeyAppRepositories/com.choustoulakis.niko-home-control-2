@@ -1,6 +1,6 @@
 import { NikoDevice } from '../../src/NikoDevice';
 
-import { MotorMqttDevice, NikoProperty, NikoRange } from '../connected-controller/NikoTypes';
+import { MotorMqttDevice, NikoProperty, NikoRange } from '../../src/niko/NikoTypes';
 
 class NikoMotor extends NikoDevice<MotorMqttDevice> {
   async onInit(): Promise<void> {

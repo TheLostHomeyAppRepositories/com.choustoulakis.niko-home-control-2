@@ -1,6 +1,6 @@
 import { NikoDevice } from '../../src/NikoDevice';
 
-import { FanMqttDevice, NikoProperty } from '../connected-controller/NikoTypes';
+import { FanMqttDevice, NikoProperty } from '../../src/niko/NikoTypes';
 
 class NikoFanDevice extends NikoDevice<FanMqttDevice> {
   async onInit(): Promise<void> {

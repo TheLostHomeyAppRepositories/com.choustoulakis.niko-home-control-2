@@ -1,9 +1,9 @@
 import Homey from 'homey';
 import { ConnectedControllerDevice } from '../drivers/connected-controller/device';
 import { clearInterval } from 'node:timers';
-import { NikoDeviceWithOwner } from '../drivers/connected-controller/NikoMqttClient';
+import { NikoDeviceWithOwner } from './niko/NikoMqttClient';
 
-import { NikoMqttDevice } from '../drivers/connected-controller/NikoTypes';
+import { NikoMqttDevice } from './niko/NikoTypes';
 import { DeviceStore } from './NikoDriver';
 
 type KeysOfUnion<T> = T extends T ? keyof T : never;

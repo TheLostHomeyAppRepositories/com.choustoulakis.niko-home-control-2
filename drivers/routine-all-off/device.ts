@@ -1,6 +1,6 @@
 import { NikoDevice } from '../../src/NikoDevice';
 
-import { AllOffMqttDevice, NikoProperty } from '../connected-controller/NikoTypes';
+import { AllOffMqttDevice, NikoProperty } from '../../src/niko/NikoTypes';
 
 class AllOffDevice extends NikoDevice<AllOffMqttDevice> {
   async onInit(): Promise<void> {

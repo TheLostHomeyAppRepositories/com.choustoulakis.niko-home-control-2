@@ -1,6 +1,6 @@
 import { connect, IClientOptions, MqttClient } from 'mqtt';
 import { EventEmitter } from 'events';
-import { ConnectedControllerSettings } from './driver';
+import { ConnectedControllerSettings } from '../../drivers/connected-controller/driver';
 import Homey from 'homey/lib/Homey';
 import { Device } from 'homey';
 import { NikoMqttDevice, NikoModel, NikoProperty, NikoType } from './NikoTypes';

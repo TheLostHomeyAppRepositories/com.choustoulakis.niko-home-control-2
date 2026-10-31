@@ -1,5 +1,5 @@
 import { DevicePairingData, NikoDriver } from '../../src/NikoDriver';
-import { NikoModel, NikoType } from '../connected-controller/NikoTypes';
+import { NikoModel, NikoType } from '../../src/niko/NikoTypes';
 
 class NikoLightDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {

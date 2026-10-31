@@ -1,6 +1,6 @@
 import { NikoDevice } from '../../src/NikoDevice';
 
-import { DimmerMqttDevice, NikoProperty, NikoRange } from '../connected-controller/NikoTypes';
+import { DimmerMqttDevice, NikoProperty, NikoRange } from '../../src/niko/NikoTypes';
 
 class NikoDimmer extends NikoDevice<DimmerMqttDevice> {
   async onInit(): Promise<void> {

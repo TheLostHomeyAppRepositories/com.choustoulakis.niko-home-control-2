@@ -1,5 +1,5 @@
 import { NikoDevice } from '../NikoDevice';
-import { NikoProperty, ThermoMqttDevice } from '../../drivers/connected-controller/NikoTypes';
+import { NikoProperty, ThermoMqttDevice } from '../niko/NikoTypes';
 
 export class NikoComfortDevice extends NikoDevice<ThermoMqttDevice> {
   async onInit(): Promise<void> {

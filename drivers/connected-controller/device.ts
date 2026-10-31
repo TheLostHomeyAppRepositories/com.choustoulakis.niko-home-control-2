@@ -1,9 +1,13 @@
 import Homey from 'homey';
 import type DiscoveryStrategy from 'homey/lib/DiscoveryStrategy';
 import { ConnectedControllerSettings } from './driver';
-import { NikoClientState, NikoDeviceWithOwner, NikoMqttClient } from './NikoMqttClient';
+import {
+  NikoClientState,
+  NikoDeviceWithOwner,
+  NikoMqttClient,
+} from '../../src/niko/NikoMqttClient';
 import { clearInterval } from 'node:timers';
-import { NikoModel, NikoType } from './NikoTypes';
+import { NikoModel, NikoType } from '../../src/niko/NikoTypes';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
 

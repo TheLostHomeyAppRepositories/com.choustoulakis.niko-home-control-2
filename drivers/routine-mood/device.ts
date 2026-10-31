@@ -1,6 +1,6 @@
 import { NikoDevice } from '../../src/NikoDevice';
 
-import { MoodMqttDevice, NikoProperty } from '../connected-controller/NikoTypes';
+import { MoodMqttDevice, NikoProperty } from '../../src/niko/NikoTypes';
 
 class MoodDevice extends NikoDevice<MoodMqttDevice> {
   async onInit(): Promise<void> {

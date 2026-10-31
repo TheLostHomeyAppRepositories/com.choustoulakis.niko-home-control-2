@@ -1,6 +1,6 @@
 import { NikoDevice } from '../../src/NikoDevice';
 
-import { NikoModel, NikoProperty, RelayMqttDevice } from '../connected-controller/NikoTypes';
+import { NikoModel, NikoProperty, RelayMqttDevice } from '../../src/niko/NikoTypes';
 
 export class NikoLightDevice extends NikoDevice<RelayMqttDevice> {
   async onInit(): Promise<void> {

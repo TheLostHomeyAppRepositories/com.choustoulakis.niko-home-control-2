@@ -1,10 +1,7 @@
 import Homey from 'homey';
-import {
-  LegacyNikoDeviceWithOwner,
-  NikoDeviceWithOwner,
-} from '../drivers/connected-controller/NikoMqttClient';
+import { LegacyNikoDeviceWithOwner, NikoDeviceWithOwner } from './niko/NikoMqttClient';
 import { ConnectedControllerDevice } from '../drivers/connected-controller/device';
-import { NikoModel, NikoType } from '../drivers/connected-controller/NikoTypes';
+import { NikoModel, NikoType } from './niko/NikoTypes';
 
 export type DeviceGroup = {
   readonly types: NikoType;
