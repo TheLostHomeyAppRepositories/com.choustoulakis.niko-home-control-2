@@ -197,7 +197,11 @@ export class ConnectedControllerDevice extends Homey.Device {
     super.onDeleted();
   }
 
-  private onMqttStateChange = async (state: NikoClientState, message?: string) => {
+  private onMqttStateChange = (state: NikoClientState, message?: string) => {
+    this.handleMqttStateChange(state, message).catch(this.error);
+  };
+
+  private async handleMqttStateChange(state: NikoClientState, message?: string): Promise<void> {
     if (this.isUnloaded) return;
     switch (state) {
       case NikoClientState.CONNECTED:
@@ -213,7 +217,7 @@ export class ConnectedControllerDevice extends Homey.Device {
         break;
     }
     await this.updateDebugInfoAndSettings();
-  };
+  }
 
   getNikoByTypeAndModel(type: NikoType, models: NikoModel[]): NikoDeviceWithOwner[] {
     if (!this.getAvailable()) {

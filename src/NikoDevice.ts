@@ -21,7 +21,10 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
     this._device = device as K;
     this._connectedControllerId = connectedControllerId;
     this.homey.addListener(this._device.Uuid, this.onDeviceUpdate);
-    this.interval = this.homey.setInterval(this.updateDeviceAvailability, 30_000);
+    this.interval = this.homey.setInterval(
+      () => this.updateDeviceAvailability().catch(this.error),
+      30_000,
+    );
   }
 
   override getStore(): DeviceStore {
@@ -53,9 +56,9 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
       : undefined;
   }
 
-  private onDeviceUpdate = async (update: NikoDeviceWithOwner) => {
+  private onDeviceUpdate = (update: NikoDeviceWithOwner) => {
     this._device = update.device as K;
-    await this.updateStatus();
+    this.updateStatus().catch(this.error);
   };
 
   protected getConnectedController(): ConnectedControllerDevice | undefined {
@@ -96,7 +99,7 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
     super.onDeleted();
   }
 
-  private updateDeviceAvailability = async () => {
+  private async updateDeviceAvailability(): Promise<void> {
     const connectedController = this.getConnectedController();
     if (connectedController === undefined) {
       return this.setUnavailable('The Connected Controller no longer found.');
@@ -112,7 +115,7 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
       );
     }
     return this.updateStatus();
-  };
+  }
 
   private async resolveDeviceWithOwner(): Promise<NikoDeviceWithOwner> {
     const store = this.getStore();
