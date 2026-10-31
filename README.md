@@ -48,7 +48,10 @@ and [guide](https://guide.niko.eu/en/connhc2/lv/hobby-api) for details.
 
 ## Renewing the token
 
-The token expires after one year; the Connected Controller shows the remaining days. Renew it in the
+The token expires after one year. The Connected Controller shows the remaining days and adds a
+timeline notification 30, 7 and 1 days before it expires (turn on push for timeline notifications in
+Homey to get them on your phone). For your own Flows, use **The token expires within N days**
+(runs once a day) and the matching condition. Renew the token in the
 programming software (at the earliest one month before it expires) and paste the new token in the
 controller's settings. See Niko's
 [renewal FAQ](https://www.niko.eu/en/need-help/faq/niko-home-control-api/where-can-i-renew-the-hobby-api-token).
