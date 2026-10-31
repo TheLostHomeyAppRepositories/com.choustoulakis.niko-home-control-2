@@ -4,21 +4,19 @@ import { clearInterval } from 'node:timers';
 import { NikoDeviceWithOwner } from './niko/NikoMqttClient';
 
 import { NikoMqttDevice } from './niko/NikoTypes';
+import { NikoPropertyRecord, toPropertyRecord } from './niko/NikoProperties';
 import { DeviceStore } from './NikoDriver';
-
-type KeysOfUnion<T> = T extends T ? keyof T : never;
-type ValueOfKeyInUnion<T, K extends PropertyKey> = T extends Record<K, infer V> ? V : never;
-type PayloadProps<K extends NikoMqttDevice> = K['Properties'][number];
 
 export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device {
   private _connectedControllerId!: string;
   private _device!: K;
+  private _properties: NikoPropertyRecord<K> = {};
   private interval!: NodeJS.Timeout;
 
   async onInit(): Promise<void> {
     await super.onInit();
     const { connectedControllerId, device } = await this.resolveDeviceWithOwner();
-    this._device = device as K;
+    this.setDevice(device as K);
     this._connectedControllerId = connectedControllerId;
     this.homey.addListener(this._device.Uuid, this.onDeviceUpdate);
     this.interval = this.homey.setInterval(
@@ -37,27 +35,19 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
     return this._device;
   }
 
-  protected getProperty<TKey extends KeysOfUnion<PayloadProps<K>>>(
+  protected getProperty<TKey extends keyof NikoPropertyRecord<K>>(
     key: TKey,
-  ): ValueOfKeyInUnion<PayloadProps<K>, TKey> | undefined {
-    const properties = this.device.Properties;
+  ): NikoPropertyRecord<K>[TKey] {
+    return this._properties[key];
+  }
 
-    if (!Array.isArray(properties)) {
-      return undefined;
-    }
-
-    const statusProp = properties.find((prop) => Object.prototype.hasOwnProperty.call(prop, key));
-
-    return statusProp
-      ? ((statusProp as Record<string, any>)[key as string] as ValueOfKeyInUnion<
-          PayloadProps<K>,
-          TKey
-        >)
-      : undefined;
+  private setDevice(device: K): void {
+    this._device = device;
+    this._properties = toPropertyRecord<K>(device.Properties);
   }
 
   private onDeviceUpdate = (update: NikoDeviceWithOwner) => {
-    this._device = update.device as K;
+    this.setDevice(update.device as K);
     this.updateStatus().catch(this.error);
   };
 

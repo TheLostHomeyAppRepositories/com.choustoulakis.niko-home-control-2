@@ -1,7 +1,8 @@
 import { connect, IClientOptions, MqttClient } from 'mqtt';
 import { EventEmitter } from 'events';
 import type Homey from 'homey/lib/Homey';
-import { NikoMqttDevice, NikoModel, NikoProperty, NikoType } from './NikoTypes';
+import { NikoMqttDevice, NikoModel, NikoType } from './NikoTypes';
+import { mergeProperties } from './NikoProperties';
 
 export interface NikoConnectionSettings {
   ip: string;
@@ -282,18 +283,7 @@ export class NikoMqttClient extends EventEmitter {
             return;
           }
 
-          for (const prop of changedProps) {
-            const propKey = Object.keys(prop)[0] as NikoProperty;
-            const existingProp = device.Properties.find((p) =>
-              Object.prototype.hasOwnProperty.call(p, propKey),
-            );
-            if (existingProp) {
-              existingProp[propKey] = prop[propKey];
-            } else {
-              device.Properties.push(prop);
-            }
-          }
-
+          device.Properties = mergeProperties(device.Properties, changedProps);
           this.sendUpdate(device);
         });
       }
