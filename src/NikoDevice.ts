@@ -72,15 +72,21 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
   }
 
   /**
-   * Throws when the command cannot be sent, so Homey reports the failure to the user or Flow
-   * instead of showing a state the Niko installation never received.
+   * An offline or missing controller is expected (e.g. a user pressing a button while the
+   * installation is down), so mark the device unavailable instead of throwing. Throwing here
+   * would surface as an error notification in Homey and look like a bug.
    */
   protected setNikoDeviceProps(props: Partial<K['Properties'][number]>[]): void {
     const controller = this.getConnectedController();
     if (controller === undefined) {
-      throw new Error('The Connected Controller no longer found.');
+      this.setUnavailable('The Connected Controller no longer found.').catch(this.error);
+      return;
     }
-    controller.setDeviceProps(this._device.Uuid, props);
+    if (!controller.setDeviceProps(this._device.Uuid, props)) {
+      this.setUnavailable(
+        'Failed to send command to Niko Home Control Controller. Please check the connection and try again.',
+      ).catch(this.error);
+    }
   }
 
   onUninit(): Promise<void> {

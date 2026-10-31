@@ -234,14 +234,11 @@ export class ConnectedControllerDevice extends Homey.Device {
     }));
   }
 
-  setDeviceProps(uuid: string, props: NikoMqttDevice['Properties']): void {
-    const client = this.client;
-    if (!client || client.getState() !== NikoClientState.CONNECTED) {
-      throw new Error(
-        'Failed to send command to Niko Home Control Controller. Please check the connection and try again.',
-      );
-    }
-    client.setDeviceProps(uuid, props);
+  /**
+   * Returns false when the controller is offline, which is an expected state, not an error.
+   */
+  setDeviceProps(uuid: string, props: NikoMqttDevice['Properties']): boolean {
+    return this.client?.setDeviceProps(uuid, props) ?? false;
   }
 
   async updateDebugInfo(): Promise<void> {
