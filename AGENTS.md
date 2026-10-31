@@ -49,6 +49,10 @@ There is no automated test suite yet.
   Throws reach users as error notifications and look like bugs. Throw only for real bugs.
 - Async listeners and timers end with `.catch(this.error)`.
 - Keep Niko value types strict and aligned with the Hobby API documentation.
+- Languages: en, nl, fr, da, sv. Every user-facing string exists in all five: manifest strings in
+  the compose files, runtime strings in `locales/*.json` via `this.homey.__()`, store text in
+  `README.txt` + `README.<lang>.txt` (plain text, no URLs or Markdown). Niko product names follow
+  Niko's localized guide (guide.niko.eu). The debug report stays English.
 - Reconnects: mqtt.js retries network errors; the controller only recreates its client when there is
   none, the discovered IP changed, or authorization failed.
 - Public repo: no tokens or real installation data (device names, UUIDs) in commits.

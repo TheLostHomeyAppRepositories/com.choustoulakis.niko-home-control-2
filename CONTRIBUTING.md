@@ -31,7 +31,8 @@ Architecture, data flow and rules: see [AGENTS.md](AGENTS.md).
    - `driver.ts`: extends `NikoDriver`, lists the supported models
    - `device.ts`: extends `NikoDevice<XxxMqttDevice>`, implements `updateStatus()` and ends
      `onInit()` with `syncWithController()`
-4. Run `homey app validate` and commit the regenerated `app.json`.
+4. Translate every new string to en, nl, fr, da and sv (see AGENTS.md).
+5. Run `homey app validate` and commit the regenerated `app.json`.
 
 ## Compatibility
 
