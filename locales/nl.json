@@ -1,0 +1,30 @@
+{
+  "pair": {
+    "noController": "⚠️ Voeg eerst een Connected Controller toe."
+  },
+  "controller": {
+    "invalidIp": "Ongeldig IP-adres in de instellingen van het apparaat.",
+    "invalidPort": "Ongeldig poortnummer in de instellingen van het apparaat.",
+    "missingUsername": "De gebruikersnaam mag niet leeg zijn in de instellingen van het apparaat.",
+    "missingJwt": "Vul het token (JWT) in bij de instellingen van het apparaat.",
+    "jwtExpired": "Het token (JWT) is verlopen. Vul een geldig token in bij de instellingen van het apparaat.",
+    "authorizationFailed": "Autorisatie mislukt. Controleer het token in de instellingen van het apparaat.",
+    "disconnected": "Verbinding met de Niko Home Control-controller verbroken.",
+    "unknownError": "Er is een onbekende fout opgetreden in de verbinding met de Niko Home Control-controller."
+  },
+  "device": {
+    "controllerNotFound": "De Connected Controller is niet meer gevonden.",
+    "controllerOffline": "De Connected Controller is offline.",
+    "notInList": "De Connected Controller is online, maar dit apparaat is niet gevonden. Controleer de Niko Home Control-programmeersoftware.",
+    "sendFailed": "Het commando kon niet naar de Niko Home Control-controller worden verzonden. Controleer de verbinding en probeer het opnieuw.",
+    "misconfigured": "Het apparaat is verkeerd geconfigureerd, maak het opnieuw aan.",
+    "incorrectState": "Het apparaat heeft een ongeldige status ontvangen. Meld dit probleem.",
+    "sensorUnavailable": "Er is iets mis met het apparaat."
+  },
+  "reminder": {
+    "expiresWithinDay": "Het Niko Hobby API-token van **__name__** verloopt **binnen een dag**. Vernieuw het in de Niko Home Control-programmeersoftware.",
+    "expiresInOneDay": "Het Niko Hobby API-token van **__name__** verloopt **over 1 dag**. Vernieuw het in de Niko Home Control-programmeersoftware.",
+    "expiresInDays": "Het Niko Hobby API-token van **__name__** verloopt **over __days__ dagen**. Vernieuw het in de Niko Home Control-programmeersoftware.",
+    "expired": "Het Niko Hobby API-token van **__name__** is verlopen. Vul een nieuw token in bij de instellingen om opnieuw te verbinden."
+  }
+}

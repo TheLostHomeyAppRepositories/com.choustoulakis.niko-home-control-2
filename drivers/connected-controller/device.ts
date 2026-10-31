@@ -119,9 +119,7 @@ export class ConnectedControllerDevice extends Homey.Device {
 
     if (this.isJwtExpired()) {
       await this.updateDebugInfoAndSettings();
-      return await this.setUnavailable(
-        "The provided JWT has expired. Please enter a valid JWT in the device's settings menu.",
-      );
+      return await this.setUnavailable(this.homey.__('controller.jwtExpired'));
     }
 
     if (this.isUnloaded) return;
@@ -142,16 +140,16 @@ export class ConnectedControllerDevice extends Homey.Device {
     const ipRegex =
       /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
     if (!this.settings.ip || !ipRegex.test(this.settings.ip)) {
-      return "Invalid IP address in the device's settings menu.";
+      return this.homey.__('controller.invalidIp');
     }
     if (!this.settings.port || isNaN(this.settings.port)) {
-      return "Invalid port number in the device's settings menu.";
+      return this.homey.__('controller.invalidPort');
     }
     if (!this.settings.username || this.settings.username.trim() === '') {
-      return "Username cannot be empty in the device's settings menu.";
+      return this.homey.__('controller.missingUsername');
     }
     if (!this.settings.jwt || this.settings.jwt.trim() === '') {
-      return "Please enter the JWT in the device's settings menu.";
+      return this.homey.__('controller.missingJwt');
     }
   }
 
@@ -194,15 +192,15 @@ export class ConnectedControllerDevice extends Homey.Device {
     if (last?.expiresAt === expiresAt && last.stage <= stage) return;
     await this.setStoreValue('jwtReminder', { expiresAt, stage } satisfies JwtReminder);
 
-    const name = `**${this.getName()}**`;
-    const when =
-      remainingDays === 0
-        ? 'within a day'
-        : `in ${remainingDays} day${remainingDays === 1 ? '' : 's'}`;
+    const key = expired
+      ? 'reminder.expired'
+      : remainingDays === 0
+        ? 'reminder.expiresWithinDay'
+        : remainingDays === 1
+          ? 'reminder.expiresInOneDay'
+          : 'reminder.expiresInDays';
     await this.homey.notifications.createNotification({
-      excerpt: expired
-        ? `The Niko Hobby API token of ${name} has expired. Enter a new token in its settings to reconnect.`
-        : `The Niko Hobby API token of ${name} expires **${when}**. Renew it in the Niko Home Control programming software.`,
+      excerpt: this.homey.__(key, { name: this.getName(), days: remainingDays }),
     });
   }
 
@@ -310,11 +308,14 @@ export class ConnectedControllerDevice extends Homey.Device {
         await this.setAvailable();
         break;
       case NikoClientState.DISCONNECTED:
-        await this.setUnavailable('Disconnected from Niko Home Control Controller.');
+        await this.setUnavailable(this.homey.__('controller.disconnected'));
         break;
       case NikoClientState.ERROR:
+        // Network errors keep the technical MQTT message; the client has no access to translations.
         await this.setUnavailable(
-          message || 'An unknown error occurred with the Niko Home Control Controller connection.',
+          this.client?.isAuthorizationFailed()
+            ? this.homey.__('controller.authorizationFailed')
+            : message || this.homey.__('controller.unknownError'),
         );
         break;
     }

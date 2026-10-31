@@ -19,7 +19,7 @@ class AllOffDevice extends NikoDevice<AllOffMqttDevice> {
     const allActive = this.getProperty(NikoProperty.ALL_OFF_ACTIVE);
     const basicState = this.getProperty(NikoProperty.BASIC_STATE);
     if (!allActive || !basicState) {
-      return this.setUnavailable('Device is misconfigured, please re-create it.');
+      return this.setUnavailable(this.homey.__('device.misconfigured'));
     }
     await this.setAvailable();
     const isActive = allActive === 'True' || basicState === 'Triggered';

@@ -1,0 +1,30 @@
+{
+  "pair": {
+    "noController": "⚠️ Tilføj først en Controller."
+  },
+  "controller": {
+    "invalidIp": "Ugyldig IP-adresse i enhedens indstillinger.",
+    "invalidPort": "Ugyldigt portnummer i enhedens indstillinger.",
+    "missingUsername": "Brugernavnet må ikke være tomt i enhedens indstillinger.",
+    "missingJwt": "Indtast tokenet (JWT) i enhedens indstillinger.",
+    "jwtExpired": "Tokenet (JWT) er udløbet. Indtast et gyldigt token i enhedens indstillinger.",
+    "authorizationFailed": "Godkendelse mislykkedes. Kontroller tokenet i enhedens indstillinger.",
+    "disconnected": "Forbindelsen til Niko Home Control-controlleren er afbrudt.",
+    "unknownError": "Der opstod en ukendt fejl i forbindelsen til Niko Home Control-controlleren."
+  },
+  "device": {
+    "controllerNotFound": "Controlleren kan ikke længere findes.",
+    "controllerOffline": "Controlleren er offline.",
+    "notInList": "Controlleren er online, men denne enhed blev ikke fundet. Kontroller Niko Home Control-programmeringssoftwaren.",
+    "sendFailed": "Kommandoen kunne ikke sendes til Niko Home Control-controlleren. Kontroller forbindelsen, og prøv igen.",
+    "misconfigured": "Enheden er forkert konfigureret. Opret den igen.",
+    "incorrectState": "Enheden modtog en ugyldig tilstand. Rapporter venligst dette problem.",
+    "sensorUnavailable": "Der er noget galt med enheden."
+  },
+  "reminder": {
+    "expiresWithinDay": "Niko Hobby API-tokenet for **__name__** udløber **inden for et døgn**. Forny det i Niko Home Control-programmeringssoftwaren.",
+    "expiresInOneDay": "Niko Hobby API-tokenet for **__name__** udløber **om 1 dag**. Forny det i Niko Home Control-programmeringssoftwaren.",
+    "expiresInDays": "Niko Hobby API-tokenet for **__name__** udløber **om __days__ dage**. Forny det i Niko Home Control-programmeringssoftwaren.",
+    "expired": "Niko Hobby API-tokenet for **__name__** er udløbet. Indtast et nyt token i enhedens indstillinger for at oprette forbindelse igen."
+  }
+}

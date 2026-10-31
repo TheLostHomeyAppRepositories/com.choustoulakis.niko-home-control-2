@@ -68,10 +68,10 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
   protected async syncWithController(): Promise<void> {
     const controller = this.getConnectedController();
     if (controller === undefined) {
-      return this.setUnavailable('The Connected Controller no longer found.');
+      return this.setUnavailable(this.homey.__('device.controllerNotFound'));
     }
     if (!controller.isOnline()) {
-      return this.setUnavailable('The Connected Controller found, but is offline.');
+      return this.setUnavailable(this.homey.__('device.controllerOffline'));
     }
     const device = controller.getNikoDevice(this._device.Uuid);
     if (
@@ -79,9 +79,7 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
       device.Type !== this._device.Type ||
       device.Model !== this._device.Model
     ) {
-      return this.setUnavailable(
-        'The Connected Controller is available, but the device is not found in the list. Please check the Niko programming software.',
-      );
+      return this.setUnavailable(this.homey.__('device.notInList'));
     }
     this.setDevice(device as K);
     return this.updateStatus();
@@ -110,13 +108,11 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
   protected setNikoDeviceProps(props: Partial<K['Properties'][number]>[]): void {
     const controller = this.getConnectedController();
     if (controller === undefined) {
-      this.setUnavailable('The Connected Controller no longer found.').catch(this.error);
+      this.setUnavailable(this.homey.__('device.controllerNotFound')).catch(this.error);
       return;
     }
     if (!controller.setDeviceProps(this._device.Uuid, props)) {
-      this.setUnavailable(
-        'Failed to send command to Niko Home Control Controller. Please check the connection and try again.',
-      ).catch(this.error);
+      this.setUnavailable(this.homey.__('device.sendFailed')).catch(this.error);
     }
   }
 

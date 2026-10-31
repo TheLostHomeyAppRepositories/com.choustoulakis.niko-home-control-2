@@ -37,7 +37,7 @@ export abstract class NikoDriver extends Homey.Driver {
     const controllerDevices = controllerDriver.getDevices() as ConnectedControllerDevice[];
 
     if (controllerDevices.length === 0) {
-      throw new Error('⚠️ First add a Connected Controller.');
+      throw new Error(this.homey.__('pair.noController'));
     }
 
     const allDevices: NikoDeviceWithOwner[] = [];

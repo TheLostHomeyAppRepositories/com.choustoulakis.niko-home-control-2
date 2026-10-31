@@ -23,7 +23,7 @@ class NikoDimmer extends NikoDevice<DimmerMqttDevice> {
     const brightness = this.getProperty(NikoProperty.BRIGHTNESS);
 
     if (!status || !brightness) {
-      return this.setUnavailable('Device is misconfigured, please re-create it.');
+      return this.setUnavailable(this.homey.__('device.misconfigured'));
     }
     await this.setAvailable();
     await this.setCapabilityValue('onoff', status === 'On');

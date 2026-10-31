@@ -1,1 +1,30 @@
-{}
+{
+  "pair": {
+    "noController": "⚠️ First add a Connected Controller."
+  },
+  "controller": {
+    "invalidIp": "Invalid IP address in the device's settings.",
+    "invalidPort": "Invalid port number in the device's settings.",
+    "missingUsername": "The username cannot be empty in the device's settings.",
+    "missingJwt": "Please enter the token (JWT) in the device's settings.",
+    "jwtExpired": "The token (JWT) has expired. Please enter a valid token in the device's settings.",
+    "authorizationFailed": "Authorization failed. Please check the token in the device's settings.",
+    "disconnected": "Disconnected from the Niko Home Control controller.",
+    "unknownError": "An unknown error occurred with the Niko Home Control controller connection."
+  },
+  "device": {
+    "controllerNotFound": "The Connected Controller can no longer be found.",
+    "controllerOffline": "The Connected Controller is offline.",
+    "notInList": "The Connected Controller is online, but this device was not found. Please check the Niko Home Control programming software.",
+    "sendFailed": "Failed to send the command to the Niko Home Control controller. Please check the connection and try again.",
+    "misconfigured": "The device is misconfigured, please re-create it.",
+    "incorrectState": "The device received an incorrect state. Please report this issue.",
+    "sensorUnavailable": "Something is wrong with the device."
+  },
+  "reminder": {
+    "expiresWithinDay": "The Niko Hobby API token of **__name__** expires **within a day**. Renew it in the Niko Home Control programming software.",
+    "expiresInOneDay": "The Niko Hobby API token of **__name__** expires **in 1 day**. Renew it in the Niko Home Control programming software.",
+    "expiresInDays": "The Niko Hobby API token of **__name__** expires **in __days__ days**. Renew it in the Niko Home Control programming software.",
+    "expired": "The Niko Hobby API token of **__name__** has expired. Enter a new token in its settings to reconnect."
+  }
+}

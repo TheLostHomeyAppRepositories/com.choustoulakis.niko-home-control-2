@@ -19,7 +19,7 @@ class MoodDevice extends NikoDevice<MoodMqttDevice> {
     const mood = this.getProperty(NikoProperty.MOOD_ACTIVE);
     const state = this.getProperty(NikoProperty.BASIC_STATE);
     if (!mood || !state) {
-      return this.setUnavailable('Device is misconfigured, please re-create it.');
+      return this.setUnavailable(this.homey.__('device.misconfigured'));
     }
     await this.setAvailable();
     const isActive = mood === 'True' || state === 'Triggered';

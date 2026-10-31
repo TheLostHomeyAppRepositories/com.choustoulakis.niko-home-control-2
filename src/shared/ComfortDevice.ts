@@ -12,7 +12,7 @@ export class NikoComfortDevice extends NikoDevice<ThermoMqttDevice> {
     const humidity = this.getProperty(NikoProperty.HUMIDITY);
     // Temperature and humidity reporting can each be disabled in the Niko programming software.
     if (!temp && !humidity) {
-      return this.setUnavailable('Something is wrong with the device.');
+      return this.setUnavailable(this.homey.__('device.sensorUnavailable'));
     }
     await this.setAvailable();
     if (temp) {

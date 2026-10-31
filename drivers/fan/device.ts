@@ -16,7 +16,7 @@ class NikoFanDevice extends NikoDevice<FanMqttDevice> {
   async updateStatus(): Promise<void> {
     const fanSpeed = this.getProperty(NikoProperty.FAN_SPEED);
     if (!fanSpeed) {
-      return this.setUnavailable('Device received incorrect state. Please report this issue.');
+      return this.setUnavailable(this.homey.__('device.incorrectState'));
     }
     await this.setAvailable();
     await this.setCapabilityValue('fan_mode', fanSpeed);

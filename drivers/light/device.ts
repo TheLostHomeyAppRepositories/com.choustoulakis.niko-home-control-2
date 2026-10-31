@@ -17,7 +17,7 @@ export class NikoLightDevice extends NikoDevice<RelayMqttDevice> {
   async updateStatus(): Promise<void> {
     const status = this.getProperty(NikoProperty.STATUS);
     if (status === undefined) {
-      return this.setUnavailable('Device is misconfigured, please re-create it.');
+      return this.setUnavailable(this.homey.__('device.misconfigured'));
     }
     await this.setAvailable();
     await this.setCapabilityValue('onoff', status === 'On');

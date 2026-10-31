@@ -1,0 +1,30 @@
+{
+  "pair": {
+    "noController": "⚠️ Ajoutez d'abord une unité de contrôle connectée."
+  },
+  "controller": {
+    "invalidIp": "Adresse IP non valide dans les paramètres de l'appareil.",
+    "invalidPort": "Numéro de port non valide dans les paramètres de l'appareil.",
+    "missingUsername": "Le nom d'utilisateur ne peut pas être vide dans les paramètres de l'appareil.",
+    "missingJwt": "Veuillez saisir le jeton (JWT) dans les paramètres de l'appareil.",
+    "jwtExpired": "Le jeton (JWT) a expiré. Veuillez saisir un jeton valide dans les paramètres de l'appareil.",
+    "authorizationFailed": "Échec de l'autorisation. Veuillez vérifier le jeton dans les paramètres de l'appareil.",
+    "disconnected": "Déconnecté de l'unité de contrôle Niko Home Control.",
+    "unknownError": "Une erreur inconnue s'est produite avec la connexion à l'unité de contrôle Niko Home Control."
+  },
+  "device": {
+    "controllerNotFound": "L'unité de contrôle connectée est introuvable.",
+    "controllerOffline": "L'unité de contrôle connectée est hors ligne.",
+    "notInList": "L'unité de contrôle connectée est en ligne, mais cet appareil est introuvable. Veuillez vérifier le logiciel de programmation Niko Home Control.",
+    "sendFailed": "Impossible d'envoyer la commande à l'unité de contrôle Niko Home Control. Vérifiez la connexion et réessayez.",
+    "misconfigured": "L'appareil est mal configuré, veuillez le recréer.",
+    "incorrectState": "L'appareil a reçu un état incorrect. Veuillez signaler ce problème.",
+    "sensorUnavailable": "L'appareil présente un problème."
+  },
+  "reminder": {
+    "expiresWithinDay": "Le jeton Hobby API Niko de **__name__** expire **dans moins d'un jour**. Renouvelez-le dans le logiciel de programmation Niko Home Control.",
+    "expiresInOneDay": "Le jeton Hobby API Niko de **__name__** expire **dans 1 jour**. Renouvelez-le dans le logiciel de programmation Niko Home Control.",
+    "expiresInDays": "Le jeton Hobby API Niko de **__name__** expire **dans __days__ jours**. Renouvelez-le dans le logiciel de programmation Niko Home Control.",
+    "expired": "Le jeton Hobby API Niko de **__name__** a expiré. Saisissez un nouveau jeton dans ses paramètres pour vous reconnecter."
+  }
+}
