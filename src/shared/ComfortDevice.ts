@@ -10,11 +10,16 @@ export class NikoComfortDevice extends NikoDevice<ThermoMqttDevice> {
   async updateStatus(): Promise<void> {
     const temp = this.getProperty(NikoProperty.AMBIENT_TEMPERATURE);
     const humidity = this.getProperty(NikoProperty.HUMIDITY);
-    if (!temp || !humidity) {
+    // Temperature and humidity reporting can each be disabled in the Niko programming software.
+    if (!temp && !humidity) {
       return this.setUnavailable('Something is wrong with the device.');
     }
     await this.setAvailable();
-    await this.setCapabilityValue('measure_temperature', Number(temp));
-    await this.setCapabilityValue('measure_humidity', Number(humidity));
+    if (temp) {
+      await this.setCapabilityValue('measure_temperature', Number(temp));
+    }
+    if (humidity) {
+      await this.setCapabilityValue('measure_humidity', Number(humidity));
+    }
   }
 }
