@@ -4,8 +4,8 @@
   "scripts": {
     "debug": "homey app run",
     "build": "tsc",
-    "lint:fix": "eslint --fix & prettier . --write",
-    "lint:check": "eslint & prettier . --check"
+    "lint:fix": "eslint --fix && prettier . --write",
+    "lint:check": "eslint && prettier . --check"
   },
   "devDependencies": {
     "@eslint/css": "^0.14.1",
