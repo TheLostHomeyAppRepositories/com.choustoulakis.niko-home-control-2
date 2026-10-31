@@ -20,6 +20,9 @@ export enum NikoModel {
   THERMOSTAT = 'thermostat',
   TOUCH_SWITCH = 'touchswitch',
   GENERIC = 'generic',
+  VIRTUAL = 'virtual',
+  HVAC_THERMOSTAT = 'hvacthermostat',
+  FLAG = 'flag',
 }
 
 export enum NikoType {
@@ -27,6 +30,8 @@ export enum NikoType {
   MULTISENSOR = 'multisensor',
   HVAC = 'hvac',
   ENERGY_HOME = 'energyhome',
+  THERMOSTAT = 'thermostat',
+  VIRTUAL = 'virtual',
 }
 
 export enum NikoProperty {
@@ -53,10 +58,14 @@ export enum NikoProperty {
   ELECTRICAL_POWER_TO_GRID = 'ElectricalPowerToGrid',
   REPORT_INSTANT_USAGE = 'ReportInstantUsage',
   ELECTRICAL_MONTHLY_PEAK_POWER_FROM_GRID = 'ElectricalMonthlyPeakPowerFromGrid',
+  OPERATION_MODE = 'OperationMode',
+  THERMOSTAT_ON = 'ThermostatOn',
+  HVAC_ON = 'HvacOn',
 }
 
 export enum NikoTechnology {
   NIKO_HOME_CONTROL = 'nikohomecontrol',
+  TOUCH_SWITCH = 'touchswitch',
 }
 
 export type NikoAction = 'Open' | 'Close' | 'Stop';
@@ -65,7 +74,18 @@ export type NikoBoolean = 'True' | 'False';
 export type NikoBooleanLowercase = 'true' | 'false';
 export type NikoOnOff = 'On' | 'Off';
 export type NikoTriggerable = NikoOnOff | 'Triggered';
-export type NikoProgram = 'Day' | 'Night' | 'Eco' | 'Off' | 'Prog1' | 'Prog2' | 'Prog3';
+export type NikoProgram =
+  | 'Day'
+  | 'Night'
+  | 'Eco'
+  | 'Off'
+  | 'Cool'
+  | 'Custom'
+  | 'Prog1'
+  | 'Prog2'
+  | 'Prog3';
+export type NikoOperationMode = 'Heating' | 'Cooling';
+export type NikoHvacFanSpeed = 'Low' | 'Medium' | 'High';
 export type NikoDemand = 'Heating' | 'Cooling' | 'None';
 type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] extends N
   ? Acc[number]
@@ -82,6 +102,8 @@ export type NikoHumidity = Tenths<Enumerate<100>> | '100'; // 0 -> 100, step 0.1
 export type NikoThermostatTemperature = Halves<IntRange<0, 46>> | `-${Halves<IntRange<0, 6>>}`; // -5 -> 45, step 0.5
 export type NikoSetpoint = Halves<IntRange<5, 30>> | '30'; // 5 -> 30, step 0.5
 export type NikoOverruleTime = `${number}` & {}; // 1 -> 1439 minutes, too large for a literal union
+/** Measured values whose formatting varies per model, e.g. "0.00" or "21.5". */
+export type NikoDecimal = `${number}` & {};
 export type NikoWatt = `${number}` & {}; // Range(0, 999999999, 0.001), e.g. "369.000"
 /** Energy values are empty until reported, e.g. power before live reporting is enabled. */
 export type NikoUnreported = '';
@@ -165,19 +187,32 @@ export interface ThermoMqttDevice extends NikoMqttDevice {
   ];
 }
 
+/**
+ * All Niko thermostats share one property set, but each variant only reports part of it, e.g. the
+ * HVAC variant has OperationMode/FanSpeed instead of Demand. Ranges, steps and programs differ
+ * too: read them from PropertyDefinitions instead of assuming the documented ones.
+ */
 export interface ThermostatMqttDevice extends NikoMqttDevice {
-  Type: NikoType.HVAC;
-  Technology: NikoTechnology.NIKO_HOME_CONTROL;
-  Model: NikoModel.THERMOSTAT | NikoModel.TOUCH_SWITCH;
+  Type: NikoType.HVAC | NikoType.THERMOSTAT;
+  Technology: NikoTechnology.NIKO_HOME_CONTROL | NikoTechnology.TOUCH_SWITCH;
+  Model:
+    | NikoModel.THERMOSTAT
+    | NikoModel.TOUCH_SWITCH
+    | NikoModel.VIRTUAL
+    | NikoModel.HVAC_THERMOSTAT;
   Properties: [
     { [NikoProperty.PROGRAM]: NikoProgram },
-    { [NikoProperty.AMBIENT_TEMPERATURE]: NikoThermostatTemperature }, // Range(-5, 45, 0.5)
-    { [NikoProperty.SETPOINT_TEMPERATURE]: NikoSetpoint }, // Range(5, 30, 0.5)
+    { [NikoProperty.AMBIENT_TEMPERATURE]: NikoDecimal },
+    { [NikoProperty.SETPOINT_TEMPERATURE]: NikoSetpoint }, // read-only
     { [NikoProperty.OVERRULE_ACTIVE]: NikoBoolean },
-    { [NikoProperty.OVERRULE_SETPOINT]: NikoSetpoint }, // Range(5, 30, 0.5)
-    { [NikoProperty.OVERRULE_TIME]: NikoOverruleTime }, // Range(1, 1439, 1)
+    { [NikoProperty.OVERRULE_SETPOINT]: NikoSetpoint },
+    { [NikoProperty.OVERRULE_TIME]: NikoOverruleTime }, // minutes
     { [NikoProperty.ECO_SAVE]: NikoBoolean },
-    { [NikoProperty.DEMAND]: NikoDemand },
+    { [NikoProperty.DEMAND]: NikoDemand }, // read-only, not on HVAC variants
+    { [NikoProperty.OPERATION_MODE]: NikoOperationMode }, // HVAC variants
+    { [NikoProperty.FAN_SPEED]: NikoHvacFanSpeed }, // HVAC variants
+    { [NikoProperty.THERMOSTAT_ON]: NikoOnOff }, // HVAC variants
+    { [NikoProperty.HVAC_ON]: NikoOnOff }, // HVAC variants, read-only: indoor unit online
   ];
 }
 
@@ -195,4 +230,11 @@ export interface EnergyHomeMqttDevice extends NikoMqttDevice {
     { [NikoProperty.REPORT_INSTANT_USAGE]: NikoBoolean | NikoUnreported },
     { [NikoProperty.ELECTRICAL_MONTHLY_PEAK_POWER_FROM_GRID]: NikoWatt | NikoUnreported },
   ];
+}
+
+/** Niko documents the flag as `action/flag`; installations report `virtual/flag`. */
+export interface FlagMqttDevice extends NikoMqttDevice {
+  Type: NikoType.ACTION | NikoType.VIRTUAL;
+  Model: NikoModel.FLAG;
+  Properties: [{ [NikoProperty.STATUS]: NikoBoolean }];
 }
