@@ -64,7 +64,7 @@ type Enumerate<N extends number, Acc extends number[] = []> = Acc['length'] exte
   ? Acc[number]
   : Enumerate<N, [...Acc, Acc['length']]>;
 
-export type NikoRange = `${Enumerate<101>} ` & {}; // 0 -> 100
+export type NikoRange = `${Enumerate<101>}` & {}; // 0 -> 100
 export type NikoTemperature = `-${Exclude<Enumerate<51>, 0>}` | NikoRange; // -50 -> 100
 
 export interface NikoMqttDevice {
@@ -152,6 +152,6 @@ export interface ThermostatMqttDevice extends NikoMqttDevice {
     { [NikoProperty.OVERRULE_SETPOINT]: NikoRange }, // Range(5, 30, 0.5)
     { [NikoProperty.OVERRULE_TIME]: NikoRange }, // Range(1, 1439, 1)
     { [NikoProperty.ECO_SAVE]: NikoBoolean },
-    { [NikoProperty.DEMAND]: NikoRange },
+    { [NikoProperty.DEMAND]: NikoDemand },
   ];
 }
