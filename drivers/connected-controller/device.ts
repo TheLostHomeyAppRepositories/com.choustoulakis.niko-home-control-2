@@ -1,4 +1,4 @@
-import Homey from 'homey';
+import Homey, { DiscoveryResultMDNSSD } from 'homey';
 import type DiscoveryStrategy from 'homey/lib/DiscoveryStrategy';
 import { ConnectedControllerSettings } from './driver';
 import {
@@ -11,6 +11,7 @@ import { NikoModel, NikoMqttDevice, NikoType } from '../../src/niko/NikoTypes';
 import { emitControllerChanged } from '../../src/niko/NikoEvents';
 
 const DAY_MS = 24 * 60 * 60 * 1000;
+const AUTHORIZATION_RETRY_MS = 5 * 60_000;
 
 function getJwtExpiresAt(jwt: string | undefined): number | undefined {
   const parts = jwt?.trim().split('.');
@@ -32,6 +33,7 @@ export class ConnectedControllerDevice extends Homey.Device {
   private isUnloaded = false;
   private connectQueue: Promise<void> = Promise.resolve();
   private pendingConnects = 0;
+  private lastConnectAt = 0;
 
   async onInit() {
     // Add capability if it doesn't exist (for existing devices)
@@ -112,6 +114,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     }
 
     if (this.isUnloaded) return;
+    this.lastConnectAt = Date.now();
     const client = new NikoMqttClient({
       settings: this.settings,
       homey: this.homey,
@@ -154,34 +157,43 @@ export class ConnectedControllerDevice extends Homey.Device {
     return expiresAt !== undefined && expiresAt <= Date.now();
   }
 
+  /**
+   * mqtt.js retries network errors by itself, so a new client is only created when retrying
+   * cannot help: there is no client (invalid settings, expired JWT), the controller moved to
+   * another IP, or the JWT was rejected.
+   */
   private readonly reconnectIfNeeded = async () => {
     if (this.isUnloaded || this.pendingConnects > 0) return;
-    const state = this.client?.getState();
-    if (
-      state === undefined ||
-      state === NikoClientState.ERROR ||
-      state === NikoClientState.DISCONNECTED
-    ) {
+    const client = this.client;
+    const discoveredIp = this.getDiscoveredIp();
+    const shouldConnect =
+      client === undefined ||
+      (client.getState() !== NikoClientState.CONNECTED &&
+        ((discoveredIp !== undefined && discoveredIp !== this.settings.ip) ||
+          (client.isAuthorizationFailed() &&
+            Date.now() - this.lastConnectAt >= AUTHORIZATION_RETRY_MS)));
+    if (shouldConnect) {
       await this.connect().catch(this.error);
     }
   };
 
-  private async discoverIpIfNeeded() {
+  private getDiscoveredIp(): string | undefined {
     try {
       const strategy = this.homey.discovery.getStrategy('niko_home_control') as DiscoveryStrategy;
-      const results = strategy.getDiscoveryResults();
-      const fpId = this.getData().id;
-
-      if (results[fpId] && 'address' in results[fpId]) {
-        const discoveredIp = (results[fpId] as any).address;
-        if (discoveredIp && this.settings.ip !== discoveredIp) {
-          this.log(`Discovered new IP address: ${discoveredIp}. Updating settings...`);
-          await this.setSettings({ ip: discoveredIp });
-          this.settings = { ...this.settings, ip: discoveredIp };
-        }
-      }
+      const result = strategy.getDiscoveryResults()[this.getData().id];
+      return result && 'address' in result ? (result as DiscoveryResultMDNSSD).address : undefined;
     } catch (e) {
       this.error('Failed to run MDNS discovery for connected controller.', e);
+      return undefined;
+    }
+  }
+
+  private async discoverIpIfNeeded() {
+    const discoveredIp = this.getDiscoveredIp();
+    if (discoveredIp && this.settings.ip !== discoveredIp) {
+      this.log(`Discovered new IP address: ${discoveredIp}. Updating settings...`);
+      await this.setSettings({ ip: discoveredIp });
+      this.settings = { ...this.settings, ip: discoveredIp };
     }
   }
 

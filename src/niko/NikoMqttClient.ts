@@ -67,6 +67,7 @@ export class NikoMqttClient extends EventEmitter {
   private client: MqttClient | null = null;
   private _state: NikoClientState = NikoClientState.UNINITIALIZED;
   private _lastErrorMessage: string | undefined = undefined;
+  private _authorizationFailed = false;
   private _updateInterval: NodeJS.Timeout | undefined = undefined;
 
   private queuedUpdates: QueuedUpdate[] = [];
@@ -92,6 +93,14 @@ export class NikoMqttClient extends EventEmitter {
 
   getLastErrorMessage(): string | undefined {
     return this._lastErrorMessage;
+  }
+
+  /**
+   * After an authorization error the MQTT client is ended and does not retry by itself. Other
+   * errors are retried automatically by mqtt.js (see `reconnectPeriod`).
+   */
+  isAuthorizationFailed(): boolean {
+    return this._authorizationFailed;
   }
 
   getDevices(): NikoMqttDevice[] {
@@ -151,6 +160,7 @@ export class NikoMqttClient extends EventEmitter {
 
     // Check for non-recoverable authorization errors
     if (isAuthorizationError(err)) {
+      this._authorizationFailed = true;
       this.setState(
         NikoClientState.ERROR,
         "Authorization failed. Please check the token in the device's settings.",
