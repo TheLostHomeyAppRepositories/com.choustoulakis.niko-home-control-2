@@ -51,10 +51,6 @@ export abstract class NikoDriver extends Homey.Driver {
           id: deviceWithOwner.device.Uuid,
         },
         store: {
-          device: {
-            ...deviceWithOwner.device,
-            ownerControllerId: deviceWithOwner.connectedControllerId,
-          },
           deviceWithOwner: deviceWithOwner,
         },
       }),
