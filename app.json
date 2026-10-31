@@ -406,6 +406,69 @@
     },
     {
       "name": {
+        "en": "Home energy",
+        "nl": "Energie woning",
+        "fr": "Énergie du domicile",
+        "da": "Hjemmets energi",
+        "sv": "Hemmets energi"
+      },
+      "class": "sensor",
+      "capabilities": [
+        "measure_power",
+        "measure_power.monthly_peak",
+        "measure_power.peak_limit"
+      ],
+      "capabilitiesOptions": {
+        "measure_power.monthly_peak": {
+          "title": {
+            "en": "Monthly peak",
+            "nl": "Maandpiek",
+            "fr": "Pic mensuel",
+            "da": "Månedlig spidsbelastning",
+            "sv": "Månadstopp"
+          }
+        },
+        "measure_power.peak_limit": {
+          "title": {
+            "en": "Peak limit",
+            "nl": "Piekgrens",
+            "fr": "Limite de pic",
+            "da": "Spidsgrænse",
+            "sv": "Toppgräns"
+          }
+        }
+      },
+      "energy": {
+        "cumulative": true
+      },
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/energy-home/assets/images/small.png",
+        "large": "/drivers/energy-home/assets/images/large.png",
+        "xlarge": "/drivers/energy-home/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "energy-home"
+    },
+    {
+      "name": {
         "en": "Ventilation Module",
         "nl": "Ventilatiemodule",
         "fr": "Module de ventilation",
