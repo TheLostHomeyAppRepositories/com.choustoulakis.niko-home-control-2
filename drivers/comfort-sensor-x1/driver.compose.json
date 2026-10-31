@@ -1,7 +1,10 @@
 {
   "name": {
     "en": "Comfort sensor single button",
-    "nl": "Comfort sensor enkele knop"
+    "nl": "Comfort sensor enkele knop",
+    "fr": "Capteur de confort, bouton simple",
+    "da": "Komfortsensor, enkelt tryk",
+    "sv": "Komfortsensor, enkel tryckknapp"
   },
   "class": "sensor",
   "capabilities": ["measure_temperature", "measure_humidity"],

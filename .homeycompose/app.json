@@ -8,12 +8,18 @@
   ],
   "name": {
     "en": "Niko Home Control 2",
-    "nl": "Niko Home Control 2"
+    "nl": "Niko Home Control 2",
+    "fr": "Niko Home Control 2",
+    "da": "Niko Home Control 2",
+    "sv": "Niko Home Control 2"
   },
   "brandColor": "#1a1a1a",
   "description": {
     "en": "A home that adapts all day to your lifestyle.",
-    "nl": "Een huis dat zich de hele dag aanpast aan jouw levensstijl."
+    "nl": "Een huis dat zich de hele dag aanpast aan jouw levensstijl.",
+    "fr": "Une maison qui s'adapte à votre style de vie, toute la journée.",
+    "da": "Et hjem, der tilpasser sig din livsstil hele dagen.",
+    "sv": "Ett hem som anpassar sig efter din livsstil hela dagen."
   },
   "category": [
     "lights"

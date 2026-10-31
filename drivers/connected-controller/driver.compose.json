@@ -1,7 +1,10 @@
 {
   "name": {
     "en": "Connected Controller",
-    "nl": "Connected Controller"
+    "nl": "Connected Controller",
+    "fr": "Unité de contrôle connectée",
+    "da": "Controller",
+    "sv": "Ansluten kontrollenhet"
   },
   "class": "bridge",
   "capabilities": ["jwt_remaining_days"],

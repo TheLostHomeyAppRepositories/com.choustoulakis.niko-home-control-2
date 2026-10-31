@@ -9,12 +9,18 @@
   ],
   "name": {
     "en": "Niko Home Control 2",
-    "nl": "Niko Home Control 2"
+    "nl": "Niko Home Control 2",
+    "fr": "Niko Home Control 2",
+    "da": "Niko Home Control 2",
+    "sv": "Niko Home Control 2"
   },
   "brandColor": "#1a1a1a",
   "description": {
     "en": "A home that adapts all day to your lifestyle.",
-    "nl": "Een huis dat zich de hele dag aanpast aan jouw levensstijl."
+    "nl": "Een huis dat zich de hele dag aanpast aan jouw levensstijl.",
+    "fr": "Une maison qui s'adapte à votre style de vie, toute la journée.",
+    "da": "Et hjem, der tilpasser sig din livsstil hele dagen.",
+    "sv": "Ett hem som anpassar sig efter din livsstil hela dagen."
   },
   "category": [
     "lights"
@@ -47,7 +53,10 @@
     {
       "name": {
         "en": "Comfort sensor single button",
-        "nl": "Comfort sensor enkele knop"
+        "nl": "Comfort sensor enkele knop",
+        "fr": "Capteur de confort, bouton simple",
+        "da": "Komfortsensor, enkelt tryk",
+        "sv": "Komfortsensor, enkel tryckknapp"
       },
       "class": "sensor",
       "capabilities": [
@@ -83,7 +92,10 @@
     {
       "name": {
         "en": "Comfort sensor double button",
-        "nl": "Comfort sensor dubbele knop"
+        "nl": "Comfort sensor dubbele knop",
+        "fr": "Capteur de confort, bouton double",
+        "da": "Komfortsensor, dobbelt tryk",
+        "sv": "Komfortsensor, dubbel tryckknapp"
       },
       "class": "sensor",
       "capabilities": [
@@ -119,7 +131,10 @@
     {
       "name": {
         "en": "Comfort sensor fourfold button",
-        "nl": "Comfort sensor viervoudige knop"
+        "nl": "Comfort sensor viervoudige knop",
+        "fr": "Capteur de confort, bouton quadruple",
+        "da": "Komfortsensor, firdobbelt tryk",
+        "sv": "Komfortsensor, fyrdubbel tryckknapp"
       },
       "class": "sensor",
       "capabilities": [
@@ -155,7 +170,10 @@
     {
       "name": {
         "en": "Comfort sensor sixfold button",
-        "nl": "Comfort sensor zesvoudige knop"
+        "nl": "Comfort sensor zesvoudige knop",
+        "fr": "Capteur de confort, bouton sextuple",
+        "da": "Komfortsensor, seksdobbelt tryk",
+        "sv": "Komfortsensor, sexdubbel tryckknapp"
       },
       "class": "sensor",
       "capabilities": [
@@ -191,7 +209,10 @@
     {
       "name": {
         "en": "Connected Controller",
-        "nl": "Connected Controller"
+        "nl": "Connected Controller",
+        "fr": "Unité de contrôle connectée",
+        "da": "Controller",
+        "sv": "Ansluten kontrollenhet"
       },
       "class": "bridge",
       "capabilities": [
@@ -231,12 +252,18 @@
           "type": "text",
           "label": {
             "en": "IP Address",
-            "nl": "IP-adres"
+            "nl": "IP-adres",
+            "fr": "Adresse IP",
+            "da": "IP-adresse",
+            "sv": "IP-adress"
           },
           "value": "",
           "hint": {
             "en": "The IP of the Connected Controller.",
-            "nl": "Het IP-adres van de Connected Controller."
+            "nl": "Het IP-adres van de Connected Controller.",
+            "fr": "L'adresse IP de l'unité de contrôle connectée.",
+            "da": "Controllerens IP-adresse.",
+            "sv": "IP-adressen till den anslutna kontrollenheten."
           }
         },
         {
@@ -244,14 +271,20 @@
           "type": "number",
           "label": {
             "en": "Port",
-            "nl": "Poort"
+            "nl": "Poort",
+            "fr": "Port",
+            "da": "Port",
+            "sv": "Port"
           },
           "value": 8884,
           "min": 0,
           "max": 65535,
           "hint": {
             "en": "The Port of the Connected Controller (default = 8884).",
-            "nl": "De poort van de Connected Controller (default = 8884)."
+            "nl": "De poort van de Connected Controller (default = 8884).",
+            "fr": "Le port de l'unité de contrôle connectée (par défaut : 8884).",
+            "da": "Controllerens port (standard = 8884).",
+            "sv": "Porten till den anslutna kontrollenheten (standard = 8884)."
           }
         },
         {
@@ -259,12 +292,18 @@
           "type": "text",
           "label": {
             "en": "Username",
-            "nl": "Gebruikersnaam"
+            "nl": "Gebruikersnaam",
+            "fr": "Nom d'utilisateur",
+            "da": "Brugernavn",
+            "sv": "Användarnamn"
           },
           "value": "hobby",
           "hint": {
             "en": "The username to connect to the Connected Controller (default = hobby).",
-            "nl": "De gebruikersnaam om verbinding te maken met de Connected Controller (default = hobby)."
+            "nl": "De gebruikersnaam om verbinding te maken met de Connected Controller (default = hobby).",
+            "fr": "Le nom d'utilisateur pour se connecter à l'unité de contrôle connectée (par défaut : hobby).",
+            "da": "Brugernavnet til forbindelsen med controlleren (standard = hobby).",
+            "sv": "Användarnamnet för att ansluta till den anslutna kontrollenheten (standard = hobby)."
           }
         },
         {
@@ -272,12 +311,18 @@
           "type": "password",
           "label": {
             "en": "Token",
-            "nl": "Token"
+            "nl": "Token",
+            "fr": "Jeton",
+            "da": "Token",
+            "sv": "Token"
           },
           "value": "",
           "hint": {
             "en": "The JWT that needs to be generated yearly from the Niko programming software.",
-            "nl": "De JWT die jaarlijks moet worden gegenereerd via de Niko programmeersoftware."
+            "nl": "De JWT die jaarlijks moet worden gegenereerd via de Niko programmeersoftware.",
+            "fr": "Le JWT à générer chaque année dans le logiciel de programmation Niko.",
+            "da": "JWT-tokenet, der skal genereres hvert år i Niko-programmeringssoftwaren.",
+            "sv": "JWT som måste genereras varje år i Nikos programmeringsprogramvara."
           }
         },
         {
@@ -285,23 +330,37 @@
           "type": "checkbox",
           "label": {
             "en": "Token expiry reminders",
-            "nl": "Herinneringen bij verlopen token"
+            "nl": "Herinneringen bij verlopen token",
+            "fr": "Rappels d'expiration du jeton",
+            "da": "Påmindelser om udløb af token",
+            "sv": "Påminnelser om att token löper ut"
           },
           "value": true,
           "hint": {
             "en": "Adds a timeline notification 30, 7 and 1 days before the token expires, and when it has expired.",
-            "nl": "Plaatst een melding in de tijdlijn 30, 7 en 1 dag voordat het token verloopt, en wanneer het verlopen is."
+            "nl": "Plaatst een melding in de tijdlijn 30, 7 en 1 dag voordat het token verloopt, en wanneer het verlopen is.",
+            "fr": "Ajoute une notification à la chronologie 30, 7 et 1 jour avant l'expiration du jeton, ainsi qu'à son expiration.",
+            "da": "Tilføjer en notifikation på tidslinjen 30, 7 og 1 dag før tokenet udløber, og når det er udløbet.",
+            "sv": "Lägger till en avisering på tidslinjen 30, 7 och 1 dag innan token löper ut, och när den har löpt ut."
           }
         },
         {
           "id": "debugReport",
           "type": "textarea",
           "label": {
-            "en": "Debugging information"
+            "en": "Debugging information",
+            "nl": "Foutopsporingsinformatie",
+            "fr": "Informations de débogage",
+            "da": "Fejlfindingsoplysninger",
+            "sv": "Felsökningsinformation"
           },
           "value": "No logs recorded yet.",
           "hint": {
-            "en": "Double-tap or long-press to select all text for copying on mobile."
+            "en": "Double-tap or long-press to select all text for copying on mobile.",
+            "nl": "Dubbeltik of houd lang ingedrukt om alle tekst te selecteren en te kopiëren op mobiel.",
+            "fr": "Touchez deux fois ou appuyez longuement pour sélectionner tout le texte à copier sur mobile.",
+            "da": "Dobbelttryk eller tryk længe for at markere al teksten og kopiere den på mobilen.",
+            "sv": "Dubbeltryck eller tryck länge för att markera all text och kopiera den på mobilen."
           }
         }
       ]
@@ -309,7 +368,10 @@
     {
       "name": {
         "en": "Universal Dimmer",
-        "nl": "Universele Dimmer"
+        "nl": "Universele Dimmer",
+        "fr": "Module de variateur universel",
+        "da": "Universelt lysdæmpermodul",
+        "sv": "Dimmeraktor universal"
       },
       "class": "light",
       "capabilities": [
@@ -345,7 +407,10 @@
     {
       "name": {
         "en": "Ventilation Module",
-        "nl": "Ventilatiemodule"
+        "nl": "Ventilatiemodule",
+        "fr": "Module de ventilation",
+        "da": "Ventilationsmodul",
+        "sv": "Ventilationsaktor"
       },
       "class": "fan",
       "capabilities": [
@@ -358,28 +423,40 @@
               "id": "Low",
               "title": {
                 "en": "Low",
-                "nl": "Laag"
+                "nl": "Laag",
+                "fr": "Faible",
+                "da": "Lav",
+                "sv": "Låg"
               }
             },
             {
               "id": "Medium",
               "title": {
                 "en": "Medium",
-                "nl": "Middel"
+                "nl": "Middel",
+                "fr": "Moyen",
+                "da": "Mellem",
+                "sv": "Medel"
               }
             },
             {
               "id": "High",
               "title": {
                 "en": "High",
-                "nl": "Hoog"
+                "nl": "Hoog",
+                "fr": "Élevé",
+                "da": "Høj",
+                "sv": "Hög"
               }
             },
             {
               "id": "Boost",
               "title": {
                 "en": "Boost",
-                "nl": "Boost"
+                "nl": "Boost",
+                "fr": "Boost",
+                "da": "Boost",
+                "sv": "Boost"
               }
             }
           ]
@@ -414,7 +491,10 @@
     {
       "name": {
         "en": "Switching Module",
-        "nl": "Schakelmodule"
+        "nl": "Schakelmodule",
+        "fr": "Module de commutation",
+        "da": "Relæmodul",
+        "sv": "Kopplingsaktor"
       },
       "class": "light",
       "capabilities": [
@@ -449,7 +529,10 @@
     {
       "name": {
         "en": "Motor Module",
-        "nl": "Motormodule"
+        "nl": "Motormodule",
+        "fr": "Module moteur",
+        "da": "Motormodul",
+        "sv": "Motoraktor"
       },
       "class": "blinds",
       "capabilities": [
@@ -485,7 +568,10 @@
     {
       "name": {
         "en": "Routine: All off",
-        "nl": "Routine: Alles uit"
+        "nl": "Routine: Alles uit",
+        "fr": "Routine : Tout éteint",
+        "da": "Rutine: Sluk-alt",
+        "sv": "Rutin: Allt av"
       },
       "class": "other",
       "capabilities": [
@@ -520,7 +606,10 @@
     {
       "name": {
         "en": "Routine: Mood",
-        "nl": "Routine: Sfeer"
+        "nl": "Routine: Sfeer",
+        "fr": "Routine : Ambiance",
+        "da": "Rutine: Scenarie",
+        "sv": "Rutin: Scenario"
       },
       "class": "other",
       "capabilities": [
@@ -559,15 +648,24 @@
         "id": "jwt_expiring",
         "title": {
           "en": "The token expires within a number of days",
-          "nl": "Het token verloopt binnen een aantal dagen"
+          "nl": "Het token verloopt binnen een aantal dagen",
+          "fr": "Le jeton expire dans un certain nombre de jours",
+          "da": "Tokenet udløber inden for et antal dage",
+          "sv": "Token löper ut inom ett antal dagar"
         },
         "titleFormatted": {
           "en": "The token expires within [[days]] days",
-          "nl": "Het token verloopt binnen [[days]] dagen"
+          "nl": "Het token verloopt binnen [[days]] dagen",
+          "fr": "Le jeton expire d'ici [[days]] jours",
+          "da": "Tokenet udløber inden for [[days]] dage",
+          "sv": "Token löper ut inom [[days]] dagar"
         },
         "hint": {
           "en": "Runs once a day while the Hobby API token expires within the given number of days.",
-          "nl": "Wordt dagelijks uitgevoerd zolang het Hobby API-token binnen het opgegeven aantal dagen verloopt."
+          "nl": "Wordt dagelijks uitgevoerd zolang het Hobby API-token binnen het opgegeven aantal dagen verloopt.",
+          "fr": "S'exécute une fois par jour tant que le jeton Hobby API expire dans le nombre de jours indiqué.",
+          "da": "Kører én gang om dagen, så længe Hobby API-tokenet udløber inden for det angivne antal dage.",
+          "sv": "Körs en gång om dagen så länge Hobby API-token löper ut inom det angivna antalet dagar."
         },
         "tokens": [
           {
@@ -575,7 +673,10 @@
             "type": "number",
             "title": {
               "en": "Days left",
-              "nl": "Resterende dagen"
+              "nl": "Resterende dagen",
+              "fr": "Jours restants",
+              "da": "Dage tilbage",
+              "sv": "Dagar kvar"
             },
             "example": 14
           }
@@ -594,11 +695,17 @@
             "step": 1,
             "placeholder": {
               "en": "30",
-              "nl": "30"
+              "nl": "30",
+              "fr": "30",
+              "da": "30",
+              "sv": "30"
             },
             "title": {
               "en": "Days",
-              "nl": "Dagen"
+              "nl": "Dagen",
+              "fr": "Jours",
+              "da": "Dage",
+              "sv": "Dagar"
             }
           }
         ]
@@ -609,11 +716,17 @@
         "id": "jwt_expires_within",
         "title": {
           "en": "The token !{{expires|doesn't expire}} within a number of days",
-          "nl": "Het token !{{verloopt|verloopt niet}} binnen een aantal dagen"
+          "nl": "Het token !{{verloopt|verloopt niet}} binnen een aantal dagen",
+          "fr": "Le jeton !{{expire|n'expire pas}} dans un certain nombre de jours",
+          "da": "Tokenet !{{udløber|udløber ikke}} inden for et antal dage",
+          "sv": "Token !{{löper ut|löper inte ut}} inom ett antal dagar"
         },
         "titleFormatted": {
           "en": "The token !{{expires|doesn't expire}} within [[days]] days",
-          "nl": "Het token !{{verloopt|verloopt niet}} binnen [[days]] dagen"
+          "nl": "Het token !{{verloopt|verloopt niet}} binnen [[days]] dagen",
+          "fr": "Le jeton !{{expire|n'expire pas}} d'ici [[days]] jours",
+          "da": "Tokenet !{{udløber|udløber ikke}} inden for [[days]] dage",
+          "sv": "Token !{{löper ut|löper inte ut}} inom [[days]] dagar"
         },
         "args": [
           {
@@ -629,11 +742,17 @@
             "step": 1,
             "placeholder": {
               "en": "30",
-              "nl": "30"
+              "nl": "30",
+              "fr": "30",
+              "da": "30",
+              "sv": "30"
             },
             "title": {
               "en": "Days",
-              "nl": "Dagen"
+              "nl": "Dagen",
+              "fr": "Jours",
+              "da": "Dage",
+              "sv": "Dagar"
             }
           }
         ]
@@ -645,7 +764,10 @@
       "type": "number",
       "title": {
         "en": "JWT Remaining Days",
-        "nl": "JWT Resterende Dagen"
+        "nl": "JWT Resterende Dagen",
+        "fr": "Jours restants du JWT",
+        "da": "Resterende dage for JWT",
+        "sv": "Återstående dagar för JWT"
       },
       "getable": true,
       "setable": false,
@@ -653,7 +775,10 @@
       "icon": "/assets/time.svg",
       "units": {
         "en": "days",
-        "nl": "dagen"
+        "nl": "dagen",
+        "fr": "jours",
+        "da": "dage",
+        "sv": "dagar"
       },
       "min": 0,
       "max": 365

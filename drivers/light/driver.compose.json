@@ -1,7 +1,10 @@
 {
   "name": {
     "en": "Switching Module",
-    "nl": "Schakelmodule"
+    "nl": "Schakelmodule",
+    "fr": "Module de commutation",
+    "da": "Relæmodul",
+    "sv": "Kopplingsaktor"
   },
   "class": "light",
   "capabilities": ["onoff"],

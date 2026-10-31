@@ -1,7 +1,10 @@
 {
   "name": {
     "en": "Motor Module",
-    "nl": "Motormodule"
+    "nl": "Motormodule",
+    "fr": "Module moteur",
+    "da": "Motormodul",
+    "sv": "Motoraktor"
   },
   "class": "blinds",
   "capabilities": ["windowcoverings_state", "windowcoverings_set"],

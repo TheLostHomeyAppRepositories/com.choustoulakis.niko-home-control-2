@@ -2,7 +2,10 @@
   "type": "number",
   "title": {
     "en": "JWT Remaining Days",
-    "nl": "JWT Resterende Dagen"
+    "nl": "JWT Resterende Dagen",
+    "fr": "Jours restants du JWT",
+    "da": "Resterende dage for JWT",
+    "sv": "Återstående dagar för JWT"
   },
   "getable": true,
   "setable": false,
@@ -10,7 +13,10 @@
   "icon": "/assets/time.svg",
   "units": {
     "en": "days",
-    "nl": "dagen"
+    "nl": "dagen",
+    "fr": "jours",
+    "da": "dage",
+    "sv": "dagar"
   },
   "min": 0,
   "max": 365

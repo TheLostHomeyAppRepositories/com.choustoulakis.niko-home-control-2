@@ -1,7 +1,10 @@
 {
   "name": {
     "en": "Comfort sensor fourfold button",
-    "nl": "Comfort sensor viervoudige knop"
+    "nl": "Comfort sensor viervoudige knop",
+    "fr": "Capteur de confort, bouton quadruple",
+    "da": "Komfortsensor, firdobbelt tryk",
+    "sv": "Komfortsensor, fyrdubbel tryckknapp"
   },
   "class": "sensor",
   "capabilities": ["measure_temperature", "measure_humidity"],

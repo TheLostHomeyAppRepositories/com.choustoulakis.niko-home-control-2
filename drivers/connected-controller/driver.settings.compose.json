@@ -2,64 +2,117 @@
   {
     "id": "ip",
     "type": "text",
-    "label": { "en": "IP Address", "nl": "IP-adres" },
+    "label": {
+      "en": "IP Address",
+      "nl": "IP-adres",
+      "fr": "Adresse IP",
+      "da": "IP-adresse",
+      "sv": "IP-adress"
+    },
     "value": "",
     "hint": {
       "en": "The IP of the Connected Controller.",
-      "nl": "Het IP-adres van de Connected Controller."
+      "nl": "Het IP-adres van de Connected Controller.",
+      "fr": "L'adresse IP de l'unité de contrôle connectée.",
+      "da": "Controllerens IP-adresse.",
+      "sv": "IP-adressen till den anslutna kontrollenheten."
     }
   },
   {
     "id": "port",
     "type": "number",
-    "label": { "en": "Port", "nl": "Poort" },
+    "label": {
+      "en": "Port",
+      "nl": "Poort",
+      "fr": "Port",
+      "da": "Port",
+      "sv": "Port"
+    },
     "value": 8884,
     "min": 0,
     "max": 65535,
     "hint": {
       "en": "The Port of the Connected Controller (default = 8884).",
-      "nl": "De poort van de Connected Controller (default = 8884)."
+      "nl": "De poort van de Connected Controller (default = 8884).",
+      "fr": "Le port de l'unité de contrôle connectée (par défaut : 8884).",
+      "da": "Controllerens port (standard = 8884).",
+      "sv": "Porten till den anslutna kontrollenheten (standard = 8884)."
     }
   },
   {
     "id": "username",
     "type": "text",
-    "label": { "en": "Username", "nl": "Gebruikersnaam" },
+    "label": {
+      "en": "Username",
+      "nl": "Gebruikersnaam",
+      "fr": "Nom d'utilisateur",
+      "da": "Brugernavn",
+      "sv": "Användarnamn"
+    },
     "value": "hobby",
     "hint": {
       "en": "The username to connect to the Connected Controller (default = hobby).",
-      "nl": "De gebruikersnaam om verbinding te maken met de Connected Controller (default = hobby)."
+      "nl": "De gebruikersnaam om verbinding te maken met de Connected Controller (default = hobby).",
+      "fr": "Le nom d'utilisateur pour se connecter à l'unité de contrôle connectée (par défaut : hobby).",
+      "da": "Brugernavnet til forbindelsen med controlleren (standard = hobby).",
+      "sv": "Användarnamnet för att ansluta till den anslutna kontrollenheten (standard = hobby)."
     }
   },
   {
     "id": "jwt",
     "type": "password",
-    "label": { "en": "Token", "nl": "Token" },
+    "label": {
+      "en": "Token",
+      "nl": "Token",
+      "fr": "Jeton",
+      "da": "Token",
+      "sv": "Token"
+    },
     "value": "",
     "hint": {
       "en": "The JWT that needs to be generated yearly from the Niko programming software.",
-      "nl": "De JWT die jaarlijks moet worden gegenereerd via de Niko programmeersoftware."
+      "nl": "De JWT die jaarlijks moet worden gegenereerd via de Niko programmeersoftware.",
+      "fr": "Le JWT à générer chaque année dans le logiciel de programmation Niko.",
+      "da": "JWT-tokenet, der skal genereres hvert år i Niko-programmeringssoftwaren.",
+      "sv": "JWT som måste genereras varje år i Nikos programmeringsprogramvara."
     }
   },
   {
     "id": "jwtReminders",
     "type": "checkbox",
-    "label": { "en": "Token expiry reminders", "nl": "Herinneringen bij verlopen token" },
+    "label": {
+      "en": "Token expiry reminders",
+      "nl": "Herinneringen bij verlopen token",
+      "fr": "Rappels d'expiration du jeton",
+      "da": "Påmindelser om udløb af token",
+      "sv": "Påminnelser om att token löper ut"
+    },
     "value": true,
     "hint": {
       "en": "Adds a timeline notification 30, 7 and 1 days before the token expires, and when it has expired.",
-      "nl": "Plaatst een melding in de tijdlijn 30, 7 en 1 dag voordat het token verloopt, en wanneer het verlopen is."
+      "nl": "Plaatst een melding in de tijdlijn 30, 7 en 1 dag voordat het token verloopt, en wanneer het verlopen is.",
+      "fr": "Ajoute une notification à la chronologie 30, 7 et 1 jour avant l'expiration du jeton, ainsi qu'à son expiration.",
+      "da": "Tilføjer en notifikation på tidslinjen 30, 7 og 1 dag før tokenet udløber, og når det er udløbet.",
+      "sv": "Lägger till en avisering på tidslinjen 30, 7 och 1 dag innan token löper ut, och när den har löpt ut."
     }
   },
   {
     "id": "debugReport",
     "type": "textarea",
     "label": {
-      "en": "Debugging information"
+      "en": "Debugging information",
+      "nl": "Foutopsporingsinformatie",
+      "fr": "Informations de débogage",
+      "da": "Fejlfindingsoplysninger",
+      "sv": "Felsökningsinformation"
     },
     "value": "No logs recorded yet.",
     "hint": {
-      "en": "Double-tap or long-press to select all text for copying on mobile."
+      "en": "Double-tap or long-press to select all text for copying on mobile.",
+      "nl": "Dubbeltik of houd lang ingedrukt om alle tekst te selecteren en te kopiëren op mobiel.",
+      "fr": "Touchez deux fois ou appuyez longuement pour sélectionner tout le texte à copier sur mobile.",
+      "da": "Dobbelttryk eller tryk længe for at markere al teksten og kopiere den på mobilen.",
+      "sv": "Dubbeltryck eller tryck länge för att markera all text och kopiera den på mobilen."
     }
   }
 ]

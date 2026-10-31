@@ -1,7 +1,10 @@
 {
   "name": {
     "en": "Ventilation Module",
-    "nl": "Ventilatiemodule"
+    "nl": "Ventilatiemodule",
+    "fr": "Module de ventilation",
+    "da": "Ventilationsmodul",
+    "sv": "Ventilationsaktor"
   },
   "class": "fan",
   "capabilities": ["fan_mode"],
@@ -12,28 +15,40 @@
           "id": "Low",
           "title": {
             "en": "Low",
-            "nl": "Laag"
+            "nl": "Laag",
+            "fr": "Faible",
+            "da": "Lav",
+            "sv": "Låg"
           }
         },
         {
           "id": "Medium",
           "title": {
             "en": "Medium",
-            "nl": "Middel"
+            "nl": "Middel",
+            "fr": "Moyen",
+            "da": "Mellem",
+            "sv": "Medel"
           }
         },
         {
           "id": "High",
           "title": {
             "en": "High",
-            "nl": "Hoog"
+            "nl": "Hoog",
+            "fr": "Élevé",
+            "da": "Høj",
+            "sv": "Hög"
           }
         },
         {
           "id": "Boost",
           "title": {
             "en": "Boost",
-            "nl": "Boost"
+            "nl": "Boost",
+            "fr": "Boost",
+            "da": "Boost",
+            "sv": "Boost"
           }
         }
       ]

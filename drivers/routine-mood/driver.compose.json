@@ -1,7 +1,10 @@
 {
   "name": {
     "en": "Routine: Mood",
-    "nl": "Routine: Sfeer"
+    "nl": "Routine: Sfeer",
+    "fr": "Routine : Ambiance",
+    "da": "Rutine: Scenarie",
+    "sv": "Rutin: Scenario"
   },
   "class": "other",
   "capabilities": ["onoff"],

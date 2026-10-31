@@ -1,7 +1,10 @@
 {
   "name": {
     "en": "Universal Dimmer",
-    "nl": "Universele Dimmer"
+    "nl": "Universele Dimmer",
+    "fr": "Module de variateur universel",
+    "da": "Universelt lysdæmpermodul",
+    "sv": "Dimmeraktor universal"
   },
   "class": "light",
   "capabilities": ["onoff", "dim"],

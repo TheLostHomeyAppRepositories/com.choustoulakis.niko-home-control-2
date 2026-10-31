@@ -4,15 +4,24 @@
       "id": "jwt_expiring",
       "title": {
         "en": "The token expires within a number of days",
-        "nl": "Het token verloopt binnen een aantal dagen"
+        "nl": "Het token verloopt binnen een aantal dagen",
+        "fr": "Le jeton expire dans un certain nombre de jours",
+        "da": "Tokenet udløber inden for et antal dage",
+        "sv": "Token löper ut inom ett antal dagar"
       },
       "titleFormatted": {
         "en": "The token expires within [[days]] days",
-        "nl": "Het token verloopt binnen [[days]] dagen"
+        "nl": "Het token verloopt binnen [[days]] dagen",
+        "fr": "Le jeton expire d'ici [[days]] jours",
+        "da": "Tokenet udløber inden for [[days]] dage",
+        "sv": "Token löper ut inom [[days]] dagar"
       },
       "hint": {
         "en": "Runs once a day while the Hobby API token expires within the given number of days.",
-        "nl": "Wordt dagelijks uitgevoerd zolang het Hobby API-token binnen het opgegeven aantal dagen verloopt."
+        "nl": "Wordt dagelijks uitgevoerd zolang het Hobby API-token binnen het opgegeven aantal dagen verloopt.",
+        "fr": "S'exécute une fois par jour tant que le jeton Hobby API expire dans le nombre de jours indiqué.",
+        "da": "Kører én gang om dagen, så længe Hobby API-tokenet udløber inden for det angivne antal dage.",
+        "sv": "Körs en gång om dagen så länge Hobby API-token löper ut inom det angivna antalet dagar."
       },
       "tokens": [
         {
@@ -20,7 +29,10 @@
           "type": "number",
           "title": {
             "en": "Days left",
-            "nl": "Resterende dagen"
+            "nl": "Resterende dagen",
+            "fr": "Jours restants",
+            "da": "Dage tilbage",
+            "sv": "Dagar kvar"
           },
           "example": 14
         }
@@ -34,11 +46,17 @@
           "step": 1,
           "placeholder": {
             "en": "30",
-            "nl": "30"
+            "nl": "30",
+            "fr": "30",
+            "da": "30",
+            "sv": "30"
           },
           "title": {
             "en": "Days",
-            "nl": "Dagen"
+            "nl": "Dagen",
+            "fr": "Jours",
+            "da": "Dage",
+            "sv": "Dagar"
           }
         }
       ]
@@ -49,11 +67,17 @@
       "id": "jwt_expires_within",
       "title": {
         "en": "The token !{{expires|doesn't expire}} within a number of days",
-        "nl": "Het token !{{verloopt|verloopt niet}} binnen een aantal dagen"
+        "nl": "Het token !{{verloopt|verloopt niet}} binnen een aantal dagen",
+        "fr": "Le jeton !{{expire|n'expire pas}} dans un certain nombre de jours",
+        "da": "Tokenet !{{udløber|udløber ikke}} inden for et antal dage",
+        "sv": "Token !{{löper ut|löper inte ut}} inom ett antal dagar"
       },
       "titleFormatted": {
         "en": "The token !{{expires|doesn't expire}} within [[days]] days",
-        "nl": "Het token !{{verloopt|verloopt niet}} binnen [[days]] dagen"
+        "nl": "Het token !{{verloopt|verloopt niet}} binnen [[days]] dagen",
+        "fr": "Le jeton !{{expire|n'expire pas}} d'ici [[days]] jours",
+        "da": "Tokenet !{{udløber|udløber ikke}} inden for [[days]] dage",
+        "sv": "Token !{{löper ut|löper inte ut}} inom [[days]] dagar"
       },
       "args": [
         {
@@ -64,11 +88,17 @@
           "step": 1,
           "placeholder": {
             "en": "30",
-            "nl": "30"
+            "nl": "30",
+            "fr": "30",
+            "da": "30",
+            "sv": "30"
           },
           "title": {
             "en": "Days",
-            "nl": "Dagen"
+            "nl": "Dagen",
+            "fr": "Jours",
+            "da": "Dage",
+            "sv": "Dagar"
           }
         }
       ]

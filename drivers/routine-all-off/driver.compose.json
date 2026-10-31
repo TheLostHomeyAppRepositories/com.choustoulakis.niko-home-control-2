@@ -1,7 +1,10 @@
 {
   "name": {
     "en": "Routine: All off",
-    "nl": "Routine: Alles uit"
+    "nl": "Routine: Alles uit",
+    "fr": "Routine : Tout éteint",
+    "da": "Rutine: Sluk-alt",
+    "sv": "Rutin: Allt av"
   },
   "class": "other",
   "capabilities": ["onoff"],
