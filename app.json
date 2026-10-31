@@ -287,7 +287,6 @@
             "en": "Debugging information"
           },
           "value": "No logs recorded yet.",
-          "readyOnly": true,
           "hint": {
             "en": "Double-tap or long-press to select all text for copying on mobile."
           }
