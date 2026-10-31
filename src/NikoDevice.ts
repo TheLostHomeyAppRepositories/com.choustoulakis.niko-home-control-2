@@ -71,20 +71,16 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
     }
   }
 
+  /**
+   * Throws when the command cannot be sent, so Homey reports the failure to the user or Flow
+   * instead of showing a state the Niko installation never received.
+   */
   protected setNikoDeviceProps(props: Partial<K['Properties'][number]>[]): void {
     const controller = this.getConnectedController();
     if (controller === undefined) {
-      void this.setUnavailable('The Connected Controller no longer found.');
-      return;
+      throw new Error('The Connected Controller no longer found.');
     }
-    try {
-      controller.setDeviceProps(this._device.Uuid, props);
-    } catch (error: any) {
-      void this.setUnavailable(
-        'Failed to send command to Niko Home Control Controller. Please check the connection and try again.',
-      );
-      return;
-    }
+    controller.setDeviceProps(this._device.Uuid, props);
   }
 
   onUninit(): Promise<void> {

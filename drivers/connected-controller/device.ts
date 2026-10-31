@@ -235,7 +235,13 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   setDeviceProps(uuid: string, props: NikoMqttDevice['Properties']): void {
-    this.client?.setDeviceProps(uuid, props);
+    const client = this.client;
+    if (!client || client.getState() !== NikoClientState.CONNECTED) {
+      throw new Error(
+        'Failed to send command to Niko Home Control Controller. Please check the connection and try again.',
+      );
+    }
+    client.setDeviceProps(uuid, props);
   }
 
   async updateDebugInfo(): Promise<void> {
