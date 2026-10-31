@@ -1,13 +1,43 @@
 # Niko Home Control II for Homey
 
-Control a Niko Home Control II installation from Homey, locally through the
-[Niko Hobby API](https://www.niko.eu/en/our-products/home-automation/hobby-api).
+Control your Niko Home Control II installation from Homey: lights, dimmers, sockets, shutters, ventilation,
+routines and comfort sensors. Everything runs locally between Homey and your Connected Controller,
+using Niko's official [Hobby API](https://www.niko.eu/en/our-products/home-automation/hobby-api).
+
+**[Install from the Homey App Store](https://homey.app/a/com.choustoulakis.niko-home-control-2/)**
+
+## What you need
+
+- A **Homey Pro** on the same network as your Niko installation
+- A **Niko Home Control II Connected Controller**, registered, with internet access
+- The **Niko Home Control programming software** 2.17 or newer, and your Niko account
+- A **Hobby API token** (see below), free, valid for one year
+
+## 1. Get your Hobby API token
+
+1. Open the Niko Home Control programming software and connect to your installation.
+2. Go to **Dashboard → Manage connected services**.
+3. Under **Additional steps required**, open **Hobby API** and click **Manage**.
+4. Log in with your Niko account if asked, and **Accept** the terms.
+5. Click **Copy** to copy the token, then **Done**.
+
+The username is always `hobby`. The controller must be online the first time the token is used. See
+Niko's [FAQ](https://www.niko.eu/en/need-help/faq/niko-home-control-api/how-do-i-get-access-to-the-hobby-api)
+and [guide](https://guide.niko.eu/en/connhc2/lv/hobby-api) for details.
+
+## 2. Add it to Homey
+
+1. Install the app and add a **Connected Controller**. It is found automatically on your network;
+   otherwise choose **Manual Configuration**.
+2. Open the controller's **Settings** and paste the token. Fill in the IP address for a manual setup;
+   keep port `8884` and username `hobby`.
+3. Add your Niko devices through their driver (Switching Module, Universal Dimmer, ...).
 
 ## Supported devices
 
-| Homey driver                  | Niko models                                                                               |
+| Homey device                  | Niko models                                                                               |
 | ----------------------------- | ----------------------------------------------------------------------------------------- |
-| Connected Controller          | Connected Controller (the gateway, add this first)                                        |
+| Connected Controller          | The gateway, add this first                                                               |
 | Switching Module              | `light`, `socket`, `switched-fan`, `switched-generic`                                     |
 | Universal Dimmer              | `dimmer`                                                                                  |
 | Motor Module                  | `rolldownshutter`, `sunblind`, `gate`, `venetianblind`                                    |
@@ -16,16 +46,22 @@ Control a Niko Home Control II installation from Homey, locally through the
 | Routine: Mood                 | `comfort`                                                                                 |
 | Comfort sensor (1/2/4/6 keys) | `thermoswitchx1`, `thermoswitchx{1,2,4,6}feedback`, `thermoventilationcontrollerfeedback` |
 
-## Setup
+## Renewing the token
 
-1. Activate the Hobby API in the Niko programming software and generate a token (JWT, valid one year).
-2. In Homey, add a **Connected Controller** (found via mDNS, or enter the IP manually) and paste the
-   token in its settings.
-3. Add your Niko devices.
+The token expires after one year; the Connected Controller shows the remaining days. Renew it in the
+programming software (at the earliest one month before it expires) and paste the new token in the
+controller's settings. See Niko's
+[renewal FAQ](https://www.niko.eu/en/need-help/faq/niko-home-control-api/where-can-i-renew-the-hobby-api-token).
 
-The token's remaining days are shown on the Connected Controller. For support, copy
-**Settings → Debugging information** (the token is redacted) into an issue.
+## Troubleshooting
 
-## Development
+- **Controller unavailable:** the reason is shown on the device. Check the token, its expiry, and
+  that Homey and the controller are on the same network.
+- **A device is unavailable:** check that it still exists in the Niko programming software.
+- **Need help?** Copy the controller's **Settings → Debugging information** (the token is redacted)
+  into the [community topic](https://community.homey.app/t/app-pro-niko-home-control-2/146467) or an
+  [issue](https://github.com/georgechoustoulakis/homey-niko-home-control-2/issues).
 
-See [CONTRIBUTING.md](CONTRIBUTING.md). `README.txt` is the App Store description.
+## Contributing
+
+Developers: see [CONTRIBUTING.md](CONTRIBUTING.md). This app is not affiliated with Niko.
