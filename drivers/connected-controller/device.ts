@@ -34,6 +34,7 @@ export class ConnectedControllerDevice extends Homey.Device {
   private connectQueue: Promise<void> = Promise.resolve();
   private pendingConnects = 0;
   private lastConnectAt = 0;
+  private writtenDebugReport?: string;
 
   async onInit() {
     // Add capability if it doesn't exist (for existing devices)
@@ -289,7 +290,10 @@ export class ConnectedControllerDevice extends Homey.Device {
 
   async updateDebugInfoAndSettings(): Promise<void> {
     await this.updateDebugInfo();
-    await this.setSettings({ debugReport: this.settings.debugReport });
+    const { debugReport } = this.settings;
+    if (debugReport === this.writtenDebugReport) return;
+    await this.setSettings({ debugReport });
+    this.writtenDebugReport = debugReport;
   }
 
   private buildDebugReport(): string {
