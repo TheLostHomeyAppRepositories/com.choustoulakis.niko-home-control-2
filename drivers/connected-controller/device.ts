@@ -5,6 +5,19 @@ import { NikoClientState, NikoDeviceWithOwner, NikoMqttClient } from './NikoMqtt
 import { clearInterval } from 'node:timers';
 import { NikoModel, NikoType } from './NikoTypes';
 
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+function getJwtExpiresAt(jwt: string | undefined): number | undefined {
+  const parts = jwt?.trim().split('.');
+  if (parts?.length !== 3) return undefined;
+  try {
+    const { exp } = JSON.parse(Buffer.from(parts[1], 'base64').toString());
+    return typeof exp === 'number' ? exp * 1000 : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export class ConnectedControllerDevice extends Homey.Device {
   private settings!: ConnectedControllerSettings;
   private client!: NikoMqttClient;
@@ -74,7 +87,7 @@ export class ConnectedControllerDevice extends Homey.Device {
 
     await this.discoverIpIfNeeded();
 
-    if (this.getCapabilityValue('jwt_remaining_days') < 0) {
+    if (this.isJwtExpired()) {
       await this.updateDebugInfoAndSettings();
       return await this.setUnavailable(
         "The provided JWT has expired. Please enter a valid JWT in the device's settings menu.",
@@ -111,32 +124,16 @@ export class ConnectedControllerDevice extends Homey.Device {
 
   private readonly updateJwtRemainingDays = async () => {
     if (this.isUnloaded) return;
-
-    if (this.settings.jwt === undefined || this.settings.jwt.trim() === '') {
-      void this.setCapabilityValue('jwt_remaining_days', 0).catch(this.error);
-      return;
-    }
-    try {
-      const jwtParts = this.settings.jwt.split('.');
-      if (jwtParts.length !== 3) {
-        await this.setCapabilityValue('jwt_remaining_days', 0);
-        return;
-      }
-      const jwtPayload = JSON.parse(Buffer.from(jwtParts[1], 'base64').toString());
-
-      if (jwtPayload.exp) {
-        const currentTime = Math.floor(Date.now() / 1000);
-        const remainingSeconds = jwtPayload.exp - currentTime;
-        const remainingDays = Math.floor(remainingSeconds / (60 * 60 * 24));
-        await this.setCapabilityValue('jwt_remaining_days', remainingDays);
-      } else {
-        await this.setCapabilityValue('jwt_remaining_days', 0);
-      }
-    } catch (e) {
-      this.error('Failed to parse JWT for remaining days check', e);
-      await this.setCapabilityValue('jwt_remaining_days', 0);
-    }
+    const expiresAt = getJwtExpiresAt(this.settings.jwt);
+    const remainingDays =
+      expiresAt === undefined ? 0 : Math.max(0, Math.floor((expiresAt - Date.now()) / DAY_MS));
+    await this.setCapabilityValue('jwt_remaining_days', remainingDays).catch(this.error);
   };
+
+  private isJwtExpired(): boolean {
+    const expiresAt = getJwtExpiresAt(this.settings.jwt);
+    return expiresAt !== undefined && expiresAt <= Date.now();
+  }
 
   private readonly reconnectIfNeeded = async () => {
     if (this.isUnloaded) return;
@@ -253,7 +250,7 @@ export class ConnectedControllerDevice extends Homey.Device {
     ];
 
     const validationError = this.checkSettingsForErrors();
-    const isExpired = this.getCapabilityValue('jwt_remaining_days') < 0;
+    const isExpired = this.isJwtExpired();
     if (!this.client || validationError || isExpired) {
       lines.push(
         'status: NOT_INITIALIZED',
