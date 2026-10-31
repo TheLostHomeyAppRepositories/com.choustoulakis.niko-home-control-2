@@ -5,6 +5,7 @@ import { NikoDeviceWithOwner } from './niko/NikoMqttClient';
 
 import { NikoMqttDevice } from './niko/NikoTypes';
 import { NikoPropertyRecord, toPropertyRecord } from './niko/NikoProperties';
+import { onDeviceUpdate } from './niko/NikoEvents';
 import { DeviceStore } from './NikoDriver';
 
 export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device {
@@ -12,13 +13,14 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
   private _device!: K;
   private _properties: NikoPropertyRecord<K> = {};
   private interval!: NodeJS.Timeout;
+  private unsubscribers: (() => void)[] = [];
 
   async onInit(): Promise<void> {
     await super.onInit();
     const { connectedControllerId, device } = await this.resolveDeviceWithOwner();
     this.setDevice(device as K);
     this._connectedControllerId = connectedControllerId;
-    this.homey.addListener(this._device.Uuid, this.onDeviceUpdate);
+    this.unsubscribers.push(onDeviceUpdate(this.homey, this._device.Uuid, this.onDeviceUpdate));
     this.interval = this.homey.setInterval(
       () => this.updateDeviceAvailability().catch(this.error),
       30_000,
@@ -80,15 +82,19 @@ export abstract class NikoDevice<K extends NikoMqttDevice> extends Homey.Device 
   }
 
   onUninit(): Promise<void> {
-    this.homey.removeListener(this._device.Uuid, this.onDeviceUpdate);
-    clearInterval(this.interval);
+    this.unload();
     return super.onUninit();
   }
 
   onDeleted() {
-    this.homey.removeListener(this._device.Uuid, this.onDeviceUpdate);
-    clearInterval(this.interval);
+    this.unload();
     super.onDeleted();
+  }
+
+  private unload(): void {
+    this.unsubscribers.forEach((unsubscribe) => unsubscribe());
+    this.unsubscribers = [];
+    clearInterval(this.interval);
   }
 
   private async updateDeviceAvailability(): Promise<void> {

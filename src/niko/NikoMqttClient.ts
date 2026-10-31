@@ -3,6 +3,7 @@ import { EventEmitter } from 'events';
 import type Homey from 'homey/lib/Homey';
 import { NikoMqttDevice, NikoModel, NikoType } from './NikoTypes';
 import { mergeProperties } from './NikoProperties';
+import { emitDeviceUpdate } from './NikoEvents';
 
 export interface NikoConnectionSettings {
   ip: string;
@@ -309,11 +310,7 @@ export class NikoMqttClient extends EventEmitter {
     if (DEBUG_MQTT) {
       console.log(`Emitting device update for ${device.Name} (${device.Uuid})`);
     }
-    const update: NikoDeviceWithOwner = {
-      device,
-      connectedControllerId: this.connectedControllerId,
-    };
-    this.homey.emit(device.Uuid, update);
+    emitDeviceUpdate(this.homey, { device, connectedControllerId: this.connectedControllerId });
   }
 
   public disconnect(): void {
