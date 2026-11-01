@@ -27,10 +27,10 @@ and [guide](https://guide.niko.eu/en/connhc2/lv/hobby-api) for details.
 
 ## 2. Add it to Homey
 
-1. Install the app and add a **Connected Controller**. It is found automatically on your network;
-   otherwise choose **Manual Configuration**.
-2. Open the controller's **Settings** and paste the token. Fill in the IP address for a manual setup;
-   keep port `8884` and username `hobby`.
+1. Install the app and add a **Connected Controller**. Pick your controller from the list of
+   controllers found on your network, or choose **Add it manually** and enter its IP address.
+2. Paste the token. The connection is tested right away and shows how many Niko devices were found
+   and how long the token stays valid. Then choose **Add controller**.
 3. Add your Niko devices through their driver (Switching Module, Universal Dimmer, ...).
 
 ## Supported devices
@@ -63,6 +63,9 @@ controller's settings. See Niko's
 
 - **Controller unavailable:** the reason is shown on the device. Check the token, its expiry, and
   that Homey and the controller are on the same network.
+- **Connection test fails while adding:** the message tells why (token rejected, expired, or no
+  controller at that IP address). If the controller is just offline, you can still add it and fix
+  the settings later.
 - **A device is unavailable:** check that it still exists in the Niko programming software.
 - **Need help?** Copy the controller's **Settings → Debugging information** (the token is redacted)
   into the [community topic](https://community.homey.app/t/app-pro-niko-home-control-2/146467) or an
