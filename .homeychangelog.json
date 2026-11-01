@@ -76,5 +76,8 @@
   },
   "1.11.0": {
     "en": "Added token expiry reminders and Flow cards, plus French, Danish and Swedish translations. Improved connection stability."
+  },
+  "1.12.0": {
+    "en": "Added Thermostat, Virtual flag and Home energy devices, an easier controller setup with a connection test, and a Repair option to renew the token."
   }
 }
