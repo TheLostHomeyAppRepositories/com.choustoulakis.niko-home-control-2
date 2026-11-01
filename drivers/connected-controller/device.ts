@@ -9,29 +9,18 @@ import {
 import { clearInterval } from 'node:timers';
 import { NikoModel, NikoMqttDevice, NikoType } from '../../src/niko/NikoTypes';
 import { emitControllerChanged } from '../../src/niko/NikoEvents';
+import {
+  getConnectionSettingsError,
+  getJwtExpiresAt,
+  getRemainingDays,
+} from '../../src/niko/NikoConnection';
 
-const DAY_MS = 24 * 60 * 60 * 1000;
 const AUTHORIZATION_RETRY_MS = 5 * 60_000;
 const JWT_REMINDER_DAYS = [30, 7, 1];
 const EXPIRED_STAGE = -1;
 
 // Stages count down: 30, 7, 1, then EXPIRED_STAGE (-1), so a lower stage is a later reminder.
 type JwtReminder = { expiresAt: number; stage: number };
-
-function getRemainingDays(expiresAt: number): number {
-  return Math.max(0, Math.floor((expiresAt - Date.now()) / DAY_MS));
-}
-
-function getJwtExpiresAt(jwt: string | undefined): number | undefined {
-  const parts = jwt?.trim().split('.');
-  if (parts?.length !== 3) return undefined;
-  try {
-    const { exp } = JSON.parse(Buffer.from(parts[1], 'base64').toString());
-    return typeof exp === 'number' ? exp * 1000 : undefined;
-  } catch {
-    return undefined;
-  }
-}
 
 export class ConnectedControllerDevice extends Homey.Device {
   private settings!: ConnectedControllerSettings;
@@ -134,20 +123,8 @@ export class ConnectedControllerDevice extends Homey.Device {
   }
 
   private checkSettingsForErrors(): string | undefined {
-    const ipRegex =
-      /^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-    if (!this.settings.ip || !ipRegex.test(this.settings.ip)) {
-      return this.homey.__('controller.invalidIp');
-    }
-    if (!this.settings.port || isNaN(this.settings.port)) {
-      return this.homey.__('controller.invalidPort');
-    }
-    if (!this.settings.username || this.settings.username.trim() === '') {
-      return this.homey.__('controller.missingUsername');
-    }
-    if (!this.settings.jwt || this.settings.jwt.trim() === '') {
-      return this.homey.__('controller.missingJwt');
-    }
+    const error = getConnectionSettingsError(this.settings);
+    return error && this.homey.__(`controller.${error}`);
   }
 
   // Queued, so overlapping checks never trigger Flows or reminders twice.
