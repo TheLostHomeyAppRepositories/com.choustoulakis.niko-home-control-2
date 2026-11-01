@@ -1,6 +1,6 @@
 {
   "id": "com.choustoulakis.niko-home-control-2",
-  "version": "1.13.0",
+  "version": "1.13.1",
   "compatibility": ">=12.5.0",
   "sdk": 3,
   "platforms": [

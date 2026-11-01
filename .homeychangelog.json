@@ -82,5 +82,8 @@
   },
   "1.13.0": {
     "en": "Added Socket, Switched fan, Switched output and Smart plug devices. Existing devices keep working."
+  },
+  "1.13.1": {
+    "en": "New Niko-style device images and icons, and clearer device names."
   }
 }
