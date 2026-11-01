@@ -26,7 +26,11 @@
       "jwtExpired": "Dit token is verlopen. Maak een nieuw token aan in de Niko Home Control-programmeersoftware.",
       "add": "Controller toevoegen",
       "addAnyway": "Toevoegen zonder werkende verbinding",
-      "confirmAddAnyway": "De verbinding werkte niet. Controller toch toevoegen? Je kunt dit later aanpassen in de instellingen van de controller."
+      "confirmAddAnyway": "De verbinding werkte niet. Controller toch toevoegen? Je kunt dit later aanpassen in de instellingen van de controller.",
+      "save": "Opslaan",
+      "saveAnyway": "Opslaan zonder werkende verbinding",
+      "confirmSaveAnyway": "De verbinding werkte niet. Deze instellingen toch opslaan?",
+      "repairSubtitle": "Plak een nieuw token of corrigeer het IP-adres van __name__."
     }
   },
   "controller": {

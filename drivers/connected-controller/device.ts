@@ -73,6 +73,17 @@ export class ConnectedControllerDevice extends Homey.Device {
     return await super.onSettings({ oldSettings, newSettings, changedKeys });
   }
 
+  // setSettings() from code does not call onSettings(), so apply and reconnect here.
+  async applyConnection(
+    connection: Pick<ConnectedControllerSettings, 'ip' | 'jwt'>,
+  ): Promise<void> {
+    await this.setSettings(connection);
+    this.settings = this.getSettings();
+    await this.updateDebugInfo();
+    await this.updateJwtRemainingDays();
+    await this.connect();
+  }
+
   async onUninit() {
     this.unload();
     return await super.onUninit();

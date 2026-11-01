@@ -157,6 +157,8 @@
     // Only failures where the controller may simply be offline or the token is renewed later.
     var ADD_ANYWAY_ERRORS = ['unreachable', 'authorizationFailed', 'jwtExpired'];
     var controller = { manual: true };
+    // The repair flow reuses this view to save a new IP or token on the existing controller.
+    var repair = false;
     var testRun = 0;
 
     var ipInput = document.getElementById('connect-ip');
@@ -232,10 +234,12 @@
 
     function addController() {
       Homey.showLoadingOverlay();
-      Homey.emit('create', getConnection())
-        .then(function (device) {
-          return Homey.createDevice(device);
-        })
+      var saved = repair
+        ? Homey.emit('save', getConnection())
+        : Homey.emit('create', getConnection()).then(function (device) {
+            return Homey.createDevice(device);
+          });
+      saved
         .then(function () {
           Homey.done();
         })
@@ -256,21 +260,43 @@
     testButton.addEventListener('click', testConnection);
     addButton.addEventListener('click', addController);
     addAnywayButton.addEventListener('click', function () {
-      Homey.confirm(Homey.__('pair.connect.confirmAddAnyway'), 'warning').then(
-        function (confirmed) {
-          if (confirmed) addController();
-        },
-      );
+      var question = repair ? 'pair.connect.confirmSaveAnyway' : 'pair.connect.confirmAddAnyway';
+      Homey.confirm(Homey.__(question), 'warning').then(function (confirmed) {
+        if (confirmed) addController();
+      });
     });
 
-    Homey.getViewStoreValue('connect', 'controller').then(function (selected) {
+    function showPairing(selected) {
       controller = selected || { manual: true };
       document.getElementById('connect-ip-group').hidden = !controller.manual;
       document.getElementById('connect-subtitle').textContent = controller.manual
         ? Homey.__('pair.connect.manualSubtitle')
         : controller.id + ' · ' + controller.address;
-      document.getElementById('connect-page').classList.add('is-ready');
-      (controller.manual ? ipInput : jwtInput).focus();
-    });
+    }
+
+    function showRepair(context) {
+      repair = true;
+      ipInput.value = context.ip || '';
+      document.getElementById('connect-ip-group').hidden = false;
+      document.getElementById('connect-subtitle').textContent = Homey.__(
+        'pair.connect.repairSubtitle',
+        { name: context.name },
+      );
+      addButton.textContent = Homey.__('pair.connect.save');
+      addAnywayButton.textContent = Homey.__('pair.connect.saveAnyway');
+    }
+
+    Homey.getOptions()
+      .then(function (options) {
+        if (options && options.repair) return Homey.emit('repairContext').then(showRepair);
+        return Homey.getViewStoreValue('connect', 'controller').then(showPairing);
+      })
+      .catch(function (error) {
+        Homey.alert(error.message || String(error), 'error');
+      })
+      .finally(function () {
+        document.getElementById('connect-page').classList.add('is-ready');
+        (repair || !controller.manual ? jwtInput : ipInput).focus();
+      });
   })();
 </script>

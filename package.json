@@ -4,8 +4,8 @@
   "scripts": {
     "debug": "homey app run",
     "build": "tsc",
-    "lint:fix": "eslint --fix && prettier . --write",
-    "lint:check": "eslint && prettier . --check",
+    "lint:fix": "cp drivers/connected-controller/pair/connect.html drivers/connected-controller/repair/connect.html && eslint --fix && prettier . --write",
+    "lint:check": "cmp drivers/connected-controller/pair/connect.html drivers/connected-controller/repair/connect.html && eslint && prettier . --check",
     "niko:dump": "node --env-file=.env scripts/niko-dump.mjs"
   },
   "devDependencies": {

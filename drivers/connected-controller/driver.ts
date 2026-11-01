@@ -22,13 +22,14 @@ type DiscoveredController = { id: string; name: string; address: string; already
 // remain in the device settings for unusual setups.
 type PairingConnection = { controllerId?: string; ip: string; jwt: string };
 
-function toConnectionSettings(connection: PairingConnection): NikoConnectionSettings {
-  return {
-    ip: connection.ip.trim(),
+function toConnectionSettings(
+  connection: PairingConnection,
+  fixed: Pick<NikoConnectionSettings, 'port' | 'username'> = {
     port: DEFAULT_PORT,
     username: DEFAULT_USERNAME,
-    jwt: connection.jwt.trim(),
-  };
+  },
+): NikoConnectionSettings {
+  return { ...fixed, ip: connection.ip.trim(), jwt: connection.jwt.trim() };
 }
 
 export class ConnectedControllerDriver extends Homey.Driver {
@@ -46,14 +47,38 @@ export class ConnectedControllerDriver extends Homey.Driver {
   async onPair(session: Homey.Driver.PairSession): Promise<void> {
     session.setHandler('discover', async () => this.getDiscoveredControllers());
     session.setHandler('test', async (connection: PairingConnection) =>
-      testConnection(toConnectionSettings(connection), {
-        setTimeout: (callback, ms, ...args) => this.homey.setTimeout(callback, ms, ...args),
-        setInterval: (callback, ms, ...args) => this.homey.setInterval(callback, ms, ...args),
-      }),
+      this.testConnection(toConnectionSettings(connection)),
     );
     session.setHandler('create', async (connection: PairingConnection) =>
       this.toPairingData(connection),
     );
+  }
+
+  // Reuses the connect view. Port and username keep the device's values, also when customized.
+  async onRepair(session: Homey.Driver.PairSession, device: Homey.Device): Promise<void> {
+    const controller = device as ConnectedControllerDevice;
+    const fixed = {
+      port: controller.getSetting('port'),
+      username: controller.getSetting('username'),
+    };
+    session.setHandler('repairContext', async () => ({
+      name: controller.getName(),
+      ip: controller.getSetting('ip'),
+    }));
+    session.setHandler('test', async (connection: PairingConnection) =>
+      this.testConnection(toConnectionSettings(connection, fixed)),
+    );
+    session.setHandler('save', async (connection: PairingConnection) => {
+      const { ip, jwt } = toConnectionSettings(connection, fixed);
+      await controller.applyConnection({ ip, jwt });
+    });
+  }
+
+  private testConnection(settings: NikoConnectionSettings) {
+    return testConnection(settings, {
+      setTimeout: (callback, ms, ...args) => this.homey.setTimeout(callback, ms, ...args),
+      setInterval: (callback, ms, ...args) => this.homey.setInterval(callback, ms, ...args),
+    });
   }
 
   // Paired controllers are always listed, also when discovery doesn't see them right now, so the

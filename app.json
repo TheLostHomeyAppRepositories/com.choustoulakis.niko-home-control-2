@@ -240,6 +240,14 @@
           }
         }
       ],
+      "repair": [
+        {
+          "id": "connect",
+          "options": {
+            "repair": true
+          }
+        }
+      ],
       "id": "connected-controller",
       "settings": [
         {

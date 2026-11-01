@@ -25,5 +25,13 @@
         "prev": "discover"
       }
     }
+  ],
+  "repair": [
+    {
+      "id": "connect",
+      "options": {
+        "repair": true
+      }
+    }
   ]
 }
