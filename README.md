@@ -47,6 +47,13 @@ and [guide](https://guide.niko.eu/en/connhc2/lv/hobby-api) for details.
 | Fan with speeds               | `fan`                                                                                     |
 | Routine: All off              | `alloff`                                                                                  |
 | Routine: Mood                 | `comfort`                                                                                 |
+| Routine: Custom               | `generic` (custom routine / free start-stop)                                              |
+| Routine: House status         | `overallcomfort`                                                                          |
+| Routine: Presence alert       | `alarms` (intruder alarm, can be arming)                                                  |
+| Routine: Warning mode         | `alarms` (panic)                                                                          |
+| Routine: Presence simulation  | `simulation`                                                                              |
+| Routine: Solar mode           | `solarmode`                                                                               |
+| Routine: Peak mode            | `peakmode`                                                                                |
 | Comfort sensor (1/2/4/6 keys) | `thermoswitchx1`, `thermoswitchx{1,2,4,6}feedback`, `thermoventilationcontrollerfeedback` |
 | Home energy                   | `energyhome` (central meter, e.g. P1): live power and monthly peak, shown in Homey Energy |
 | Thermostat                    | Wall thermostat, touch switch, Digital Black, virtual and HVAC thermostats                |

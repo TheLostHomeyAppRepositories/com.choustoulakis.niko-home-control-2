@@ -67,6 +67,10 @@ There is no automated test suite yet.
 - Relay actions: `light`, `socket`, `switched-fan` and `switched-generic` each have a driver since 1.13.
   The `light` driver used to pair all four; those devices stay there (they cannot move drivers) and
   keep their class switching. Users can change their icon in Homey; apps cannot after pairing.
+- Start/stop routines (custom, house status, presence alert, warning mode, presence simulation, solar
+  and peak mode) share `src/shared/StartStopRoutineDevice.ts`: `Triggered` toggles, so it is only sent
+  when the requested state differs. Presence alert and warning mode are both `alarms`; only the
+  intruder alarm has an `Intermediate` state (per the spec), which is how they are told apart.
 - Flags: installations report `virtual/flag`, the spec documents `action/flag`; the driver takes both.
   `Status` True/False switches a flag directly (verified, also without any action). The Niko app only
   shows flags through actions; the Homey driver deliberately exposes the flag itself.
