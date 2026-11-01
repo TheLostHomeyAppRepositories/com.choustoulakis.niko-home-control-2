@@ -81,6 +81,13 @@ There is no automated test suite yet.
 - Repair views must live in `drivers/<id>/repair/`. The controller's repair reuses the connect view:
   `repair/connect.html` is a copy of `pair/connect.html` (edit the pair one, `npm run lint:fix` copies
   it, `lint:check` fails when they differ). No symlink: the build keeps it as a symlink.
+- Driver icons (`drivers/<id>/assets/icon.svg`): start from the matching Niko icon of the Niko Home
+  Control programming software, so icons look like the Niko app. Check it visually: some are
+  mislabelled or contain text (e.g. "24V", "kWh"), which is unreadable at small sizes. Scale to
+  960×960 (Homey store requirement), optimize with an SVG optimizer (e.g. SVGO) and replace Niko's
+  near-black (`#1A1A1A`) with `#000`, like the existing icons.
+- Driver images (`assets/images/{small,large,xlarge}.png`, 75/500/1000 px): a product photo on a white
+  background; for devices without hardware (routines, flags) the Niko pictogram on white.
 - Comments: names, variables and return types should make code self-explanatory. If a function
   needs a comment to explain what it does, rename it instead. Only comment the non-obvious why:
   edge cases, Niko quirks, constraints future sessions must know. Class docs are fine.
