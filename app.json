@@ -737,6 +737,45 @@
     },
     {
       "name": {
+        "en": "Smart plug",
+        "nl": "Slimme stekker",
+        "fr": "Prise connectée",
+        "da": "Smart stik",
+        "sv": "Smart kontakt"
+      },
+      "class": "socket",
+      "capabilities": [
+        "onoff",
+        "measure_power"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/smart-plug/assets/images/small.png",
+        "large": "/drivers/smart-plug/assets/images/large.png",
+        "xlarge": "/drivers/smart-plug/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "smart-plug"
+    },
+    {
+      "name": {
         "en": "Socket",
         "nl": "Stopcontact",
         "fr": "Prise de courant",

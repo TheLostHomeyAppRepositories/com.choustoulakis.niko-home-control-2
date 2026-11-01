@@ -23,6 +23,7 @@ export enum NikoModel {
   VIRTUAL = 'virtual',
   HVAC_THERMOSTAT = 'hvacthermostat',
   FLAG = 'flag',
+  NASO = 'naso',
 }
 
 export enum NikoType {
@@ -32,6 +33,7 @@ export enum NikoType {
   ENERGY_HOME = 'energyhome',
   THERMOSTAT = 'thermostat',
   VIRTUAL = 'virtual',
+  SMART_PLUG = 'smartplug',
 }
 
 export enum NikoProperty {
@@ -57,6 +59,7 @@ export enum NikoProperty {
   ELECTRICAL_POWER_FROM_GRID = 'ElectricalPowerFromGrid',
   ELECTRICAL_POWER_TO_GRID = 'ElectricalPowerToGrid',
   REPORT_INSTANT_USAGE = 'ReportInstantUsage',
+  ELECTRICAL_POWER = 'ElectricalPower',
   ELECTRICAL_MONTHLY_PEAK_POWER_FROM_GRID = 'ElectricalMonthlyPeakPowerFromGrid',
   OPERATION_MODE = 'OperationMode',
   THERMOSTAT_ON = 'ThermostatOn',
@@ -65,6 +68,7 @@ export enum NikoProperty {
 export enum NikoTechnology {
   NIKO_HOME_CONTROL = 'nikohomecontrol',
   TOUCH_SWITCH = 'touchswitch',
+  ZIGBEE = 'zigbee',
 }
 
 export type NikoAction = 'Open' | 'Close' | 'Stop';
@@ -234,4 +238,16 @@ export interface FlagMqttDevice extends NikoMqttDevice {
   Type: NikoType.ACTION | NikoType.VIRTUAL;
   Model: NikoModel.FLAG;
   Properties: [{ [NikoProperty.STATUS]: NikoBoolean }];
+}
+
+/** Zigbee smart plug: Niko's own (`naso`) or a third-party one (`generic`). */
+export interface SmartPlugMqttDevice extends NikoMqttDevice {
+  Type: NikoType.SMART_PLUG;
+  Technology: NikoTechnology.ZIGBEE;
+  Model: NikoModel.NASO | NikoModel.GENERIC;
+  Properties: [
+    { [NikoProperty.STATUS]: NikoOnOff },
+    { [NikoProperty.ELECTRICAL_POWER]: NikoWatt | NikoUnreported }, // negative when producing
+    { [NikoProperty.REPORT_INSTANT_USAGE]: NikoBoolean | NikoUnreported },
+  ];
 }

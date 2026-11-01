@@ -1,17 +1,11 @@
 import { NikoDevice } from '../../src/NikoDevice';
 import { EnergyHomeMqttDevice, NikoProperty } from '../../src/niko/NikoTypes';
-
-// Spaced out, so updates arriving before Niko confirms a request don't send duplicates.
-const LIVE_POWER_REQUEST_INTERVAL_MS = 10_000;
-
-function toWatt(value: string | undefined): number | undefined {
-  if (value === undefined || value === '') return undefined;
-  const watt = Number(value);
-  return Number.isFinite(watt) ? watt : undefined;
-}
+import { LivePowerRequester, toWatt } from '../../src/shared/LivePower';
 
 class NikoEnergyHomeDevice extends NikoDevice<EnergyHomeMqttDevice> {
-  private lastLivePowerRequest = 0;
+  private readonly livePower = new LivePowerRequester(() =>
+    this.setNikoDeviceProps([{ [NikoProperty.REPORT_INSTANT_USAGE]: 'True' }]),
+  );
 
   async onInit(): Promise<void> {
     await super.onInit();
@@ -35,16 +29,7 @@ class NikoEnergyHomeDevice extends NikoDevice<EnergyHomeMqttDevice> {
       await this.setCapabilityValue('measure_power.monthly_peak', monthlyPeak);
     }
 
-    if (this.getProperty(NikoProperty.REPORT_INSTANT_USAGE) !== 'True') {
-      this.requestLivePower();
-    }
-  }
-
-  // Niko resets ReportInstantUsage after 30 s and reports that as an update, which re-requests it.
-  private requestLivePower(): void {
-    if (Date.now() - this.lastLivePowerRequest < LIVE_POWER_REQUEST_INTERVAL_MS) return;
-    this.lastLivePowerRequest = Date.now();
-    this.setNikoDeviceProps([{ [NikoProperty.REPORT_INSTANT_USAGE]: 'True' }]);
+    this.livePower.onUpdate(this.getProperty(NikoProperty.REPORT_INSTANT_USAGE));
   }
 }
 
