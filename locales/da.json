@@ -1,6 +1,34 @@
 {
   "pair": {
-    "noController": "⚠️ Tilføj først en Controller."
+    "noController": "⚠️ Tilføj først en Controller.",
+    "deviceName": "Controller",
+    "discover": {
+      "title": "Find din controller",
+      "subtitle": "Controllere fundet på dit netværk",
+      "none": "Der blev ikke fundet nogen controller automatisk.",
+      "alreadyAdded": "Allerede tilføjet",
+      "notListed": "Er din controller ikke på listen?",
+      "addManually": "Tilføj den manuelt"
+    },
+    "connect": {
+      "title": "Forbind din controller",
+      "manualSubtitle": "Indtast controllerens IP-adresse og Hobby API-token.",
+      "ip": "IP-adresse",
+      "token": "Hobby API-token",
+      "tokenHint": "Niko Home Control-programmeringssoftwaren: Dashboard → Administrer tilsluttede tjenester → Hobby API → Administrer → Kopiér.",
+      "test": "Test forbindelsen",
+      "success": "Forbundet: __count__ Niko-enheder fundet.",
+      "tokenValid": "Token gyldigt i __days__ dage endnu.",
+      "unreachable": "Ingen controller svarede på __address__. Kontroller IP-adressen, og at Homey og controlleren er på samme netværk.",
+      "authorizationFailed": "Controlleren afviste dette token. Kopiér hele tokenet igen.",
+      "invalidIp": "Indtast en gyldig IP-adresse, f.eks. 192.168.1.10.",
+      "missingJwt": "Indsæt dit Hobby API-token.",
+      "jwtExpired": "Dette token er udløbet. Opret et nyt i Niko Home Control-programmeringssoftwaren.",
+      "add": "Tilføj controller",
+      "addAnyway": "Tilføj uden fungerende forbindelse",
+      "confirmAddAnyway": "Forbindelsen virkede ikke. Tilføj controlleren alligevel? Du kan rette det senere i controllerens indstillinger.",
+      "testing": "Tester forbindelsen…"
+    }
   },
   "controller": {
     "invalidIp": "Ugyldig IP-adresse i enhedens indstillinger.",

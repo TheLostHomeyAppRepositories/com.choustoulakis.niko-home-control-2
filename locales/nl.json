@@ -1,6 +1,34 @@
 {
   "pair": {
-    "noController": "⚠️ Voeg eerst een Connected Controller toe."
+    "noController": "⚠️ Voeg eerst een Connected Controller toe.",
+    "deviceName": "Connected Controller",
+    "discover": {
+      "title": "Zoek je controller",
+      "subtitle": "Controllers gevonden op je netwerk",
+      "none": "Er is automatisch geen controller gevonden.",
+      "alreadyAdded": "Al toegevoegd",
+      "notListed": "Staat je controller niet in deze lijst?",
+      "addManually": "Handmatig toevoegen"
+    },
+    "connect": {
+      "title": "Verbind je controller",
+      "manualSubtitle": "Vul het IP-adres en het Hobby API-token van je controller in.",
+      "ip": "IP-adres",
+      "token": "Hobby API-token",
+      "tokenHint": "Niko Home Control-programmeersoftware: Dashboard → Gekoppelde diensten beheren → Hobby API → Beheren → Kopiëren.",
+      "test": "Verbinding testen",
+      "success": "Verbonden: __count__ Niko-apparaten gevonden.",
+      "tokenValid": "Token nog __days__ dagen geldig.",
+      "unreachable": "Geen controller bereikbaar op __address__. Controleer het IP-adres en of Homey en de controller op hetzelfde netwerk zitten.",
+      "authorizationFailed": "De controller heeft dit token geweigerd. Kopieer het volledige token opnieuw.",
+      "invalidIp": "Vul een geldig IP-adres in, bijv. 192.168.1.10.",
+      "missingJwt": "Plak je Hobby API-token.",
+      "jwtExpired": "Dit token is verlopen. Maak een nieuw token aan in de Niko Home Control-programmeersoftware.",
+      "add": "Controller toevoegen",
+      "addAnyway": "Toevoegen zonder werkende verbinding",
+      "confirmAddAnyway": "De verbinding werkte niet. Controller toch toevoegen? Je kunt dit later aanpassen in de instellingen van de controller.",
+      "testing": "Verbinding testen…"
+    }
   },
   "controller": {
     "invalidIp": "Ongeldig IP-adres in de instellingen van het apparaat.",

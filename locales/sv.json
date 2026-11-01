@@ -1,6 +1,34 @@
 {
   "pair": {
-    "noController": "⚠️ Lägg först till en ansluten kontrollenhet."
+    "noController": "⚠️ Lägg först till en ansluten kontrollenhet.",
+    "deviceName": "Ansluten kontrollenhet",
+    "discover": {
+      "title": "Hitta din kontrollenhet",
+      "subtitle": "Kontrollenheter i ditt nätverk",
+      "none": "Ingen kontrollenhet hittades automatiskt.",
+      "alreadyAdded": "Redan tillagd",
+      "notListed": "Finns din kontrollenhet inte i listan?",
+      "addManually": "Lägg till manuellt"
+    },
+    "connect": {
+      "title": "Anslut din kontrollenhet",
+      "manualSubtitle": "Ange kontrollenhetens IP-adress och Hobby API-token.",
+      "ip": "IP-adress",
+      "token": "Hobby API-token",
+      "tokenHint": "Programmeringsprogramvaran för Niko Home Control: Dashboard → Hantera anslutna tjänster → Hobby API → Hantera → Kopiera.",
+      "test": "Testa anslutningen",
+      "success": "Ansluten: __count__ Niko-enheter hittades.",
+      "tokenValid": "Token giltig i __days__ dagar till.",
+      "unreachable": "Ingen kontrollenhet svarade på __address__. Kontrollera IP-adressen och att Homey och kontrollenheten är i samma nätverk.",
+      "authorizationFailed": "Kontrollenheten avvisade denna token. Kopiera hela token igen.",
+      "invalidIp": "Ange en giltig IP-adress, t.ex. 192.168.1.10.",
+      "missingJwt": "Klistra in din Hobby API-token.",
+      "jwtExpired": "Denna token har löpt ut. Skapa en ny i programmeringsprogramvaran för Niko Home Control.",
+      "add": "Lägg till kontrollenhet",
+      "addAnyway": "Lägg till utan fungerande anslutning",
+      "confirmAddAnyway": "Anslutningen fungerade inte. Lägg till kontrollenheten ändå? Du kan rätta det senare i kontrollenhetens inställningar.",
+      "testing": "Testar anslutningen…"
+    }
   },
   "controller": {
     "invalidIp": "Ogiltig IP-adress i enhetens inställningar.",

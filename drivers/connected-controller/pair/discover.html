@@ -1,0 +1,194 @@
+<!-- Homey renders all pair views in one document: IDs are prefixed, CSS and script scoped. -->
+<div id="discover-page" class="page">
+  <header class="homey-header">
+    <h1 class="homey-title" data-i18n="pair.discover.title"></h1>
+    <p class="homey-subtitle" data-i18n="pair.discover.subtitle"></p>
+  </header>
+
+  <ul id="discover-list" class="list"></ul>
+
+  <div id="discover-none" class="empty" hidden>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path
+        d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 5a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0V8a1 1 0 0 1 1-1Zm0 10.5a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z"
+      />
+    </svg>
+    <span data-i18n="pair.discover.none"></span>
+  </div>
+
+  <footer class="footer">
+    <p class="muted" data-i18n="pair.discover.notListed"></p>
+    <button
+      id="discover-add-manually"
+      class="homey-button-secondary-shadow-full"
+      data-i18n="pair.discover.addManually"
+    ></button>
+  </footer>
+</div>
+
+<style>
+  #discover-page {
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+  }
+  /* Revealed once texts and data are final, so nothing shifts after load. */
+  #discover-page.is-ready {
+    opacity: 1;
+  }
+  /* Display rules below would otherwise override the hidden attribute. */
+  #discover-page [hidden] {
+    display: none !important;
+  }
+  #discover-page .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-radius: var(--homey-border-radius, 10px);
+    overflow: hidden;
+    background: var(--homey-color-mono-025, rgba(0, 0, 0, 0.03));
+  }
+  #discover-page .row {
+    display: flex;
+    align-items: center;
+    gap: var(--homey-su-2, 12px);
+    width: 100%;
+    padding: var(--homey-su-2, 12px);
+    border: none;
+    border-block-end: 1px solid var(--homey-color-mono-100, rgba(0, 0, 0, 0.08));
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+  #discover-page li:last-child .row {
+    border-block-end: none;
+  }
+  #discover-page .row:disabled {
+    cursor: default;
+    opacity: 0.45;
+  }
+  #discover-page .row img {
+    width: 40px;
+    height: 40px;
+    flex: none;
+  }
+  #discover-page .row-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+  }
+  #discover-page .row-title {
+    font-weight: var(--homey-font-weight-medium, 500);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  #discover-page .row-subtitle,
+  #discover-page .muted {
+    color: var(--homey-color-text-light, rgba(0, 0, 0, 0.5));
+    font-size: var(--homey-font-size-small, 0.875em);
+  }
+  #discover-page .chevron {
+    width: 20px;
+    height: 20px;
+    flex: none;
+    fill: var(--homey-color-mono-400, rgba(0, 0, 0, 0.35));
+  }
+  #discover-page .empty {
+    display: flex;
+    align-items: center;
+    gap: var(--homey-su-1, 8px);
+    padding: var(--homey-su-2, 12px);
+    border-radius: var(--homey-border-radius, 10px);
+    background: var(--homey-color-mono-025, rgba(0, 0, 0, 0.03));
+    color: var(--homey-color-text-light, rgba(0, 0, 0, 0.5));
+  }
+  #discover-page .empty svg {
+    width: 22px;
+    height: 22px;
+    flex: none;
+    fill: currentColor;
+  }
+  #discover-page .footer {
+    padding-block-start: var(--homey-su-3, 24px);
+    text-align: center;
+  }
+  #discover-page .footer .muted {
+    margin-block-end: var(--homey-su-1, 8px);
+  }
+</style>
+
+<script type="application/javascript">
+  (function () {
+    var CHEVRON =
+      '<svg class="chevron" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.3 5.3a1 1 0 0 1 1.4 0l6 6a1 1 0 0 1 0 1.4l-6 6a1 1 0 1 1-1.4-1.4l5.3-5.3-5.3-5.3a1 1 0 0 1 0-1.4Z"/></svg>';
+    var page = document.getElementById('discover-page');
+    var list = document.getElementById('discover-list');
+    var none = document.getElementById('discover-none');
+
+    function openConnect(controller) {
+      Homey.setViewStoreValue('connect', 'controller', controller)
+        .then(function () {
+          Homey.showView('connect');
+        })
+        .catch(function (error) {
+          Homey.alert(error.message || String(error), 'error');
+        });
+    }
+
+    function renderController(controller) {
+      var row = document.createElement('button');
+      row.className = 'row';
+      row.disabled = controller.alreadyAdded;
+
+      var icon = document.createElement('img');
+      icon.src = '../assets/icon.svg';
+      icon.alt = '';
+
+      var text = document.createElement('span');
+      text.className = 'row-text';
+      var title = document.createElement('span');
+      title.className = 'row-title';
+      title.textContent = controller.name;
+      var subtitle = document.createElement('span');
+      subtitle.className = 'row-subtitle';
+      subtitle.textContent = controller.alreadyAdded
+        ? controller.address + ' · ' + Homey.__('pair.discover.alreadyAdded')
+        : controller.address;
+      text.append(title, subtitle);
+
+      row.append(icon, text);
+      if (!controller.alreadyAdded) row.insertAdjacentHTML('beforeend', CHEVRON);
+      row.addEventListener('click', function () {
+        openConnect({ manual: false, id: controller.id, address: controller.address });
+      });
+
+      var item = document.createElement('li');
+      item.append(row);
+      return item;
+    }
+
+    document.getElementById('discover-add-manually').addEventListener('click', function () {
+      openConnect({ manual: true });
+    });
+
+    Homey.showLoadingOverlay();
+    Homey.emit('discover')
+      .then(function (controllers) {
+        controllers.forEach(function (controller) {
+          list.append(renderController(controller));
+        });
+        list.hidden = controllers.length === 0;
+        none.hidden = controllers.length > 0;
+      })
+      .catch(function (error) {
+        Homey.alert(error.message || String(error), 'error');
+      })
+      .finally(function () {
+        Homey.hideLoadingOverlay();
+        page.classList.add('is-ready');
+      });
+  })();
+</script>

@@ -1,0 +1,314 @@
+<!-- Homey renders all pair views in one document: IDs are prefixed, CSS and script scoped. -->
+<form id="connect-page" class="homey-form page" onsubmit="return false">
+  <header class="homey-header">
+    <h1 class="homey-title" data-i18n="pair.connect.title"></h1>
+    <p id="connect-subtitle" class="homey-subtitle"></p>
+  </header>
+
+  <div id="connect-ip-group" class="homey-form-group" hidden>
+    <label class="homey-form-label" for="connect-ip" data-i18n="pair.connect.ip"></label>
+    <input
+      id="connect-ip"
+      class="homey-form-input"
+      type="text"
+      inputmode="decimal"
+      placeholder="192.168.1.10"
+      autocomplete="off"
+    />
+  </div>
+
+  <div class="homey-form-group">
+    <label class="homey-form-label" for="connect-jwt" data-i18n="pair.connect.token"></label>
+    <textarea
+      id="connect-jwt"
+      class="homey-form-textarea"
+      rows="3"
+      autocomplete="off"
+      autocapitalize="off"
+      spellcheck="false"
+    ></textarea>
+    <p class="hint" data-i18n="pair.connect.tokenHint"></p>
+  </div>
+
+  <div id="connect-status" class="status" role="status" aria-live="polite">
+    <span class="status-icon">
+      <span class="spinner"></span>
+      <svg class="icon-success" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.7 7.7-5.5 5.5a1 1 0 0 1-1.4 0l-2.5-2.5a1 1 0 1 1 1.4-1.4l1.8 1.8 4.8-4.8a1 1 0 1 1 1.4 1.4Z"
+        />
+      </svg>
+      <svg class="icon-error" viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 5a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0V8a1 1 0 0 1 1-1Zm0 10.5a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z"
+        />
+      </svg>
+    </span>
+    <span id="connect-status-text"></span>
+  </div>
+
+  <footer class="footer">
+    <button
+      id="connect-test"
+      type="button"
+      class="homey-button-secondary-shadow-full"
+      data-i18n="pair.connect.test"
+    ></button>
+    <button
+      id="connect-add"
+      type="button"
+      class="homey-button-primary-shadow-full is-disabled"
+      disabled
+      data-i18n="pair.connect.add"
+    ></button>
+    <button
+      id="connect-add-anyway"
+      type="button"
+      class="homey-button-transparent is-invisible"
+      data-i18n="pair.connect.addAnyway"
+    ></button>
+  </footer>
+</form>
+
+<style>
+  #connect-page {
+    opacity: 0;
+    transition: opacity 0.15s ease-out;
+  }
+  /* Revealed once texts, data and visible fields are final, so nothing shifts after load. */
+  #connect-page.is-ready {
+    opacity: 1;
+  }
+  /* Display rules below would otherwise override the hidden attribute. */
+  #connect-page [hidden] {
+    display: none !important;
+  }
+  #connect-page .hint {
+    margin-block-start: var(--homey-su-1, 8px);
+    color: var(--homey-color-text-light, rgba(0, 0, 0, 0.5));
+    font-size: var(--homey-font-size-small, 0.875em);
+  }
+  #connect-page #connect-jwt {
+    font-family: ui-monospace, monospace;
+    font-size: 0.8em;
+    word-break: break-all;
+  }
+  #connect-page .status {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--homey-su-1, 10px);
+    padding: var(--homey-su-2, 12px);
+    border-radius: var(--homey-border-radius, 10px);
+    background: var(--homey-color-mono-025, rgba(0, 0, 0, 0.04));
+    line-height: 1.4;
+    min-height: calc(3 * 1.4em);
+    box-sizing: content-box;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      opacity 0.15s ease-out,
+      background-color 0.15s ease-out,
+      color 0.15s ease-out;
+  }
+  #connect-page .status.is-testing,
+  #connect-page .status.is-success,
+  #connect-page .status.is-error {
+    visibility: visible;
+    opacity: 1;
+  }
+  #connect-page .status-icon {
+    display: flex;
+    flex: none;
+    width: 22px;
+    height: 22px;
+    align-items: center;
+    justify-content: center;
+  }
+  #connect-page .status-icon > * {
+    display: none;
+  }
+  #connect-page .status-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+  }
+  #connect-page .status.is-testing .spinner,
+  #connect-page .status.is-success .icon-success,
+  #connect-page .status.is-error .icon-error {
+    display: block;
+  }
+  #connect-page .status.is-testing {
+    color: var(--homey-color-text-light, rgba(0, 0, 0, 0.6));
+  }
+  #connect-page .status.is-success {
+    background: rgba(46, 184, 92, 0.12);
+    color: var(--homey-color-green, #1f9d55);
+  }
+  #connect-page .status.is-error {
+    background: rgba(229, 72, 77, 0.1);
+    color: var(--homey-color-red-500, #d93036);
+  }
+  #connect-page .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid currentColor;
+    border-inline-end-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  #connect-page .is-invisible {
+    visibility: hidden;
+  }
+  #connect-page .footer {
+    display: grid;
+    gap: var(--homey-su-1, 8px);
+    padding-block-start: var(--homey-su-2, 16px);
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
+
+<script type="application/javascript">
+  (function () {
+    // Only failures where the controller may simply be offline or the token is renewed later.
+    var ADD_ANYWAY_ERRORS = ['unreachable', 'authorizationFailed', 'jwtExpired'];
+    var AUTO_TEST_DELAY_MS = 600;
+    var controller = { manual: true };
+    var autoTestTimer;
+    var testRun = 0;
+
+    var ipInput = document.getElementById('connect-ip');
+    var jwtInput = document.getElementById('connect-jwt');
+    var status = document.getElementById('connect-status');
+    var statusText = document.getElementById('connect-status-text');
+    var testButton = document.getElementById('connect-test');
+    var addButton = document.getElementById('connect-add');
+    var addAnywayButton = document.getElementById('connect-add-anyway');
+
+    function getConnection() {
+      return {
+        controllerId: controller.manual ? undefined : controller.id,
+        ip: controller.manual ? ipInput.value : controller.address,
+        jwt: jwtInput.value,
+      };
+    }
+
+    function setButtonEnabled(button, enabled) {
+      button.disabled = !enabled;
+      button.classList.toggle('is-disabled', !enabled);
+    }
+
+    function showStatus(kind, message) {
+      status.className = 'status is-' + kind;
+      statusText.textContent = message;
+    }
+
+    function setAddAnywayVisible(visible) {
+      addAnywayButton.classList.toggle('is-invisible', !visible);
+      addAnywayButton.disabled = !visible;
+    }
+
+    function resetResult() {
+      status.className = 'status';
+      setAddAnywayVisible(false);
+      setButtonEnabled(addButton, false);
+    }
+
+    function getErrorMessage(result, connection) {
+      if (result.error === 'unreachable') {
+        return Homey.__('pair.connect.unreachable', { address: connection.ip.trim() });
+      }
+      return Homey.__('pair.connect.' + result.error);
+    }
+
+    function testConnection() {
+      clearTimeout(autoTestTimer);
+      // Ignore results of a test that was started before the inputs changed again.
+      var run = ++testRun;
+      var connection = getConnection();
+      resetResult();
+      showStatus('testing', Homey.__('pair.connect.testing'));
+      testButton.classList.add('is-loading');
+      setButtonEnabled(testButton, false);
+
+      return Homey.emit('test', connection)
+        .then(function (result) {
+          if (run !== testRun) return;
+          if (result.ok) {
+            var message = Homey.__('pair.connect.success', { count: result.deviceCount });
+            if (typeof result.jwtDaysLeft === 'number') {
+              message += ' ' + Homey.__('pair.connect.tokenValid', { days: result.jwtDaysLeft });
+            }
+            showStatus('success', message);
+            setButtonEnabled(addButton, true);
+            return;
+          }
+          showStatus('error', getErrorMessage(result, connection));
+          setAddAnywayVisible(ADD_ANYWAY_ERRORS.indexOf(result.error) !== -1);
+        })
+        .catch(function (error) {
+          if (run === testRun) showStatus('error', error.message || String(error));
+        })
+        .finally(function () {
+          if (run !== testRun) return;
+          testButton.classList.remove('is-loading');
+          setButtonEnabled(testButton, true);
+        });
+    }
+
+    function addController() {
+      Homey.showLoadingOverlay();
+      Homey.emit('create', getConnection())
+        .then(function (device) {
+          return Homey.createDevice(device);
+        })
+        .then(function () {
+          Homey.done();
+        })
+        .catch(function (error) {
+          Homey.hideLoadingOverlay();
+          Homey.alert(error.message || String(error), 'error');
+        });
+    }
+
+    function looksComplete() {
+      var connection = getConnection();
+      return connection.ip.trim() !== '' && connection.jwt.trim().split('.').length === 3;
+    }
+
+    function onInputChange() {
+      testRun++;
+      testButton.classList.remove('is-loading');
+      setButtonEnabled(testButton, true);
+      resetResult();
+      clearTimeout(autoTestTimer);
+      if (looksComplete()) autoTestTimer = setTimeout(testConnection, AUTO_TEST_DELAY_MS);
+    }
+
+    ipInput.addEventListener('input', onInputChange);
+    jwtInput.addEventListener('input', onInputChange);
+    testButton.addEventListener('click', testConnection);
+    addButton.addEventListener('click', addController);
+    addAnywayButton.addEventListener('click', function () {
+      Homey.confirm(Homey.__('pair.connect.confirmAddAnyway'), 'warning').then(
+        function (confirmed) {
+          if (confirmed) addController();
+        },
+      );
+    });
+
+    Homey.getViewStoreValue('connect', 'controller').then(function (selected) {
+      controller = selected || { manual: true };
+      document.getElementById('connect-ip-group').hidden = !controller.manual;
+      document.getElementById('connect-subtitle').textContent = controller.manual
+        ? Homey.__('pair.connect.manualSubtitle')
+        : controller.id + ' · ' + controller.address;
+      setAddAnywayVisible(false);
+      document.getElementById('connect-page').classList.add('is-ready');
+      (controller.manual ? ipInput : jwtInput).focus();
+    });
+  })();
+</script>

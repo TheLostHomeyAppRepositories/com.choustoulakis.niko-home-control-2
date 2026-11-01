@@ -1,6 +1,34 @@
 {
   "pair": {
-    "noController": "⚠️ First add a Connected Controller."
+    "noController": "⚠️ First add a Connected Controller.",
+    "deviceName": "Connected Controller",
+    "discover": {
+      "title": "Find your controller",
+      "subtitle": "Controllers found on your network",
+      "none": "No controller was found automatically.",
+      "alreadyAdded": "Already added",
+      "notListed": "Is your controller not in this list?",
+      "addManually": "Add it manually"
+    },
+    "connect": {
+      "title": "Connect your controller",
+      "manualSubtitle": "Enter your controller's IP address and Hobby API token.",
+      "ip": "IP address",
+      "token": "Hobby API token",
+      "tokenHint": "Niko Home Control programming software: Dashboard → Manage connected services → Hobby API → Manage → Copy.",
+      "test": "Test connection",
+      "success": "Connected: __count__ Niko devices found.",
+      "tokenValid": "Token valid for __days__ more days.",
+      "unreachable": "No controller answered at __address__. Check the IP address, and that Homey and the controller are on the same network.",
+      "authorizationFailed": "The controller rejected this token. Copy the complete token again.",
+      "invalidIp": "Enter a valid IP address, e.g. 192.168.1.10.",
+      "missingJwt": "Paste your Hobby API token.",
+      "jwtExpired": "This token has expired. Create a new one in the Niko Home Control programming software.",
+      "add": "Add controller",
+      "addAnyway": "Add without a working connection",
+      "confirmAddAnyway": "The connection did not work. Add the controller anyway? You can correct this later in the controller's settings.",
+      "testing": "Testing the connection…"
+    }
   },
   "controller": {
     "invalidIp": "Invalid IP address in the device's settings.",

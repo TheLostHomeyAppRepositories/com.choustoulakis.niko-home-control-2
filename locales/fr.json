@@ -1,6 +1,34 @@
 {
   "pair": {
-    "noController": "⚠️ Ajoutez d'abord une unité de contrôle connectée."
+    "noController": "⚠️ Ajoutez d'abord une unité de contrôle connectée.",
+    "deviceName": "Unité de contrôle connectée",
+    "discover": {
+      "title": "Trouvez votre unité de contrôle",
+      "subtitle": "Unités de contrôle trouvées sur votre réseau",
+      "none": "Aucune unité de contrôle n'a été trouvée automatiquement.",
+      "alreadyAdded": "Déjà ajoutée",
+      "notListed": "Votre unité de contrôle n'est pas dans la liste ?",
+      "addManually": "L'ajouter manuellement"
+    },
+    "connect": {
+      "title": "Connectez votre unité de contrôle",
+      "manualSubtitle": "Saisissez l'adresse IP et le jeton Hobby API de votre unité de contrôle.",
+      "ip": "Adresse IP",
+      "token": "Jeton Hobby API",
+      "tokenHint": "Logiciel de programmation Niko Home Control : Tableau de bord → Gérer les services connectés → Hobby API → Gérer → Copier.",
+      "test": "Tester la connexion",
+      "success": "Connecté : __count__ appareils Niko trouvés.",
+      "tokenValid": "Jeton valable encore __days__ jours.",
+      "unreachable": "Aucune unité de contrôle n'a répondu à l'adresse __address__. Vérifiez l'adresse IP et que Homey et l'unité de contrôle sont sur le même réseau.",
+      "authorizationFailed": "L'unité de contrôle a refusé ce jeton. Copiez à nouveau le jeton complet.",
+      "invalidIp": "Saisissez une adresse IP valide, par ex. 192.168.1.10.",
+      "missingJwt": "Collez votre jeton Hobby API.",
+      "jwtExpired": "Ce jeton a expiré. Créez-en un nouveau dans le logiciel de programmation Niko Home Control.",
+      "add": "Ajouter l'unité de contrôle",
+      "addAnyway": "Ajouter sans connexion fonctionnelle",
+      "confirmAddAnyway": "La connexion n'a pas fonctionné. Ajouter quand même l'unité de contrôle ? Vous pourrez corriger cela plus tard dans ses réglages.",
+      "testing": "Test de la connexion…"
+    }
   },
   "controller": {
     "invalidIp": "Adresse IP non valide dans les paramètres de l'appareil.",
