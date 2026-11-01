@@ -78,6 +78,9 @@ There is no automated test suite yet.
   `is-disabled`) and `--homey-*` CSS variables with fallbacks. Reveal a view only once its final
   content is in place, so nothing shifts. Port and username are fixed by Niko, so pairing only
   asks for IP and token.
+- Repair views must live in `drivers/<id>/repair/`. The controller's repair reuses the connect view:
+  `repair/connect.html` is a copy of `pair/connect.html` (edit the pair one, `npm run lint:fix` copies
+  it, `lint:check` fails when they differ). No symlink: the build keeps it as a symlink.
 - Comments: names, variables and return types should make code self-explanatory. If a function
   needs a comment to explain what it does, rename it instead. Only comment the non-obvious why:
   edge cases, Niko quirks, constraints future sessions must know. Class docs are fine.
