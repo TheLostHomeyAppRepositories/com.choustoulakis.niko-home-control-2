@@ -699,6 +699,82 @@
     },
     {
       "name": {
+        "en": "Routine: Custom",
+        "nl": "Routine: Aangepast",
+        "fr": "Routine : Personnalisée",
+        "da": "Rutine: Brugerdefineret",
+        "sv": "Rutin: Anpassad"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/routine-custom/assets/images/small.png",
+        "large": "/drivers/routine-custom/assets/images/large.png",
+        "xlarge": "/drivers/routine-custom/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "routine-custom"
+    },
+    {
+      "name": {
+        "en": "Routine: House status",
+        "nl": "Routine: Huisstatus",
+        "fr": "Routine : Statut de la maison",
+        "da": "Rutine: Husstatus",
+        "sv": "Rutin: Husstatus"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/routine-house-status/assets/images/small.png",
+        "large": "/drivers/routine-house-status/assets/images/large.png",
+        "xlarge": "/drivers/routine-house-status/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "routine-house-status"
+    },
+    {
+      "name": {
         "en": "Routine: Mood",
         "nl": "Routine: Sfeer",
         "fr": "Routine : Ambiance",
@@ -734,6 +810,196 @@
         }
       ],
       "id": "routine-mood"
+    },
+    {
+      "name": {
+        "en": "Routine: Peak mode",
+        "nl": "Routine: Piekmodus",
+        "fr": "Routine : Mode pointe",
+        "da": "Rutine: Spidsbelastningstilstand",
+        "sv": "Rutin: Toppeffektläge"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/routine-peak-mode/assets/images/small.png",
+        "large": "/drivers/routine-peak-mode/assets/images/large.png",
+        "xlarge": "/drivers/routine-peak-mode/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "routine-peak-mode"
+    },
+    {
+      "name": {
+        "en": "Routine: Presence alert",
+        "nl": "Routine: Aanwezigheidsalarm",
+        "fr": "Routine : Alerte de présence",
+        "da": "Rutine: Tilstedeværelsesalarm",
+        "sv": "Rutin: Närvarolarm"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/routine-presence-alert/assets/images/small.png",
+        "large": "/drivers/routine-presence-alert/assets/images/large.png",
+        "xlarge": "/drivers/routine-presence-alert/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "routine-presence-alert"
+    },
+    {
+      "name": {
+        "en": "Routine: Presence simulation",
+        "nl": "Routine: Aanwezigheidssimulatie",
+        "fr": "Routine : Simulation de présence",
+        "da": "Rutine: Tilstedeværelsessimulering",
+        "sv": "Rutin: Närvarosimulering"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/routine-presence-simulation/assets/images/small.png",
+        "large": "/drivers/routine-presence-simulation/assets/images/large.png",
+        "xlarge": "/drivers/routine-presence-simulation/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "routine-presence-simulation"
+    },
+    {
+      "name": {
+        "en": "Routine: Solar mode",
+        "nl": "Routine: Zonnemodus",
+        "fr": "Routine : Mode solaire",
+        "da": "Rutine: Solcelletilstand",
+        "sv": "Rutin: Solläge"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/routine-solar-mode/assets/images/small.png",
+        "large": "/drivers/routine-solar-mode/assets/images/large.png",
+        "xlarge": "/drivers/routine-solar-mode/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "routine-solar-mode"
+    },
+    {
+      "name": {
+        "en": "Routine: Warning mode",
+        "nl": "Routine: Waarschuwingsmodus",
+        "fr": "Routine : Mode d'alerte",
+        "da": "Rutine: Advarselstilstand",
+        "sv": "Rutin: Varningsläge"
+      },
+      "class": "other",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/routine-warning-mode/assets/images/small.png",
+        "large": "/drivers/routine-warning-mode/assets/images/large.png",
+        "xlarge": "/drivers/routine-warning-mode/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "routine-warning-mode"
     },
     {
       "name": {

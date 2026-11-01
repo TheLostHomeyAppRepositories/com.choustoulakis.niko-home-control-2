@@ -1,0 +1,31 @@
+{
+  "name": {
+    "en": "Routine: Warning mode",
+    "nl": "Routine: Waarschuwingsmodus",
+    "fr": "Routine : Mode d'alerte",
+    "da": "Rutine: Advarselstilstand",
+    "sv": "Rutin: Varningsläge"
+  },
+  "class": "other",
+  "capabilities": ["onoff"],
+  "platforms": ["local"],
+  "connectivity": ["lan"],
+  "images": {
+    "small": "{{driverAssetsPath}}/images/small.png",
+    "large": "{{driverAssetsPath}}/images/large.png",
+    "xlarge": "{{driverAssetsPath}}/images/xlarge.png"
+  },
+  "pair": [
+    {
+      "id": "list_devices",
+      "template": "list_devices",
+      "navigation": {
+        "next": "add_devices"
+      }
+    },
+    {
+      "id": "add_devices",
+      "template": "add_devices"
+    }
+  ]
+}

@@ -24,6 +24,11 @@ export enum NikoModel {
   HVAC_THERMOSTAT = 'hvacthermostat',
   FLAG = 'flag',
   NASO = 'naso',
+  HOUSE_STATUS = 'overallcomfort',
+  PRESENCE_SIMULATION = 'simulation',
+  SOLAR_MODE = 'solarmode',
+  PEAK_MODE = 'peakmode',
+  ALARMS = 'alarms',
 }
 
 export enum NikoType {
@@ -77,6 +82,8 @@ export type NikoBoolean = 'True' | 'False';
 export type NikoBooleanLowercase = 'true' | 'false';
 export type NikoOnOff = 'On' | 'Off';
 export type NikoTriggerable = NikoOnOff | 'Triggered';
+// Intermediate: an alarm or presence simulation that is arming or switching.
+export type NikoRoutineState = NikoTriggerable | 'Intermediate';
 export type NikoProgram =
   | 'Day'
   | 'Night'
@@ -250,4 +257,20 @@ export interface SmartPlugMqttDevice extends NikoMqttDevice {
     { [NikoProperty.ELECTRICAL_POWER]: NikoWatt | NikoUnreported }, // negative when producing
     { [NikoProperty.REPORT_INSTANT_USAGE]: NikoBoolean | NikoUnreported },
   ];
+}
+
+/**
+ * Routines that start and stop: sending "Triggered" toggles them. `generic` is the custom routine,
+ * `alarms` covers both the presence alert (intruder alarm) and the warning mode (panic).
+ */
+export interface StartStopRoutineMqttDevice extends NikoMqttDevice {
+  Type: NikoType.ACTION;
+  Model:
+    | NikoModel.GENERIC
+    | NikoModel.HOUSE_STATUS
+    | NikoModel.PRESENCE_SIMULATION
+    | NikoModel.SOLAR_MODE
+    | NikoModel.PEAK_MODE
+    | NikoModel.ALARMS;
+  Properties: [{ [NikoProperty.BASIC_STATE]: NikoRoutineState }];
 }
