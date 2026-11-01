@@ -26,8 +26,7 @@
       "jwtExpired": "Dette token er udløbet. Opret et nyt i Niko Home Control-programmeringssoftwaren.",
       "add": "Tilføj controller",
       "addAnyway": "Tilføj uden fungerende forbindelse",
-      "confirmAddAnyway": "Forbindelsen virkede ikke. Tilføj controlleren alligevel? Du kan rette det senere i controllerens indstillinger.",
-      "testing": "Tester forbindelsen…"
+      "confirmAddAnyway": "Forbindelsen virkede ikke. Tilføj controlleren alligevel? Du kan rette det senere i controllerens indstillinger."
     }
   },
   "controller": {

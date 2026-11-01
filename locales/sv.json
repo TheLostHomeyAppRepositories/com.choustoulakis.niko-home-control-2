@@ -26,8 +26,7 @@
       "jwtExpired": "Denna token har löpt ut. Skapa en ny i programmeringsprogramvaran för Niko Home Control.",
       "add": "Lägg till kontrollenhet",
       "addAnyway": "Lägg till utan fungerande anslutning",
-      "confirmAddAnyway": "Anslutningen fungerade inte. Lägg till kontrollenheten ändå? Du kan rätta det senare i kontrollenhetens inställningar.",
-      "testing": "Testar anslutningen…"
+      "confirmAddAnyway": "Anslutningen fungerade inte. Lägg till kontrollenheten ändå? Du kan rätta det senare i kontrollenhetens inställningar."
     }
   },
   "controller": {

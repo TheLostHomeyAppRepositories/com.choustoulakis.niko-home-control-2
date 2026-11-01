@@ -1,5 +1,5 @@
 <!-- Homey renders all pair views in one document: IDs are prefixed, CSS and script scoped. -->
-<form id="connect-page" class="homey-form page" onsubmit="return false">
+<form id="connect-page" class="homey-form" onsubmit="return false">
   <header class="homey-header">
     <h1 class="homey-title" data-i18n="pair.connect.title"></h1>
     <p id="connect-subtitle" class="homey-subtitle"></p>
@@ -30,9 +30,15 @@
     <p class="hint" data-i18n="pair.connect.tokenHint"></p>
   </div>
 
-  <div id="connect-status" class="status" role="status" aria-live="polite">
-    <span class="status-icon">
-      <span class="spinner"></span>
+  <!-- The label stays in place while testing; the spinner is overlaid, so the button never resizes. -->
+  <button id="connect-test" type="button" class="homey-button-secondary-shadow-full test-button">
+    <span class="spinner" aria-hidden="true"></span>
+    <span data-i18n="pair.connect.test"></span>
+  </button>
+
+  <!-- Only shown after a test, below the test button: the page grows instead of shifting. -->
+  <div id="connect-result" class="result" hidden>
+    <div id="connect-status" class="status" role="status" aria-live="polite">
       <svg class="icon-success" viewBox="0 0 24 24" aria-hidden="true">
         <path
           d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.7 7.7-5.5 5.5a1 1 0 0 1-1.4 0l-2.5-2.5a1 1 0 1 1 1.4-1.4l1.8 1.8 4.8-4.8a1 1 0 1 1 1.4 1.4Z"
@@ -43,31 +49,22 @@
           d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm0 5a1 1 0 0 1 1 1v5a1 1 0 1 1-2 0V8a1 1 0 0 1 1-1Zm0 10.5a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5Z"
         />
       </svg>
-    </span>
-    <span id="connect-status-text"></span>
-  </div>
-
-  <footer class="footer">
-    <button
-      id="connect-test"
-      type="button"
-      class="homey-button-secondary-shadow-full"
-      data-i18n="pair.connect.test"
-    ></button>
+      <span id="connect-status-text"></span>
+    </div>
     <button
       id="connect-add"
       type="button"
-      class="homey-button-primary-shadow-full is-disabled"
-      disabled
+      class="homey-button-primary-shadow-full"
       data-i18n="pair.connect.add"
     ></button>
     <button
       id="connect-add-anyway"
       type="button"
-      class="homey-button-transparent is-invisible"
+      class="homey-button-transparent"
+      hidden
       data-i18n="pair.connect.addAnyway"
     ></button>
-  </footer>
+  </div>
 </form>
 
 <style>
@@ -75,7 +72,7 @@
     opacity: 0;
     transition: opacity 0.15s ease-out;
   }
-  /* Revealed once texts, data and visible fields are final, so nothing shifts after load. */
+  /* Revealed once texts and visible fields are final, so nothing shifts after load. */
   #connect-page.is-ready {
     opacity: 1;
   }
@@ -93,52 +90,52 @@
     font-size: 0.8em;
     word-break: break-all;
   }
+  #connect-page .test-button {
+    position: relative;
+  }
+  #connect-page .test-button .spinner {
+    position: absolute;
+    inset-inline-start: var(--homey-su-2, 16px);
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    margin-block-start: -8px;
+    border: 2px solid currentColor;
+    border-inline-end-color: transparent;
+    border-radius: 50%;
+    visibility: hidden;
+    animation: connect-spin 0.8s linear infinite;
+  }
+  #connect-page .test-button.is-testing {
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  #connect-page .test-button.is-testing .spinner {
+    visibility: visible;
+  }
+  #connect-page .result {
+    display: grid;
+    gap: var(--homey-su-1, 8px);
+    margin-block-start: var(--homey-su-2, 16px);
+  }
   #connect-page .status {
     display: flex;
     align-items: flex-start;
     gap: var(--homey-su-1, 10px);
     padding: var(--homey-su-2, 12px);
     border-radius: var(--homey-border-radius, 10px);
-    background: var(--homey-color-mono-025, rgba(0, 0, 0, 0.04));
     line-height: 1.4;
-    min-height: calc(3 * 1.4em);
-    box-sizing: content-box;
-    visibility: hidden;
-    opacity: 0;
-    transition:
-      opacity 0.15s ease-out,
-      background-color 0.15s ease-out,
-      color 0.15s ease-out;
   }
-  #connect-page .status.is-testing,
-  #connect-page .status.is-success,
-  #connect-page .status.is-error {
-    visibility: visible;
-    opacity: 1;
-  }
-  #connect-page .status-icon {
-    display: flex;
-    flex: none;
-    width: 22px;
-    height: 22px;
-    align-items: center;
-    justify-content: center;
-  }
-  #connect-page .status-icon > * {
+  #connect-page .status svg {
     display: none;
-  }
-  #connect-page .status-icon svg {
+    flex: none;
     width: 22px;
     height: 22px;
     fill: currentColor;
   }
-  #connect-page .status.is-testing .spinner,
   #connect-page .status.is-success .icon-success,
   #connect-page .status.is-error .icon-error {
     display: block;
-  }
-  #connect-page .status.is-testing {
-    color: var(--homey-color-text-light, rgba(0, 0, 0, 0.6));
   }
   #connect-page .status.is-success {
     background: rgba(46, 184, 92, 0.12);
@@ -148,23 +145,7 @@
     background: rgba(229, 72, 77, 0.1);
     color: var(--homey-color-red-500, #d93036);
   }
-  #connect-page .spinner {
-    width: 18px;
-    height: 18px;
-    border: 2px solid currentColor;
-    border-inline-end-color: transparent;
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-  #connect-page .is-invisible {
-    visibility: hidden;
-  }
-  #connect-page .footer {
-    display: grid;
-    gap: var(--homey-su-1, 8px);
-    padding-block-start: var(--homey-su-2, 16px);
-  }
-  @keyframes spin {
+  @keyframes connect-spin {
     to {
       transform: rotate(360deg);
     }
@@ -175,13 +156,12 @@
   (function () {
     // Only failures where the controller may simply be offline or the token is renewed later.
     var ADD_ANYWAY_ERRORS = ['unreachable', 'authorizationFailed', 'jwtExpired'];
-    var AUTO_TEST_DELAY_MS = 600;
     var controller = { manual: true };
-    var autoTestTimer;
     var testRun = 0;
 
     var ipInput = document.getElementById('connect-ip');
     var jwtInput = document.getElementById('connect-jwt');
+    var result = document.getElementById('connect-result');
     var status = document.getElementById('connect-status');
     var statusText = document.getElementById('connect-status-text');
     var testButton = document.getElementById('connect-test');
@@ -196,66 +176,57 @@
       };
     }
 
-    function setButtonEnabled(button, enabled) {
-      button.disabled = !enabled;
-      button.classList.toggle('is-disabled', !enabled);
+    function setTesting(testing) {
+      testButton.classList.toggle('is-testing', testing);
+      testButton.setAttribute('aria-busy', String(testing));
     }
 
-    function showStatus(kind, message) {
-      status.className = 'status is-' + kind;
+    function showResult(ok, message, canAddAnyway) {
+      status.className = 'status ' + (ok ? 'is-success' : 'is-error');
       statusText.textContent = message;
+      addButton.disabled = !ok;
+      addButton.classList.toggle('is-disabled', !ok);
+      addAnywayButton.hidden = ok || !canAddAnyway;
+      result.hidden = false;
     }
 
-    function setAddAnywayVisible(visible) {
-      addAnywayButton.classList.toggle('is-invisible', !visible);
-      addAnywayButton.disabled = !visible;
-    }
-
-    function resetResult() {
-      status.className = 'status';
-      setAddAnywayVisible(false);
-      setButtonEnabled(addButton, false);
-    }
-
-    function getErrorMessage(result, connection) {
-      if (result.error === 'unreachable') {
+    function getErrorMessage(testResult, connection) {
+      if (testResult.error === 'unreachable') {
         return Homey.__('pair.connect.unreachable', { address: connection.ip.trim() });
       }
-      return Homey.__('pair.connect.' + result.error);
+      return Homey.__('pair.connect.' + testResult.error);
     }
 
     function testConnection() {
-      clearTimeout(autoTestTimer);
       // Ignore results of a test that was started before the inputs changed again.
       var run = ++testRun;
       var connection = getConnection();
-      resetResult();
-      showStatus('testing', Homey.__('pair.connect.testing'));
-      testButton.classList.add('is-loading');
-      setButtonEnabled(testButton, false);
+      result.hidden = true;
+      setTesting(true);
 
-      return Homey.emit('test', connection)
-        .then(function (result) {
+      Homey.emit('test', connection)
+        .then(function (testResult) {
           if (run !== testRun) return;
-          if (result.ok) {
-            var message = Homey.__('pair.connect.success', { count: result.deviceCount });
-            if (typeof result.jwtDaysLeft === 'number') {
-              message += ' ' + Homey.__('pair.connect.tokenValid', { days: result.jwtDaysLeft });
+          if (testResult.ok) {
+            var message = Homey.__('pair.connect.success', { count: testResult.deviceCount });
+            if (typeof testResult.jwtDaysLeft === 'number') {
+              message +=
+                ' ' + Homey.__('pair.connect.tokenValid', { days: testResult.jwtDaysLeft });
             }
-            showStatus('success', message);
-            setButtonEnabled(addButton, true);
+            showResult(true, message, false);
             return;
           }
-          showStatus('error', getErrorMessage(result, connection));
-          setAddAnywayVisible(ADD_ANYWAY_ERRORS.indexOf(result.error) !== -1);
+          showResult(
+            false,
+            getErrorMessage(testResult, connection),
+            ADD_ANYWAY_ERRORS.indexOf(testResult.error) !== -1,
+          );
         })
         .catch(function (error) {
-          if (run === testRun) showStatus('error', error.message || String(error));
+          if (run === testRun) showResult(false, error.message || String(error), false);
         })
         .finally(function () {
-          if (run !== testRun) return;
-          testButton.classList.remove('is-loading');
-          setButtonEnabled(testButton, true);
+          if (run === testRun) setTesting(false);
         });
     }
 
@@ -274,18 +245,10 @@
         });
     }
 
-    function looksComplete() {
-      var connection = getConnection();
-      return connection.ip.trim() !== '' && connection.jwt.trim().split('.').length === 3;
-    }
-
     function onInputChange() {
       testRun++;
-      testButton.classList.remove('is-loading');
-      setButtonEnabled(testButton, true);
-      resetResult();
-      clearTimeout(autoTestTimer);
-      if (looksComplete()) autoTestTimer = setTimeout(testConnection, AUTO_TEST_DELAY_MS);
+      setTesting(false);
+      result.hidden = true;
     }
 
     ipInput.addEventListener('input', onInputChange);
@@ -306,7 +269,6 @@
       document.getElementById('connect-subtitle').textContent = controller.manual
         ? Homey.__('pair.connect.manualSubtitle')
         : controller.id + ' · ' + controller.address;
-      setAddAnywayVisible(false);
       document.getElementById('connect-page').classList.add('is-ready');
       (controller.manual ? ipInput : jwtInput).focus();
     });

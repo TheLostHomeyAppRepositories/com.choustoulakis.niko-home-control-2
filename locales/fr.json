@@ -26,8 +26,7 @@
       "jwtExpired": "Ce jeton a expiré. Créez-en un nouveau dans le logiciel de programmation Niko Home Control.",
       "add": "Ajouter l'unité de contrôle",
       "addAnyway": "Ajouter sans connexion fonctionnelle",
-      "confirmAddAnyway": "La connexion n'a pas fonctionné. Ajouter quand même l'unité de contrôle ? Vous pourrez corriger cela plus tard dans ses réglages.",
-      "testing": "Test de la connexion…"
+      "confirmAddAnyway": "La connexion n'a pas fonctionné. Ajouter quand même l'unité de contrôle ? Vous pourrez corriger cela plus tard dans ses réglages."
     }
   },
   "controller": {

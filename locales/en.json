@@ -26,8 +26,7 @@
       "jwtExpired": "This token has expired. Create a new one in the Niko Home Control programming software.",
       "add": "Add controller",
       "addAnyway": "Add without a working connection",
-      "confirmAddAnyway": "The connection did not work. Add the controller anyway? You can correct this later in the controller's settings.",
-      "testing": "Testing the connection…"
+      "confirmAddAnyway": "The connection did not work. Add the controller anyway? You can correct this later in the controller's settings."
     }
   },
   "controller": {
