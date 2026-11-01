@@ -50,7 +50,8 @@
     "sendFailed": "Het commando kon niet naar de Niko Home Control-controller worden verzonden. Controleer de verbinding en probeer het opnieuw.",
     "misconfigured": "Het apparaat is verkeerd geconfigureerd, maak het opnieuw aan.",
     "incorrectState": "Het apparaat heeft een ongeldige status ontvangen. Meld dit probleem.",
-    "sensorUnavailable": "Er is iets mis met het apparaat."
+    "sensorUnavailable": "Er is iets mis met het apparaat.",
+    "readdWithNewerDriver": "Toegevoegd voordat het apparaattype __driver__ bestond. Verwijder het en voeg het opnieuw toe als __driver__ voor het juiste icoon. Flows die het gebruiken moet je aanpassen."
   },
   "reminder": {
     "expiresWithinDay": "Het Niko Hobby API-token van **__name__** verloopt **binnen een dag**. Vernieuw het in de Niko Home Control-programmeersoftware.",
@@ -60,5 +61,10 @@
   },
   "thermostat": {
     "programNotSupported": "Deze thermostaat ondersteunt het programma \"__program__\" niet."
+  },
+  "driverName": {
+    "socket": "Stopcontact",
+    "switchedFan": "Geschakelde ventilator",
+    "switchedGeneric": "Geschakelde uitgang"
   }
 }

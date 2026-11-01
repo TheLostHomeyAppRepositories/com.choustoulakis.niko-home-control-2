@@ -50,7 +50,8 @@
     "sendFailed": "Impossible d'envoyer la commande à l'unité de contrôle Niko Home Control. Vérifiez la connexion et réessayez.",
     "misconfigured": "L'appareil est mal configuré, veuillez le recréer.",
     "incorrectState": "L'appareil a reçu un état incorrect. Veuillez signaler ce problème.",
-    "sensorUnavailable": "L'appareil présente un problème."
+    "sensorUnavailable": "L'appareil présente un problème.",
+    "readdWithNewerDriver": "Ajouté avant l'existence du type d'appareil __driver__. Supprimez-le et ajoutez-le à nouveau en tant que __driver__ pour obtenir la bonne icône. Les Flows qui l'utilisent doivent être mis à jour."
   },
   "reminder": {
     "expiresWithinDay": "Le jeton Hobby API Niko de **__name__** expire **dans moins d'un jour**. Renouvelez-le dans le logiciel de programmation Niko Home Control.",
@@ -60,5 +61,10 @@
   },
   "thermostat": {
     "programNotSupported": "Ce thermostat ne prend pas en charge le programme « __program__ »."
+  },
+  "driverName": {
+    "socket": "Prise de courant",
+    "switchedFan": "Ventilateur commuté",
+    "switchedGeneric": "Sortie commutée"
   }
 }

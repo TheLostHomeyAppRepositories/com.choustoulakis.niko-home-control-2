@@ -50,7 +50,8 @@
     "sendFailed": "Kommandoen kunne ikke sendes til Niko Home Control-controlleren. Kontroller forbindelsen, og prøv igen.",
     "misconfigured": "Enheden er forkert konfigureret. Opret den igen.",
     "incorrectState": "Enheden modtog en ugyldig tilstand. Rapporter venligst dette problem.",
-    "sensorUnavailable": "Der er noget galt med enheden."
+    "sensorUnavailable": "Der er noget galt med enheden.",
+    "readdWithNewerDriver": "Tilføjet, før enhedstypen __driver__ fandtes. Fjern den, og tilføj den igen som __driver__ for at få det rigtige ikon. Flows, der bruger den, skal opdateres."
   },
   "reminder": {
     "expiresWithinDay": "Niko Hobby API-tokenet for **__name__** udløber **inden for et døgn**. Forny det i Niko Home Control-programmeringssoftwaren.",
@@ -60,5 +61,10 @@
   },
   "thermostat": {
     "programNotSupported": "Denne termostat understøtter ikke programmet \"__program__\"."
+  },
+  "driverName": {
+    "socket": "Stikkontakt",
+    "switchedFan": "Koblet ventilator",
+    "switchedGeneric": "Koblet udgang"
   }
 }

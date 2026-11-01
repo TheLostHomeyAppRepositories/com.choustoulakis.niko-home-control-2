@@ -5,12 +5,8 @@ class NikoLightDriver extends NikoDriver {
   async onPairListDevices(): Promise<DevicePairingData[]> {
     return super.getDevicesByAction({
       types: NikoType.ACTION,
-      models: [
-        NikoModel.LIGHT,
-        NikoModel.SOCKET,
-        NikoModel.SWITCHED_FAN,
-        NikoModel.SWITCHED_GENERIC,
-      ],
+      // Sockets, switched fans and switched outputs have their own drivers.
+      models: [NikoModel.LIGHT],
     });
   }
 }

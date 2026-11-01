@@ -584,11 +584,11 @@
     },
     {
       "name": {
-        "en": "Switching Module",
-        "nl": "Schakelmodule",
-        "fr": "Module de commutation",
-        "da": "Relæmodul",
-        "sv": "Kopplingsaktor"
+        "en": "Light",
+        "nl": "Verlichting",
+        "fr": "Éclairage",
+        "da": "Lys",
+        "sv": "Belysning"
       },
       "class": "light",
       "capabilities": [
@@ -734,6 +734,120 @@
         }
       ],
       "id": "routine-mood"
+    },
+    {
+      "name": {
+        "en": "Socket",
+        "nl": "Stopcontact",
+        "fr": "Prise de courant",
+        "da": "Stikkontakt",
+        "sv": "Eluttag"
+      },
+      "class": "socket",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/socket/assets/images/small.png",
+        "large": "/drivers/socket/assets/images/large.png",
+        "xlarge": "/drivers/socket/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "socket"
+    },
+    {
+      "name": {
+        "en": "Switched fan",
+        "nl": "Geschakelde ventilator",
+        "fr": "Ventilateur commuté",
+        "da": "Koblet ventilator",
+        "sv": "Kopplad fläkt"
+      },
+      "class": "fan",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/switched-fan/assets/images/small.png",
+        "large": "/drivers/switched-fan/assets/images/large.png",
+        "xlarge": "/drivers/switched-fan/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "switched-fan"
+    },
+    {
+      "name": {
+        "en": "Switched output",
+        "nl": "Geschakelde uitgang",
+        "fr": "Sortie commutée",
+        "da": "Koblet udgang",
+        "sv": "Kopplad utgång"
+      },
+      "class": "socket",
+      "capabilities": [
+        "onoff"
+      ],
+      "platforms": [
+        "local"
+      ],
+      "connectivity": [
+        "lan"
+      ],
+      "images": {
+        "small": "/drivers/switched-generic/assets/images/small.png",
+        "large": "/drivers/switched-generic/assets/images/large.png",
+        "xlarge": "/drivers/switched-generic/assets/images/xlarge.png"
+      },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "switched-generic"
     },
     {
       "name": {

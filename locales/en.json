@@ -50,7 +50,8 @@
     "sendFailed": "Failed to send the command to the Niko Home Control controller. Please check the connection and try again.",
     "misconfigured": "The device is misconfigured, please re-create it.",
     "incorrectState": "The device received an incorrect state. Please report this issue.",
-    "sensorUnavailable": "Something is wrong with the device."
+    "sensorUnavailable": "Something is wrong with the device.",
+    "readdWithNewerDriver": "Added before the __driver__ device type existed. Remove it and add it again as __driver__ to get the right icon. Flows using it need to be updated."
   },
   "reminder": {
     "expiresWithinDay": "The Niko Hobby API token of **__name__** expires **within a day**. Renew it in the Niko Home Control programming software.",
@@ -60,5 +61,10 @@
   },
   "thermostat": {
     "programNotSupported": "This thermostat does not support the program \"__program__\"."
+  },
+  "driverName": {
+    "socket": "Socket",
+    "switchedFan": "Switched fan",
+    "switchedGeneric": "Switched output"
   }
 }

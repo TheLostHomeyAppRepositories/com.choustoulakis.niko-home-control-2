@@ -50,7 +50,8 @@
     "sendFailed": "Kommandot kunde inte skickas till Niko Home Control-kontrollenheten. Kontrollera anslutningen och försök igen.",
     "misconfigured": "Enheten är felkonfigurerad, skapa den igen.",
     "incorrectState": "Enheten tog emot ett felaktigt tillstånd. Rapportera gärna problemet.",
-    "sensorUnavailable": "Något är fel med enheten."
+    "sensorUnavailable": "Något är fel med enheten.",
+    "readdWithNewerDriver": "Lades till innan enhetstypen __driver__ fanns. Ta bort den och lägg till den igen som __driver__ för att få rätt ikon. Flöden som använder den måste uppdateras."
   },
   "reminder": {
     "expiresWithinDay": "Niko Hobby API-token för **__name__** löper ut **inom ett dygn**. Förnya den i programmeringsprogramvaran för Niko Home Control.",
@@ -60,5 +61,10 @@
   },
   "thermostat": {
     "programNotSupported": "Den här termostaten stöder inte programmet \"__program__\"."
+  },
+  "driverName": {
+    "socket": "Eluttag",
+    "switchedFan": "Kopplad fläkt",
+    "switchedGeneric": "Kopplad utgång"
   }
 }
