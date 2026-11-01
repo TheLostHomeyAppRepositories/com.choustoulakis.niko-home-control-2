@@ -38,7 +38,7 @@ and [guide](https://guide.niko.eu/en/connhc2/lv/hobby-api) for details.
 | Homey device                  | Niko models                                                                               |
 | ----------------------------- | ----------------------------------------------------------------------------------------- |
 | Connected Controller          | The gateway, add this first                                                               |
-| Light                         | `light` (sockets and switched outputs added before 1.12 also stay here)                   |
+| Light                         | `light` (sockets and switched outputs added before 1.13 also stay here)                   |
 | Socket                        | `socket`                                                                                  |
 | Switched fan                  | `switched-fan`                                                                            |
 | Switched output               | `switched-generic`                                                                        |

@@ -64,9 +64,9 @@ There is no automated test suite yet.
   `thermostat/thermostat|virtual`). Variants report different properties and ranges than the spec
   (a real `hvac/virtual` has the HVAC set: OperationMode, FanSpeed, ThermostatOn, no Demand), so the
   device builds its capabilities, range and programs from `PropertyDefinitions`.
-- Relay actions: `light`, `socket`, `switched-fan` and `switched-generic` each have a driver since 1.12.
-  The `light` driver used to pair all four; those devices stay there (they cannot move drivers), keep
-  their class switching, and get a warning to re-add them with the newer driver.
+- Relay actions: `light`, `socket`, `switched-fan` and `switched-generic` each have a driver since 1.13.
+  The `light` driver used to pair all four; those devices stay there (they cannot move drivers) and
+  keep their class switching. Users can change their icon in Homey; apps cannot after pairing.
 - Flags: installations report `virtual/flag`, the spec documents `action/flag`; the driver takes both.
   `Status` True/False switches a flag directly (verified, also without any action). The Niko app only
   shows flags through actions; the Homey driver deliberately exposes the flag itself.
