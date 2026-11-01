@@ -1,10 +1,10 @@
 {
   "name": {
-    "en": "Comfort sensor sixfold button",
-    "nl": "Comfort sensor zesvoudige knop",
-    "fr": "Capteur de confort, bouton sextuple",
-    "da": "Komfortsensor, seksdobbelt tryk",
-    "sv": "Komfortsensor, sexdubbel tryckknapp"
+    "en": "Comfort sensor, 6 buttons",
+    "nl": "Comfort sensor, 6 knoppen",
+    "fr": "Capteur de confort, 6 boutons",
+    "da": "Komfortsensor, 6 tryk",
+    "sv": "Komfortsensor, 6 tryckknappar"
   },
   "class": "sensor",
   "capabilities": ["measure_temperature", "measure_humidity"],

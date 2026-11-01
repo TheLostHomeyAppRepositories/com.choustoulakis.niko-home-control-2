@@ -1,10 +1,10 @@
 {
   "name": {
-    "en": "Switched fan",
-    "nl": "Geschakelde ventilator",
-    "fr": "Ventilateur commuté",
-    "da": "Koblet ventilator",
-    "sv": "Kopplad fläkt"
+    "en": "Fan",
+    "nl": "Ventilator",
+    "fr": "Ventilateur",
+    "da": "Ventilator",
+    "sv": "Fläkt"
   },
   "class": "fan",
   "capabilities": ["onoff"],

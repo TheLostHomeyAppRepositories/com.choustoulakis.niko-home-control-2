@@ -52,11 +52,11 @@
   "drivers": [
     {
       "name": {
-        "en": "Comfort sensor single button",
-        "nl": "Comfort sensor enkele knop",
-        "fr": "Capteur de confort, bouton simple",
-        "da": "Komfortsensor, enkelt tryk",
-        "sv": "Komfortsensor, enkel tryckknapp"
+        "en": "Comfort sensor, 1 button",
+        "nl": "Comfort sensor, 1 knop",
+        "fr": "Capteur de confort, 1 bouton",
+        "da": "Komfortsensor, 1 tryk",
+        "sv": "Komfortsensor, 1 tryckknapp"
       },
       "class": "sensor",
       "capabilities": [
@@ -91,11 +91,11 @@
     },
     {
       "name": {
-        "en": "Comfort sensor double button",
-        "nl": "Comfort sensor dubbele knop",
-        "fr": "Capteur de confort, bouton double",
-        "da": "Komfortsensor, dobbelt tryk",
-        "sv": "Komfortsensor, dubbel tryckknapp"
+        "en": "Comfort sensor, 2 buttons",
+        "nl": "Comfort sensor, 2 knoppen",
+        "fr": "Capteur de confort, 2 boutons",
+        "da": "Komfortsensor, 2 tryk",
+        "sv": "Komfortsensor, 2 tryckknappar"
       },
       "class": "sensor",
       "capabilities": [
@@ -130,11 +130,11 @@
     },
     {
       "name": {
-        "en": "Comfort sensor fourfold button",
-        "nl": "Comfort sensor viervoudige knop",
-        "fr": "Capteur de confort, bouton quadruple",
-        "da": "Komfortsensor, firdobbelt tryk",
-        "sv": "Komfortsensor, fyrdubbel tryckknapp"
+        "en": "Comfort sensor, 4 buttons",
+        "nl": "Comfort sensor, 4 knoppen",
+        "fr": "Capteur de confort, 4 boutons",
+        "da": "Komfortsensor, 4 tryk",
+        "sv": "Komfortsensor, 4 tryckknappar"
       },
       "class": "sensor",
       "capabilities": [
@@ -169,11 +169,11 @@
     },
     {
       "name": {
-        "en": "Comfort sensor sixfold button",
-        "nl": "Comfort sensor zesvoudige knop",
-        "fr": "Capteur de confort, bouton sextuple",
-        "da": "Komfortsensor, seksdobbelt tryk",
-        "sv": "Komfortsensor, sexdubbel tryckknapp"
+        "en": "Comfort sensor, 6 buttons",
+        "nl": "Comfort sensor, 6 knoppen",
+        "fr": "Capteur de confort, 6 boutons",
+        "da": "Komfortsensor, 6 tryk",
+        "sv": "Komfortsensor, 6 tryckknappar"
       },
       "class": "sensor",
       "capabilities": [
@@ -370,11 +370,11 @@
     },
     {
       "name": {
-        "en": "Universal Dimmer",
-        "nl": "Universele Dimmer",
-        "fr": "Module de variateur universel",
-        "da": "Universelt lysdæmpermodul",
-        "sv": "Dimmeraktor universal"
+        "en": "Light with dimmer",
+        "nl": "Verlichting met dimmer",
+        "fr": "Éclairage avec variateur",
+        "da": "Lys med lysdæmper",
+        "sv": "Belysning med dimmer"
       },
       "class": "light",
       "capabilities": [
@@ -462,11 +462,11 @@
     },
     {
       "name": {
-        "en": "Ventilation Module",
-        "nl": "Ventilatiemodule",
-        "fr": "Module de ventilation",
-        "da": "Ventilationsmodul",
-        "sv": "Ventilationsaktor"
+        "en": "Fan with speeds",
+        "nl": "Ventilator met snelheden",
+        "fr": "Ventilateur à vitesses",
+        "da": "Ventilator med hastigheder",
+        "sv": "Fläkt med hastigheter"
       },
       "class": "fan",
       "capabilities": [
@@ -622,11 +622,11 @@
     },
     {
       "name": {
-        "en": "Motor Module",
-        "nl": "Motormodule",
-        "fr": "Module moteur",
-        "da": "Motormodul",
-        "sv": "Motoraktor"
+        "en": "Motor",
+        "nl": "Motor",
+        "fr": "Moteur",
+        "da": "Motor",
+        "sv": "Motor"
       },
       "class": "blinds",
       "capabilities": [
@@ -814,11 +814,11 @@
     },
     {
       "name": {
-        "en": "Switched fan",
-        "nl": "Geschakelde ventilator",
-        "fr": "Ventilateur commuté",
-        "da": "Koblet ventilator",
-        "sv": "Kopplad fläkt"
+        "en": "Fan",
+        "nl": "Ventilator",
+        "fr": "Ventilateur",
+        "da": "Ventilator",
+        "sv": "Fläkt"
       },
       "class": "fan",
       "capabilities": [

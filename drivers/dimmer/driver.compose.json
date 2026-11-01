@@ -1,10 +1,10 @@
 {
   "name": {
-    "en": "Universal Dimmer",
-    "nl": "Universele Dimmer",
-    "fr": "Module de variateur universel",
-    "da": "Universelt lysdæmpermodul",
-    "sv": "Dimmeraktor universal"
+    "en": "Light with dimmer",
+    "nl": "Verlichting met dimmer",
+    "fr": "Éclairage avec variateur",
+    "da": "Lys med lysdæmper",
+    "sv": "Belysning med dimmer"
   },
   "class": "light",
   "capabilities": ["onoff", "dim"],

@@ -1,10 +1,10 @@
 {
   "name": {
-    "en": "Ventilation Module",
-    "nl": "Ventilatiemodule",
-    "fr": "Module de ventilation",
-    "da": "Ventilationsmodul",
-    "sv": "Ventilationsaktor"
+    "en": "Fan with speeds",
+    "nl": "Ventilator met snelheden",
+    "fr": "Ventilateur à vitesses",
+    "da": "Ventilator med hastigheder",
+    "sv": "Fläkt med hastigheter"
   },
   "class": "fan",
   "capabilities": ["fan_mode"],

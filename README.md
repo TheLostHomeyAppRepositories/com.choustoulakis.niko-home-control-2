@@ -31,7 +31,7 @@ and [guide](https://guide.niko.eu/en/connhc2/lv/hobby-api) for details.
    controllers found on your network, or choose **Add it manually** and enter its IP address.
 2. Paste the token. The connection is tested right away and shows how many Niko devices were found
    and how long the token stays valid. Then choose **Add controller**.
-3. Add your Niko devices through their driver (Light, Socket, Universal Dimmer, ...).
+3. Add your Niko devices through their driver (Light, Light with dimmer, Socket, ...).
 
 ## Supported devices
 
@@ -40,11 +40,11 @@ and [guide](https://guide.niko.eu/en/connhc2/lv/hobby-api) for details.
 | Connected Controller          | The gateway, add this first                                                               |
 | Light                         | `light` (sockets and switched outputs added before 1.13 also stay here)                   |
 | Socket                        | `socket`                                                                                  |
-| Switched fan                  | `switched-fan`                                                                            |
+| Fan                           | `switched-fan`                                                                            |
 | Switched output               | `switched-generic`                                                                        |
-| Universal Dimmer              | `dimmer`                                                                                  |
-| Motor Module                  | `rolldownshutter`, `sunblind`, `gate`, `venetianblind`                                    |
-| Ventilation Module            | `fan`                                                                                     |
+| Light with dimmer             | `dimmer`                                                                                  |
+| Motor                         | `rolldownshutter`, `sunblind`, `gate`, `venetianblind`                                    |
+| Fan with speeds               | `fan`                                                                                     |
 | Routine: All off              | `alloff`                                                                                  |
 | Routine: Mood                 | `comfort`                                                                                 |
 | Comfort sensor (1/2/4/6 keys) | `thermoswitchx1`, `thermoswitchx{1,2,4,6}feedback`, `thermoventilationcontrollerfeedback` |

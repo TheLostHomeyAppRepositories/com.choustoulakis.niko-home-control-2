@@ -1,10 +1,10 @@
 {
   "name": {
-    "en": "Comfort sensor double button",
-    "nl": "Comfort sensor dubbele knop",
-    "fr": "Capteur de confort, bouton double",
-    "da": "Komfortsensor, dobbelt tryk",
-    "sv": "Komfortsensor, dubbel tryckknapp"
+    "en": "Comfort sensor, 2 buttons",
+    "nl": "Comfort sensor, 2 knoppen",
+    "fr": "Capteur de confort, 2 boutons",
+    "da": "Komfortsensor, 2 tryk",
+    "sv": "Komfortsensor, 2 tryckknappar"
   },
   "class": "sensor",
   "capabilities": ["measure_temperature", "measure_humidity"],
